@@ -14,6 +14,7 @@ struct Numeros ler4Numeros(){
 
     return numeros;
 }
+// Retorno dos números lidos
 
 int main(){
     struct Numeros numerosLidos = ler4Numeros();
