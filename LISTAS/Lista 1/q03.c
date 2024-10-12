@@ -21,6 +21,9 @@ int fatorial(int n, int *erro){
 }
 
 int main(){
+
+    setlocale(LC_ALL, "Portuguese");
+    
     int num, resultado, erro;
 
     //Solicitando número
