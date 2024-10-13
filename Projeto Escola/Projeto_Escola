@@ -1,0 +1,267 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define Max_Alunos 3
+#define Max_Professores 3
+#define Max_Disciplinas 3
+
+// Definição das structs
+typedef struct {
+    int dia, mes, ano;
+} data;
+
+typedef struct {
+    int matricula;
+    char sexo, nome[50], cpf[15];
+    data aniversario;
+} pessoas;
+
+typedef struct {
+    char nome[50], codigo[8], professor[50];
+    int semestre;
+} materias;
+
+// Inicialização das variáveis globais
+pessoas aluno[Max_Alunos], professor[Max_Professores];
+materias disciplinas[Max_Disciplinas];
+
+// Funções
+int listar(int tipoLista) {
+    // Com base no tipo informado, chama as funções correspondentes de listagem
+
+    switch (tipoLista) {
+        case 1: {
+            // apresentar opções para listagem de alunos
+            break;
+        }
+        case 2: {
+            // apresentar opções para listagem de professores
+            break;
+        }
+        case 3: {
+            // apresentar opções para listagem de disciplinas
+            break;
+        }
+    }
+    return 0;
+}
+
+int cadastrar(int tipoCadastrar) {
+    // Fazer cadastro conforme tipo informado
+
+    switch (tipoCadastrar) {
+        case 1: {
+            // Cadastrar aluno
+            break;
+        }
+        case 2: {
+            // Cadastrar professor
+            break;
+        }
+        case 3: {
+            // Cadastrar disciplina
+            break;
+        }
+    }
+    return 0;
+}
+
+int excluir(int tipoExcluir) {
+    // Fazer exclusão conforme tipo informado
+
+    switch (tipoExcluir) {
+        case 1: {
+            // Excluir aluno
+            break;
+        }
+        case 2: {
+            // Excluir professor
+            break;
+        }
+        case 3: {
+            // Excluir disciplina
+            break;
+        }
+    }
+    return 0;
+}
+
+int alterar(int tipoAlterar) {
+    // Fazer alteração conforme tipo informado
+
+    switch (tipoAlterar) {
+        case 1: {
+            // Alterar aluno
+            break;
+        }
+        case 2: {
+            // Alterar professor
+            break;
+        }
+        case 3: {
+            // Alterar disciplina
+            break;
+        }
+    }
+    return 0;
+}
+
+int main(void) {
+    // Menu Principal
+    int opcao = 9, sair = 0;
+
+    while (!sair) {
+        printf("\n");
+        printf("\n---------------------------------------\n");
+        printf("\t\t\tProjeto Escola\n");
+        printf("---------------------------------------\n");
+        printf("0 - Sair\n");
+        printf("1 - Aluno\n");
+        printf("2 - Professor\n");
+        printf("3 - Disciplina\n");
+        scanf("%d", &opcao);
+        printf("\n\n");
+
+        // Menus secundários
+        switch (opcao) {
+            case 0: {
+                sair = 1;
+                break;
+            }
+            case 1: {
+                int voltar = 0, opcaoSec = 9;
+                while (!voltar) {
+                    printf("\n---------------------------------------\n");
+                    printf("\t\t\tAluno\n");
+                    printf("---------------------------------------\n");
+                    printf("0 - Voltar\n");
+                    printf("1 - Cadastrar\n");
+                    printf("2 - Atualizar\n");
+                    printf("3 - Excluir\n");
+                    printf("4 - Listar\n");
+                    scanf("%d", &opcaoSec);
+                    printf("\n\n");
+                    switch (opcaoSec) {
+                        case 0: {
+                            voltar = 1;
+                            break;
+                        }
+                        case 1: {
+                            cadastrar(1);
+                            break;
+                        }
+                        case 2: {
+                            alterar(1);
+                            break;
+                        }
+                        case 3: {
+                            excluir(1);
+                            break;
+                        }
+                        case 4: {
+                            listar(1);
+                            break;
+                        }
+                        default: {
+                            printf("Opção inválida\n");
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            case 2: {
+                int voltar = 0, opcaoSec = 9;
+                while (!voltar) {
+                    printf("\n---------------------------------------\n");
+                    printf("\t\t\tProfessor\n");
+                    printf("---------------------------------------\n");
+                    printf("0 - Voltar\n");
+                    printf("1 - Cadastrar\n");
+                    printf("2 - Atualizar\n");
+                    printf("3 - Excluir\n");
+                    printf("4 - Listar\n");
+                    scanf("%d", &opcaoSec);
+                    printf("\n\n");
+                    switch (opcaoSec) {
+                        case 0: {
+                            voltar = 1;
+                            break;
+                        }
+                        case 1: {
+                            cadastrar(2);
+                            break;
+                        }
+                        case 2: {
+                            alterar(2);
+                            break;
+                        }
+                        case 3: {
+                            excluir(2);
+                            break;
+                        }
+                        case 4: {
+                            listar(2);
+                            break;
+                        }
+                        default: {
+                            printf("Opção inválida\n");
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            case 3: {
+                int voltar = 0, opcaoSec = 9;
+                while (!voltar) {
+                    printf("\n---------------------------------------\n");
+                    printf("\t\t\tDisciplina\n");
+                    printf("---------------------------------------\n");
+                    printf("0 - Voltar\n");
+                    printf("1 - Cadastrar\n");
+                    printf("2 - Atualizar\n");
+                    printf("3 - Excluir\n");
+                    printf("4 - Listar\n");
+                    scanf("%d", &opcaoSec);
+                    printf("\n\n");
+                    switch (opcaoSec) {
+                        case 0: {
+                            voltar = 1;
+                            break;
+                        }
+                        case 1: {
+                            cadastrar(3);
+                            break;
+                        }
+                        case 2: {
+                            alterar(3);
+                            break;
+                        }
+                        case 3: {
+                            excluir(3);
+                            break;
+                        }
+                        case 4: {
+                            listar(3);
+                            break;
+                        }
+                        default: {
+                            printf("Opção inválida\n");
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            default: {
+                printf("Opção inválida\n");
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
+
