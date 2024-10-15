@@ -157,7 +157,7 @@ int cadastrar(int tipoCadastrar) {
             break;
         }
         case 3: {
-            // Cadastrar disciplina
+            cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
             break;
         }
     }
