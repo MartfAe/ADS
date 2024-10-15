@@ -9,7 +9,7 @@
 #define Max_Alunos 3
 #define Max_Professores 3
 #define Max_Disciplinas 3
-
+#define Max_Alunos_Disciplinas 3
 
 // Definição das structs
 typedef struct {
@@ -25,6 +25,8 @@ typedef struct {
 typedef struct {
     char nome[50], codigo[8], professor[50];
     int semestre;
+    int alunos[Max_Alunos_Disciplinas];
+    int numAlunos;
 } materias;
 
 // Inicialização das variáveis globais
@@ -98,6 +100,51 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
         }
     }
 }
+
+
+void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
+  for(int i = 0; i < max_Disciplinas; i++){
+    if(disciplinas[i].codigo[0 == '\0']){ //Verifica se a disciplina foi cadastrada
+      printf ("Cadastro de Disciplina:\n");
+
+      printf("Informe o nome da disciplina:\n");
+      scanf("%[/n]", &disciplinas[i].nome);
+
+      printf("Informe o código da disciplina (máx 8 caracteres):\n");
+      scanf("%s", &disciplinas[i].codigo);
+
+      printf("Informe o semestre da disciplina:\n");
+      scanf("%d", &disciplinas[i].semestre);
+
+      printf("Selecione o professor pelo número da matrícula: \n");
+      for(int j = 0; j<max_Professores; j++){
+        printf("%d - %s .\n", professores[j].matricula, professores[j].nome);
+      }
+      int matriculaProf; 
+      scanf("%d", &matriculaProf);
+
+      //Procura o professor pela matricula e atrela a disciplina
+
+      int encontrou=0;
+      for(int j = 0; j < Max_Professores; j++){
+        if(professores[j].matricula == matriculaProf){
+          strcpy(disciplinas[i].professor, professores[j].nome);
+          encontrou = 1 ;
+          break;
+        }
+      }
+
+      if(!encontrou){
+        printf("Professor não encontrado.\n");
+      }else{
+        disciplinas[i].numAlunos=0;
+        printf("Disciplina cadastrada com sucesso!\n");
+      }
+
+    }
+  }
+}
+
 
 int cadastrar(int tipoCadastrar) {
     // Fazer cadastro conforme tipo informado
