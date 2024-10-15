@@ -58,9 +58,9 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
     int i;
     for (i = 0; i < maxPessoas; i++) {
         if (cadastro[i].matricula == 0) {  // Verifica se o campo matrícula está vazio
-            if (tipoPessoa == '1') {
+            if (tipoPessoa == 1) {
                 printf("Cadastro de Aluno:\n\n");
-            } else if (tipoPessoa == '2') {
+            } else if (tipoPessoa == 2) {
                 printf("Cadastro de Professor:\n");
             }
 
@@ -79,9 +79,9 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
             printf("Informe a data de nascimento separada por um espaço (dd mm aaaa):\n");
             scanf("%d %d %d", &cadastro[i].aniversario.dia, &cadastro[i].aniversario.mes, &cadastro[i].aniversario.ano);
 
-            if (tipoPessoa == '1') {
+            if (tipoPessoa == 1) {
                 printf("Aluno cadastrado com sucesso!\n");
-            } else if (tipoPessoa == '2') {
+            } else if (tipoPessoa == 2) {
                 printf("Professor cadastrado com sucesso!\n");
             }
 
@@ -91,9 +91,9 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
 
     // Se o loop terminar sem encontrar uma posição vazia, exibe mensagem
     if (i == maxPessoas) {
-        if (tipoPessoa == '1') {
+        if (tipoPessoa == 1) {
             printf("Não há espaço para cadastrar mais alunos.\n");
-        } else if (tipoPessoa == '2') {
+        } else if (tipoPessoa == 2) {
             printf("Não há espaço para cadastrar mais professores.\n");
         }
     }
@@ -149,11 +149,11 @@ int cadastrar(int tipoCadastrar) {
 
     switch (tipoCadastrar) {
         case 1: {
-            cadastrarPessoa(aluno, Max_Alunos, '1');
+            cadastrarPessoa(aluno, Max_Alunos, 1);
             break;
         }
         case 2: {
-            cadastrarPessoa(professor, Max_Professores, '2');
+            cadastrarPessoa(professor, Max_Professores, 2);
             break;
         }
         case 3: {
