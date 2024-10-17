@@ -77,7 +77,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
             scanf(" %c", &cadastro[i].sexo);  // Corrige o uso do scanf para ler char corretamente
 
             printf("Informe a data de nascimento separada por um espaço (dd mm aaaa):\n");
-            scanf("%d %d %d", &cadastro[i].aniversario.dia, &cadastro[i].aniversario.mes, &cadastro[i].aniversario.ano);
+            scanf("%d %d %d", &cadastro[i].aniversario.dia, &cadastro[i].aniversario.mes, &cadastro[i].aniversario.ano);//verificar se é possível substituir por gets
 
             if (tipoPessoa == 1) {
                 printf("Aluno cadastrado com sucesso!\n");
@@ -143,7 +143,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
 }
 
-
+//remover função (substituir por cadastrar pessoa e cadastrar disciplina no main)
 int cadastrar(int tipoCadastrar) {
     // Fazer cadastro conforme tipo informado
 
@@ -162,4 +162,35 @@ int cadastrar(int tipoCadastrar) {
         }
     }
     return 0;
+}
+
+void separadorTexto(void) {
+    for(int i=0;i<30;i++) {
+        printf("-");
+    }
+}
+
+void menu(char tipoMenu[20],int nivelMenu) {
+    //Estrutura base menus
+    separadorTexto();
+    if(tipoMenu == 'Principal') {
+        printf("\t\t\tProjeto Escola\t\t\t");
+    }
+    else if(tipoMenu == 'Professor') {
+        
+    }
+    else if(tipoMenu == 'Auno') {
+        
+    }
+    else if(tipoMenu == 'Disciplina') {
+        
+    }
+    separadorTexto();
+
+    // opções para menus principais
+
+    
+
+    // opções para menus secundários
+
 }
