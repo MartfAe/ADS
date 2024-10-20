@@ -27,66 +27,14 @@ typedef struct {
     int numAlunos;
 } materias;
 
-int main(void) {
-// Inicialização das listas de pessoas e disciplinas
-    pessoas aluno[Max_Alunos];
-    pessoas professor[Max_Professores];
-    materias disciplinas[Max_Disciplinas];
-
-    bool encerrar = false;
-    while (!encerrar)
-        {
-            int opcao = 6;
-            cabecalho('principal');
-            opcao = menu('principal');
-            switch (opcao) {
-                case 0: {
-                    encerrar = true;
-                    break;
-                }
-                case 1: {
-                    cabecalho('aluno');
-                    opcao = menu('cadastro');
-                    //tratamento das opções do menu aluno
-                    break;
-                }
-                case 2: {
-                    cabecalho('professor');
-                    opcao = menu('cadastro');
-                    //tratamento das opções do menu professor
-                    break;
-                }
-                case 3: {
-                    cabecalho('disciplina');
-                    opcao = menu('cadastro');
-                    //tratamento das opções do menu disciplina
-                    break;
-                }
-                case 4: {
-                    cabecalho('ajuste');
-                    opcao = menu('ajuste');
-                    //tratamento das opções do menu ajuste de matrículas
-                    break;
-                }
-                case 5:{
-                    cabecalho('relatorio');
-                    opcao = menu('ajuste');
-                    //tratamento das opções do menu relatórios
-                }
-                default: {
-                    printf("Opção inválida.");
-            }
-        }
-
-}
 
 //---------------------------
 //Funções de Interface
 //---------------------------
 
 void separadorTexto(void) {
-    for(int i=0;i<30;i++) {
-        printf("\n");
+    printf("\n");
+    for(int i=0;i<70;i++) {
         printf("-");
     }
 }
@@ -94,31 +42,33 @@ void separadorTexto(void) {
 // Função para apresentação dos cabeçalhos dos menus
 void cabecalho(char nomeMenu[20]) {
     separadorTexto();
+    printf("\n");
     if(nomeMenu == 'principal') {
-        printf("\t\t\tProjeto Escola\t\t\t");
+        printf("\t\t\t\t\t\tProjeto Escola");
     }
     else if(nomeMenu == 'professor') {
-        printf("\t\t\tProfessor\t\t\t");
+        printf("\t\t\t\t\t\t\tProfessor");
     }
     else if(nomeMenu == 'aluno') {
-        printf("\t\t\tAluno\t\t\t");
+        printf("\t\t\t\t\t\t\tAluno");
     }
     else if(nomeMenu == 'disciplina') {
-        printf("\t\t\tDisciplina\t\t\t");
+        printf("\t\t\t\t\t\t\tDisciplina");
     }
     else if(nomeMenu == 'ajuste') {
-        printf("\t\tAjuste de Matrículas\t\t");
+        printf("\t\t\t\t\t\tAjuste de Matrículas");
     }
     else if(nomeMenu == 'relatorio') {
-        printf("\t\t\tRelatórios\t\t\t");
+        printf("\t\t\t\t\t\t\tRelatórios");
     }
     separadorTexto();
+    printf("\n");
 }
 
 //função para apresentação e registro de opções nos menus
 int menu(char tipoMenu[20]) {
     int opcao;
-    separadorTexto();
+    printf("\n");
     if(tipoMenu == 'principal') {
         printf("0 - Sair\n");
         printf("1 - Aluno\n");
@@ -127,6 +77,7 @@ int menu(char tipoMenu[20]) {
         printf("4 - Ajuste de matrículas em disciplinas\n");
         printf("5 - Relatório\n");
         separadorTexto();
+        printf("\n");
         scanf("%d", &opcao);
     }
     else if(tipoMenu == 'cadastro') {
@@ -134,41 +85,44 @@ int menu(char tipoMenu[20]) {
         printf("1 - Cadastrar\n");
         printf("2 - Atualizar\n");
         printf("3 - Excluir\n");
+        separadorTexto();
+        printf("\n");
         scanf("%d", &opcao);
-        printf("\n\n");
     }
     else if(tipoMenu == 'ajuste') {
         printf("0 - Voltar\n");
         printf("1 - Matricular aluno em uma disciplina\n");
         printf("3 - Desmatricular aluno de uma disciplina\n");
+        separadorTexto();
+        printf("\n");
         scanf("%d", &opcao);
-        printf("\n\n");
     }
     else if(tipoMenu == 'relatorio') {
         printf("0 - Voltar\n");
-        
+
         printf("1 - Listar alunos\n");
         printf("2 - Listar alunos por sexo\n");
         printf("3 - Listar alunos em ordem alfabética\n");
         printf("4 - Listar alunos em ordem de nascimento\n");
         printf("5 - Listar alunos matriculados em menos de 3 disciplinas\n");
-        
+
         printf("6 - Listar professores\n");
         printf("7 - Listar professores por sexo\n");
         printf("8 - Listar professores em ordem alfabética\n");
         printf("9 - Listar professores em ordem de nascimento\n");
-        
+
         printf("10 - Listar disciplinas\n");
         printf("11 - Listar dados de um disciplina\n");
         printf("12 - Listar disciplinas que ultrapassam 40 vagas e professores responsáveis\n");
-        
+
         printf("13 - Listar aniversariantes do mês\n");
         printf("14 - Listar todas as pessoas cadastradas\n");
-        
+      
+        separadorTexto();
+        printf("\n");
         scanf("%d", &opcao);
-        printf("\n\n");
     }
-    separadorTexto();
+    system ("clear");
     return opcao;
 }
 
@@ -189,7 +143,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
 
             printf("Informe o nome:\n");
             scanf(" %[^\n]", cadastro[i].nome);
-            
+
             // Substituir cadastro de matrícula por autoincremento
             printf("Informe a matrícula:\n");
             scanf("%d", &cadastro[i].matricula);
@@ -267,23 +221,60 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 }
 
 
-//remover função (substituir por cadastrar pessoa e cadastrar disciplina no main)
-int cadastrar(int tipoCadastrar) {
-    // Fazer cadastro conforme tipo informado
+//Função main
 
-    switch (tipoCadastrar) {
-        case 1: {
-            cadastrarPessoa(aluno, Max_Alunos, 1);
-            break;
+int main(void) {
+// Inicialização das listas de pessoas e disciplinas
+    pessoas aluno[Max_Alunos];
+    pessoas professor[Max_Professores];
+    materias disciplinas[Max_Disciplinas];
+
+    bool encerrar = false;
+    while (!encerrar)
+        {
+            int opcao = 6;
+            cabecalho('principal');
+            opcao = menu('principal');
+            switch (opcao) {
+                case 0: {
+                    encerrar = true;
+                    break;
+                }
+                case 1: {
+                    cabecalho('aluno');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu aluno
+                    break;
+                }
+                case 2: {
+                    cabecalho('professor');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu professor
+                    break;
+                }
+                case 3: {
+                    cabecalho('disciplina');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu disciplina
+                    break;
+                }
+                case 4: {
+                    cabecalho('ajuste');
+                    opcao = menu('ajuste');
+                    //tratamento das opções do menu ajuste de matrículas
+                    break;
+                }
+                case 5:{
+                    cabecalho('relatorio');
+                    opcao = menu('relatorio');
+                    //tratamento das opções do menu relatórios
+                    break;
+                }
+                default: {
+                    printf("Opção inválida.");
+                    break;
+                }
+            }
         }
-        case 2: {
-            cadastrarPessoa(professor, Max_Professores, 2);
-            break;
-        }
-        case 3: {
-            cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
-            break;
-        }
-    }
-    return 0;
+
 }
