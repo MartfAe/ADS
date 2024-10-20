@@ -80,7 +80,7 @@ int menu(char tipoMenu[20]) {
         printf("1 - Aluno\n");
         printf("2 - Professor\n");
         printf("3 - Disciplina\n");
-        printf("4 - Ajuste de Matrículas em Disciplinas\n");
+        printf("4 - Ajuste de matrículas em disciplinas\n");
         printf("5 - Relatório\n");
         separadorTexto();
         scanf("%d", &opcao);
@@ -90,19 +90,39 @@ int menu(char tipoMenu[20]) {
         printf("1 - Cadastrar\n");
         printf("2 - Atualizar\n");
         printf("3 - Excluir\n");
-        printf("4 - Listar\n");
         scanf("%d", &opcaoSec);
         printf("\n\n");
     }
     else if(tipoMenu == 'ajustes') {
         printf("0 - Voltar\n");
-        printf("1 - Matricular Aluno em uma Disciplina\n");
-        printf("3 - Desmatricular Aluno de uma Disciplina\n");
+        printf("1 - Matricular aluno em uma disciplina\n");
+        printf("3 - Desmatricular aluno de uma disciplina\n");
         scanf("%d", &opcaoSec);
         printf("\n\n");
     }
     else if(tipoMenu == 'relatorios') {
+        printf("0 - Voltar\n");
         
+        printf("1 - Listar alunos\n");
+        printf("2 - Listar alunos por sexo\n");
+        printf("3 - Listar alunos em ordem alfabética\n");
+        printf("4 - Listar alunos em ordem de nascimento\n");
+        printf("5 - Listar alunos matriculados em menos de 3 disciplinas\n");
+        
+        printf("6 - Listar professores\n");
+        printf("7 - Listar professores por sexo\n");
+        printf("8 - Listar professores em ordem alfabética\n");
+        printf("9 - Listar professores em ordem de nascimento\n");
+        
+        printf("10 - Listar disciplinas\n");
+        printf("11 - Listar dados de um disciplina\n");
+        printf("12 - Listar disciplinas que ultrapassam 40 vagas e professores responsáveis\n");
+        
+        printf("13 - Listar aniversariantes do mês\n");
+        printf("14 - Listar todas as pessoas cadastradas\n");
+        
+        scanf("%d", &opcaoSec);
+        printf("\n\n");
     }
     separadorTexto();
     return opcao;
