@@ -134,14 +134,14 @@ int menu(char tipoMenu[20]) {
         printf("1 - Cadastrar\n");
         printf("2 - Atualizar\n");
         printf("3 - Excluir\n");
-        scanf("%d", &opcaoSec);
+        scanf("%d", &opcao);
         printf("\n\n");
     }
     else if(tipoMenu == 'ajuste') {
         printf("0 - Voltar\n");
         printf("1 - Matricular aluno em uma disciplina\n");
         printf("3 - Desmatricular aluno de uma disciplina\n");
-        scanf("%d", &opcaoSec);
+        scanf("%d", &opcao);
         printf("\n\n");
     }
     else if(tipoMenu == 'relatorio') {
@@ -165,7 +165,7 @@ int menu(char tipoMenu[20]) {
         printf("13 - Listar aniversariantes do mês\n");
         printf("14 - Listar todas as pessoas cadastradas\n");
         
-        scanf("%d", &opcaoSec);
+        scanf("%d", &opcao);
         printf("\n\n");
     }
     separadorTexto();
