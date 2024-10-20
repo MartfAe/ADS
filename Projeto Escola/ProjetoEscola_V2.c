@@ -225,12 +225,16 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 //---------------------------
 
 int main(void) {
+
+    setlocale(LC_ALL,"portuguese");
+    
 // Inicialização das listas de pessoas e disciplinas
     pessoas aluno[Max_Alunos];
     pessoas professor[Max_Professores];
     materias disciplinas[Max_Disciplinas];
 
     bool encerrar = false;
+    
     while (!encerrar)
         {
             int opcao = 6;
