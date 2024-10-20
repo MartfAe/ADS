@@ -33,7 +33,51 @@ int main(void) {
     pessoas professor[Max_Professores];
     materias disciplinas[Max_Disciplinas];
 
-    
+    bool encerrar = false;
+    while (!encerrar)
+        {
+            int opcao = 6;
+            cabecalho('principal');
+            opcao = menu('principal');
+            switch (opcao) {
+                case 0: {
+                    encerrar = true;
+                    break;
+                }
+                case 1: {
+                    cabecalho('aluno');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu aluno
+                    break;
+                }
+                case 2: {
+                    cabecalho('professor');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu professor
+                    break;
+                }
+                case 3: {
+                    cabecalho('disciplina');
+                    opcao = menu('cadastro');
+                    //tratamento das opções do menu disciplina
+                    break;
+                }
+                case 4: {
+                    cabecalho('ajuste');
+                    opcao = menu('ajuste');
+                    //tratamento das opções do menu ajuste de matrículas
+                    break;
+                }
+                case 5:{
+                    cabecalho('relatorio');
+                    opcao = menu('ajuste');
+                    //tratamento das opções do menu relatórios
+                }
+                default: {
+                    printf("Opção inválida.");
+            }
+        }
+
 }
 
 //---------------------------
@@ -56,16 +100,16 @@ void cabecalho(char nomeMenu[20]) {
     else if(nomeMenu == 'professor') {
         printf("\t\t\tProfessor\t\t\t");
     }
-    else if(nomeMenu == 'auno') {
+    else if(nomeMenu == 'aluno') {
         printf("\t\t\tAluno\t\t\t");
     }
     else if(nomeMenu == 'disciplina') {
         printf("\t\t\tDisciplina\t\t\t");
     }
-    else if(nomeMenu == 'ajustes') {
+    else if(nomeMenu == 'ajuste') {
         printf("\t\tAjuste de Matrículas\t\t");
     }
-    else if(nomeMenu == 'relatorios') {
+    else if(nomeMenu == 'relatorio') {
         printf("\t\t\tRelatórios\t\t\t");
     }
     separadorTexto();
@@ -93,14 +137,14 @@ int menu(char tipoMenu[20]) {
         scanf("%d", &opcaoSec);
         printf("\n\n");
     }
-    else if(tipoMenu == 'ajustes') {
+    else if(tipoMenu == 'ajuste') {
         printf("0 - Voltar\n");
         printf("1 - Matricular aluno em uma disciplina\n");
         printf("3 - Desmatricular aluno de uma disciplina\n");
         scanf("%d", &opcaoSec);
         printf("\n\n");
     }
-    else if(tipoMenu == 'relatorios') {
+    else if(tipoMenu == 'relatorio') {
         printf("0 - Voltar\n");
         
         printf("1 - Listar alunos\n");
@@ -222,26 +266,6 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
 }
 
-//Função para geração de relatórios
-int listar(int tipoLista,pessoas alunos, pessoas professores, materias disciplinas) {
-    // Com base no tipo informado, chama as funções correspondentes de listagem
-
-    switch (tipoLista) {
-        case 1: {
-            // apresentar opções para listagem de alunos
-            break;
-        }
-        case 2: {
-            // apresentar opções para listagem de professores
-            break;
-        }
-        case 3: {
-            // apresentar opções para listagem de disciplinas
-            break;
-        }
-    }
-    return 0;
-}
 
 //remover função (substituir por cadastrar pessoa e cadastrar disciplina no main)
 int cadastrar(int tipoCadastrar) {
