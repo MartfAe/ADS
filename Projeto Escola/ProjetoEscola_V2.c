@@ -31,7 +31,46 @@ pessoas aluno[Max_Alunos], professor[Max_Professores];
 materias disciplinas[Max_Disciplinas];
 
 
-// Funções
+
+//---------------------------
+//Funções de Interface
+//---------------------------
+
+void separadorTexto(void) {
+    for(int i=0;i<30;i++) {
+        printf("\n");
+        printf("-");
+    }
+}
+
+void cabecalho(char tipoMenu[20]) {
+    //Estrutura cabeçalhos
+    separadorTexto();
+    if(tipoMenu == 'Principal') {
+        printf("\t\t\tProjeto Escola\t\t\t");
+    }
+    else if(tipoMenu == 'Professor') {
+        printf("\t\t\tProfessor\t\t\t");
+    }
+    else if(tipoMenu == 'Auno') {
+        printf("\t\t\tAluno\t\t\t");
+    }
+    else if(tipoMenu == 'Disciplina') {
+        printf("\t\t\tDisciplina\t\t\t");
+    }
+    else if(tipoMenu == 'ajustes') {
+        printf("\t\tAjuste de Matrículas\t\t");
+    }
+    else if(tipoMenu == 'relatorios') {
+        printf("\t\t\tRelatórios\t\t\t");
+    }
+    separadorTexto();
+}
+
+//---------------------------
+//Funções de funcionamento (sei que esse não é o nome certo, só esqueci qual é kkkkkkk)
+//---------------------------
+
 int listar(int tipoLista) {
     // Com base no tipo informado, chama as funções correspondentes de listagem
 
@@ -65,7 +104,8 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
 
             printf("Informe o nome:\n");
             scanf(" %[^\n]", cadastro[i].nome);
-
+            
+            // Substituir cadastro de matrícula por autoincremento
             printf("Informe a matrícula:\n");
             scanf("%d", &cadastro[i].matricula);
 
@@ -87,7 +127,6 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
             break;  // Sai do loop após o cadastro
         }
     }
-
     // Se o loop terminar sem encontrar uma posição vazia, exibe mensagem
     if (i == maxPessoas) {
         if (tipoPessoa == 1) {
@@ -98,7 +137,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
     }
 }
 
-
+//função para o cadastro de disciplinas
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
   for(int i = 0; i < max_Disciplinas; i++){
     if(disciplinas[i].codigo[0 == '\0']){ //Verifica se a disciplina foi cadastrada
@@ -161,36 +200,4 @@ int cadastrar(int tipoCadastrar) {
         }
     }
     return 0;
-}
-
-void separadorTexto(void) {
-    for(int i=0;i<30;i++) {
-        printf("\n");
-        printf("-");
-    }
-}
-
-void menu(char tipoMenu[20],int nivelMenu) {
-    //Estrutura base menus
-    separadorTexto();
-    if(tipoMenu == 'Principal') {
-        printf("\t\t\tProjeto Escola\t\t\t");
-    }
-    else if(tipoMenu == 'Professor') {
-        
-    }
-    else if(tipoMenu == 'Auno') {
-        
-    }
-    else if(tipoMenu == 'Disciplina') {
-        
-    }
-    separadorTexto();
-
-    // opções para menus principais
-
-    
-
-    // opções para menus secundários
-
 }
