@@ -220,8 +220,9 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
 }
 
-
+//---------------------------
 //Função main
+//---------------------------
 
 int main(void) {
 // Inicialização das listas de pessoas e disciplinas
