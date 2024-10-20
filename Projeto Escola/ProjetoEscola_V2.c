@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -166,6 +165,7 @@ int cadastrar(int tipoCadastrar) {
 
 void separadorTexto(void) {
     for(int i=0;i<30;i++) {
+        printf("\n");
         printf("-");
     }
 }
