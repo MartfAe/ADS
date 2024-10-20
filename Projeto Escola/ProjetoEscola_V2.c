@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
@@ -26,11 +27,14 @@ typedef struct {
     int numAlunos;
 } materias;
 
-// Inicialização das variáveis globais
-pessoas aluno[Max_Alunos], professor[Max_Professores];
-materias disciplinas[Max_Disciplinas];
+int main(void) {
+// Inicialização das listas de pessoas e disciplinas
+    pessoas aluno[Max_Alunos];
+    pessoas professor[Max_Professores];
+    materias disciplinas[Max_Disciplinas];
 
-
+    
+}
 
 //---------------------------
 //Funções de Interface
@@ -43,53 +47,66 @@ void separadorTexto(void) {
     }
 }
 
-void cabecalho(char tipoMenu[20]) {
-    //Estrutura cabeçalhos
+// Função para apresentação dos cabeçalhos dos menus
+void cabecalho(char nomeMenu[20]) {
     separadorTexto();
-    if(tipoMenu == 'Principal') {
+    if(nomeMenu == 'principal') {
         printf("\t\t\tProjeto Escola\t\t\t");
     }
-    else if(tipoMenu == 'Professor') {
+    else if(nomeMenu == 'professor') {
         printf("\t\t\tProfessor\t\t\t");
     }
-    else if(tipoMenu == 'Auno') {
+    else if(nomeMenu == 'auno') {
         printf("\t\t\tAluno\t\t\t");
     }
-    else if(tipoMenu == 'Disciplina') {
+    else if(nomeMenu == 'disciplina') {
         printf("\t\t\tDisciplina\t\t\t");
     }
-    else if(tipoMenu == 'ajustes') {
+    else if(nomeMenu == 'ajustes') {
         printf("\t\tAjuste de Matrículas\t\t");
     }
-    else if(tipoMenu == 'relatorios') {
+    else if(nomeMenu == 'relatorios') {
         printf("\t\t\tRelatórios\t\t\t");
     }
     separadorTexto();
 }
 
+//função para apresentação e registro de opções nos menus
+int menu(char tipoMenu[20]) {
+    int opcao;
+    separadorTexto();
+    if(tipoMenu == 'principal') {
+        printf("0 - Sair\n");
+        printf("1 - Aluno\n");
+        printf("2 - Professor\n");
+        printf("3 - Disciplina\n");
+        printf("4 - Ajuste de Matrículas em Disciplinas\n");
+        printf("5 - Relatório\n");
+        separadorTexto();
+        scanf("%d", &opcao);
+    }
+    else if(tipoMenu == 'cadastro') {
+        printf("0 - Voltar\n");
+        printf("1 - Cadastrar\n");
+        printf("2 - Atualizar\n");
+        printf("3 - Excluir\n");
+        printf("4 - Listar\n");
+        scanf("%d", &opcaoSec);
+        printf("\n\n");
+    }
+    else if(tipoMenu == 'ajustes') {
+        
+    }
+    else if(tipoMenu == 'relatorios') {
+        
+    }
+    separadorTexto();
+    return opcao;
+}
+
 //---------------------------
 //Funções de funcionamento (sei que esse não é o nome certo, só esqueci qual é kkkkkkk)
 //---------------------------
-
-int listar(int tipoLista) {
-    // Com base no tipo informado, chama as funções correspondentes de listagem
-
-    switch (tipoLista) {
-        case 1: {
-            // apresentar opções para listagem de alunos
-            break;
-        }
-        case 2: {
-            // apresentar opções para listagem de professores
-            break;
-        }
-        case 3: {
-            // apresentar opções para listagem de disciplinas
-            break;
-        }
-    }
-    return 0;
-}
 
 //Função para o cadastro de alunos ou professores
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
@@ -179,6 +196,27 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 
     }
   }
+}
+
+//Função para geração de relatórios
+int listar(int tipoLista,pessoas alunos, pessoas professores, materias disciplinas) {
+    // Com base no tipo informado, chama as funções correspondentes de listagem
+
+    switch (tipoLista) {
+        case 1: {
+            // apresentar opções para listagem de alunos
+            break;
+        }
+        case 2: {
+            // apresentar opções para listagem de professores
+            break;
+        }
+        case 3: {
+            // apresentar opções para listagem de disciplinas
+            break;
+        }
+    }
+    return 0;
 }
 
 //remover função (substituir por cadastrar pessoa e cadastrar disciplina no main)
