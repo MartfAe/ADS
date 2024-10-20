@@ -95,7 +95,11 @@ int menu(char tipoMenu[20]) {
         printf("\n\n");
     }
     else if(tipoMenu == 'ajustes') {
-        
+        printf("0 - Voltar\n");
+        printf("1 - Matricular Aluno em uma Disciplina\n");
+        printf("3 - Desmatricular Aluno de uma Disciplina\n");
+        scanf("%d", &opcaoSec);
+        printf("\n\n");
     }
     else if(tipoMenu == 'relatorios') {
         
