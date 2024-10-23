@@ -8,9 +8,9 @@ int main(void) {
     setlocale(LC_ALL,"portuguese");
 
     // Inicialização de listas
-    pessoas aluno[Max_Alunos] = {0};
-    pessoas professor[Max_Professores] = {0};
-    materias disciplinas[Max_Disciplinas] = {0};
+    pessoas aluno[Max_Alunos] = {2};
+    pessoas professor[Max_Professores] = {2};
+    materias disciplinas[Max_Disciplinas] = {2};
 
     bool encerrar = false;
     while (!encerrar) {
@@ -23,17 +23,23 @@ int main(void) {
             case 1:
                 cabecalho("aluno");
                 opcao = menu("cadastro");
-                // Chamar função de cadastro de alunos
+                if(opcao ==1){
+                    cadastrarPessoa(aluno, Max_Alunos, 1);
+                }
                 break;
             case 2:
                 cabecalho("professor");
                 opcao = menu("cadastro");
-                // Chamar função de cadastro de professores
+                if(opcao == 2){
+                    cadastrarPessoa(professor, Max_Professores, 2);
+                }
                 break;
             case 3:
                 cabecalho("disciplina");
                 opcao = menu("cadastro");
-                // Chamar função de cadastro de disciplinas
+                if(opcao == 3){
+                    cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
+                }
                 break;
             // Outros cases...
         }
