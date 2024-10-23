@@ -46,7 +46,6 @@ int menu(char tipoMenu[20]) {
     return opcao;
 }
 
-
 // Implementação dos Getters e Setters
 pessoas getAluno(pessoas alunos[], int index) {
     return alunos[index];
@@ -165,3 +164,46 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 }
   }
   }
+
+  //Função para validar nome
+  int validarNome(char nome[]){
+    if(strlen(nome)<3){
+        printf("Erro: O nome deve ter pelo menos 3 caracteres.\n");
+        return 0;
+    }
+    return 1;
+  }
+
+  //Função validar CPF
+  int validarCPF(char cpf[]){
+    if(strlen(cpf)<15){
+        printf("Erro: O CPF deve ser informado com 11 dígitos.\n");
+        return 0;
+    }
+    return 1;
+  }
+
+  //Função Validar Sexo
+  int validarSexo(char sexo){
+    if(sexo != 'M' && sexo != 'F'){
+        printf("Sexo inválido. use 'M' para sexo masculino ou 'F' para o sexo feminino.\n");
+        return 0;
+    }
+    return 1;
+  }
+  //Função validar data
+  int validarData(data aniversario){
+    if(aniversario.dia<1 || aniversario.dia>31 || aniversario.mes <1 || aniversario.mes >12 || aniversario.ano < 1900){
+        printf("Data de nascimento inválida.\n");
+        return 0;
+    }
+    return 1;
+  }
+
+int validarMatricula(int matricula) {
+    if (matricula <= 0) {  // Matrícula deve ser um número positivo.
+        printf("Erro: Matrícula inválida.\n");
+        return 0; 
+    }
+    return 1;
+}
