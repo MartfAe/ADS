@@ -12,6 +12,7 @@ void separadorTexto(void) {
 
 // Implementação de cabeçalho
 void cabecalho(char nomeMenu[20]) {
+    printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
     separadorTexto();
     printf("\n");
     if (strcmp(nomeMenu, "principal") == 0) {
@@ -35,13 +36,16 @@ int menu(char tipoMenu[20]) {
         printf("1 - Aluno\n");
         printf("2 - Professor\n");
         printf("3 - Disciplina\n");
-        printf("4 - Ajuste de matrículas\n");
-        printf("5 - Relatório\n");
+        // Adicione mais opções se necessário
+    } else if (strcmp(tipoMenu, "cadastro") == 0) {
+        printf("1 - Cadastrar\n");
+        // Adicione mais opções se necessário
     }
-    // Outras opções de menu...
+    
     scanf("%d", &opcao);
     return opcao;
 }
+
 
 // Implementação dos Getters e Setters
 pessoas getAluno(pessoas alunos[], int index) {
@@ -72,9 +76,10 @@ void setDisciplina(materias disciplinas[], int index, materias novaDisciplina) {
 
 // Implementação da função de cadastro de pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
+     printf("Entrou na função cadastrarPessoa\n"); // Debug
     int i;
-    for (i = 0; i < maxPessoas; i++) {
-        if (cadastro[i].matricula == 0) {  // Verifica se o campo matrícula está vazio
+   for (i = 0; i < maxPessoas; i++) {
+    if (cadastro[i].matricula == 0) {  // Verifica se o campo matrícula está vazio
             if (tipoPessoa == 1) {
                 printf("Cadastro de Aluno:\n\n");
             } else if (tipoPessoa == 2) {
@@ -119,11 +124,12 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa)  {
 // Implementação da função de cadastro de disciplina
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
   for(int i = 0; i < max_Disciplinas; i++){
-    if(disciplinas[i].codigo[0 == '\0']){ //Verifica se a disciplina foi cadastrada
+    if(disciplinas[i].codigo[0] == '\0'){ // Verifica se a disciplina foi cadastrada
       printf ("Cadastro de Disciplina:\n");
 
       printf("Informe o nome da disciplina:\n");
-      scanf("%[/n]", &disciplinas[i].nome);
+      scanf(" %[^\n]", disciplinas[i].nome);
+
 
       printf("Informe o código da disciplina (máx 8 caracteres):\n");
       scanf("%s", &disciplinas[i].codigo);
