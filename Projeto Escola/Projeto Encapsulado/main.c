@@ -3,14 +3,18 @@
 #include "escola.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 int main(void) {
     setlocale(LC_ALL, "Portuguese");
+    srand(time(NULL));
 
     // Inicialização de listas
     pessoas aluno[Max_Alunos] = {0}; // Inicializa o array com zeros
     pessoas professor[Max_Professores] = {0}; // Inicializa o array com zeros
     materias disciplinas[Max_Disciplinas] = {0}; // Inicializa o array com zeros
+    
+
 
     bool encerrar = false;
    while (!encerrar) {
@@ -34,7 +38,7 @@ int main(void) {
             cabecalho("professor");
             opcao = menu("cadastro");
             printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
-            if (opcao == 2) {
+            if (opcao == 1) {
                 printf("Chamando cadastrarPessoa...\n"); // Debug
                 cadastrarPessoa(professor, Max_Professores, 2);
             }
@@ -43,7 +47,7 @@ int main(void) {
             cabecalho("disciplina");
             opcao = menu("cadastro");
             printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
-            if (opcao == 3) {
+            if (opcao == 1) {
                 printf("Chamando cadastrarDisciplina...\n"); // Debug
                 cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
             }

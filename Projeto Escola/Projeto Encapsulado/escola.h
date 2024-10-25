@@ -1,10 +1,14 @@
 #ifndef ESCOLA_H
 #define ESCOLA_H
 
-#define Max_Alunos 3
-#define Max_Professores 3
-#define Max_Disciplinas 3
+#define Max_Alunos 6
+#define Max_Professores 6
+#define Max_Disciplinas 6
 #define Max_Alunos_Disciplinas 3
+#define Max_Matricula 12
+
+#define prefixo_Aluno "2024106"
+#define prefixo_Professor "2024117"
 
 // Definição das structs
 typedef struct {
@@ -12,8 +16,8 @@ typedef struct {
 } data;
 
 typedef struct {
-    int matricula;
-    char sexo, nome[50], cpf[15];
+    char matricula [Max_Matricula];
+    char sexo, nome[50], cpf[11];
     data aniversario;
 } pessoas;
 
@@ -37,5 +41,25 @@ int menu(char tipoMenu[20]);
 
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa);
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores);
+void gerarMatriculaAluno(char matricula[]);
+void gerarMatriculaProfessor(char matricula[]);
+
+void gerarMatriculaAluno(char matricula[]);
+void gerarMatriculaProfessor(char matricula[]);
+
+
+
+// Declarações das funções de validação
+int validarNome(char nome[]);
+int validarCPF(char cpf[]);
+int validarSexo(char sexo);
+int validarData(data aniversario);
+int validarMatricula(int matricula);
+int validarCodigoDisciplina(char codigo[]);
+int validarSemestre(int semestre);
+
+// Contadores para gerenciar matrículas
+extern int contadorAluno;
+extern int contadorProfessor;
 
 #endif
