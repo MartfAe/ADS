@@ -17,7 +17,7 @@ typedef struct {
 
 typedef struct {
     char matricula [Max_Matricula];
-    char sexo, nome[50], cpf[11];
+    char sexo, nome[50], cpf[15];
     data aniversario;
 } pessoas;
 

@@ -86,6 +86,7 @@ void gerarMatriculaAluno(char matricula[]) {
 
 //Função para gerar a matrícula para professor
 void gerarMatriculaProfessor(char matricula[]) {
+    printf("Entrando na função gerarMatriculaProfessor.\n")//Debug
     sprintf(matricula, "%s%04d", prefixo_Professor, contadorProfessor + 1);
     contadorProfessor++; // Incrementa o contador
 }
@@ -153,9 +154,9 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
     }
 }
 
-
 // Implementação da função de cadastro de disciplina
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
+    printf("Entrou na função cadastro de disciplina.\n")//Debug
   for(int i = 0; i < max_Disciplinas; i++){
     if(disciplinas[i].codigo[0] == '\0'){ // Verifica se a disciplina foi cadastrada
       printf ("Cadastro de Disciplina:\n");
@@ -199,8 +200,72 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
   }
 
-  //Função para validar nome
+//Função para adicionar aluno em uma disciplina
+void adicionarAlunoDisciplina(materias *disciplina, int matriculaAluno, pessoas *alunos, int Max_Alunos){
+    printf("Entrou na função adicionar alunoDisciplina.\n")//Debug
+    if(disciplina ->numAlunos >= Max_Alunos_Disciplinas){
+        printf("A disciplina já atingiu o numéro máximo de alunos.\n");
+        
+        //Procura o aluno no cadastro geral pela matricula. 
+         char matriculaAluno[12];
+         printf("Informe a matricula do aluno que deseja incluir na disciplina.\n");
+         scanf("%s", matriculaAluno);
+
+        //Verifica se já está matriculado na disciplina.
+         int encontrouAluno = 0;
+         for(int i = 0 ; i <Max_Alunos; i++){
+            int jaAdicionado = 0 ;
+            for(int j = 0; j < disciplina-> numAlunos; j++){
+                if(strcmp(disciplina->alunos[j], matriculaAluno)==0){
+                    printf("Aluno já encontra-se matriculado nessa disciplina");
+                    jaAdicionado = 1;
+                    break;
+                }
+            }
+            if(!jaAdicionado){
+                strcpy(disciplina->alunos[disciplina->numAlunos], matriculaAluno);
+                disciplina->numAlunos++ ; 
+                printf("Aluno matriculado na disciplina com sucesso.");
+            }
+            encontrouAluno = ;
+            break;
+         }
+    }
+    if(!encontrouAluno){
+        printf("Aluno não encontrado.\n")
+    }  
+}
+
+//Função para excluir aluno em uma disciplina. 
+void excluirAlunoDisciplina(materias *disciplina){
+    printf("Entrou na função excluirAlunoDisciplina.\n") //Debug
+    if(disciplina->numAlunos == 0){
+        printf("Nenhum aluno foi matriculado nessa disciplina.\n");
+        return;
+    }
+    char matriculaAluno[11];
+    printf("Informe a matricula do aluno que deseja remover.\n");
+    scanf("%s", matriculaAluno);
+
+    int encontrouALuno = 0;
+    for(int i = 0; i<disciplina->numAlunos; i++){
+        if(strcmp(disciplina->alunos[i], matriculaAluno)==0){
+            for(int j = 0; j <disciplina->numAlunos - 1; j++){
+                strcpy(disciplina->alunos[j], disciplina->alunos[j+1]);
+            }
+            disciplina->numAlunos--;
+            printf("Aluno removido com sucesso da disciplina.\n");
+            encontrouALuno = 1;
+            break;
+        }
+    }
+    if(!encontrouALuno){
+        printf("Aluno não encontrado na disciplina.\n");
+    }
+}
+//Função para validar nome
   int validarNome(char nome[]){
+    printf("Entrou na função validarNome.\n")//debug
     if(strlen(nome)<3){
         printf("Erro: O nome deve ter pelo menos 3 caracteres.\n");
         return 0;
@@ -208,17 +273,19 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
     return 1;
   }
 
-  //Função validar CPF
+//Função validar CPF
   int validarCPF(char cpf[]){
-    if(strlen(cpf)!=11 ){
+    printf("Entrou na função validarCPF.\n")//debug
+    if(strlen(cpf)!=14 ){
         printf("Erro: O CPF deve ser informado com 11 dígitos.\n");
         return 0;
     }
     return 1;
   }
 
-  //Função Validar Sexo
+//Função Validar Sexo
   int validarSexo(char sexo){
+    printf("Entrou na função validarSexo.\n")//debug
     if(sexo != 'M' && sexo != 'F'){
         printf("Sexo inválido. use 'M' para sexo masculino ou 'F' para o sexo feminino.\n");
         return 0;
@@ -226,16 +293,18 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
     return 1;
   }
   
-  //Função validar data
+//Função validar data
   int validarData(data aniversario){
+    printf("Entrou na função validarData.\n")//debug
     if(aniversario.dia<1 || aniversario.dia>31 || aniversario.mes <1 || aniversario.mes >12 || aniversario.ano < 1900){
         printf("Data de nascimento inválida.\n");
         return 0;
     }
     return 1;
   }
-
+//Função que atualiza os dados de pessoas
 void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
+    printf("Entrou na função atualizarPessoa.\n")//debug
     char matricula[12];
     printf("Informe o número da matrícula do %s que deseja atualizar os dados.\n", (tipoPessoa ==1) ? "aluno":"professor");
     scanf("%s", matricula);
