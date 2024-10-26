@@ -39,7 +39,6 @@ void cabecalho(char nomeMenu[20]) {
 
 // Implementação de menus
 int menu(char tipoMenu[20]) {
-    system ("clear"); // limpa a tela
     int opcao;
     if (strcmp(tipoMenu, "principal") == 0) { //Menu principal
         printf("0 - Sair\n");
