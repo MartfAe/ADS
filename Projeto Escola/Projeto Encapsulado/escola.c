@@ -59,7 +59,7 @@ int menu(char tipoMenu[20]) {
     } else if (strcmp(tipoMenu, "ajuste") == 0) { //Menu ajuste de matrícula
         printf("0 - Voltar\n");
         printf("1 - Matricular aluno em uma disciplina\n");
-        printf("3 - Desmatricular aluno de uma disciplina\n");
+        printf("2 - Desmatricular aluno de uma disciplina\n");
         // Adicione mais opções se necessário
         printf("\n");
     } else if (strcmp(tipoMenu, "relatorio") == 0) { //Menu relatórios
