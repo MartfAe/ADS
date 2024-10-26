@@ -46,6 +46,8 @@ int menu(char tipoMenu[20]) {
         printf("1 - Aluno\n");
         printf("2 - Professor\n");
         printf("3 - Disciplina\n");
+        printf("4 - Ajuste de matrículas em disciplinas\n");
+        printf("5 - Relatório\n");
         // Adicione mais opções se necessário
         printf("\n");
     } else if (strcmp(tipoMenu, "cadastro") == 0) { //Menu alunos, professor e disciplina
