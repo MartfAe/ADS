@@ -69,8 +69,8 @@ int menu(char tipoMenu[20]) {
         printf("%-45s %-30s\n","3 - Em ordem alfabética","4 - Em ordem de nascimento");
         printf("%-45s\n","5 - Matriculados em menos de 3 disciplinas");
         printf("\nRelatórios de Professores:\n\n");
-        printf("%-46s %-30s\n","6 - Sem ordenação","8 - Em ordem alfabética");
-        printf("%-44s %-30s\n","7 - Por sexo","9 - Em ordem de nascimento");
+        printf("%-46s %-30s\n","6 - Sem ordenação","7 - Por sexo");
+        printf("%-45s %-30s\n","8 - Em ordem alfabética","9 - Em ordem de nascimento");
         printf("\nRelatórios de Disciplinas:\n\n");
         printf("%-44s %-30s\n","10 - Disciplinas cadastradas","12 - Dados de disciplina");
         printf("%-43s\n","11 - Disciplinas com mais de 40 vagas");
