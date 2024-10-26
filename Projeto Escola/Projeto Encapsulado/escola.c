@@ -335,6 +335,59 @@ void excluirAlunoDisciplina(materias *disciplina){
     }
     return 1;
   }
+
+// void listarAluno(pessoas *alunos, int Max_Alunos){
+//     printf("Entrando na função listarAluno...\n\n");
+//     printf("Lista de alunos: \n");
+//     for(int i =0; i<Max_Alunos; i++){
+//         if(alunos[i].matricula[0] !='\0'){
+//             printf("Nome: %s\n", alunos[i].nome);
+//             printf("Matrícula: %s\n", alunos[i].matricula);
+//             printf("CPF: %s\n", alunos[i].cpf);
+//             printf("Sexo: %s\n", alunos[i].sexo);
+//             printf("Data de nascimento: %02d/%02d/%04d \n", alunos[i].aniversario.dia, alunos[i].aniversario.mes, alunos[i].aniversario.ano);
+//             printf("--------------------------------\n");
+//         }
+//     }
+// }
+
+// void listarProfessor(pessoas *professores, int Max_Professores){
+//     printf("Entrando na função listarProfessor...\n\n");
+//     printf("Lista de Professores:\n");
+//     for(int i = 0; i< Max_Professores; i ++){
+//         if(professores[i].matricula[0] != '\0'){
+//             printf("Nome: %s\n", professores[i].nome);
+//             printf("Matrícula: %s\n", professores[i].matricula);
+//             printf("CPF: %s\n", professores[i].cpf);
+//             printf("Sexo: %s\n", professores[i].sexo);
+//             printf("Data de nascimento: %02d/%02d/%04d \n", professores[i].aniversario.dia, professores[i].aniversario.mes, professores[i].aniversario.ano);
+//             printf("--------------------------------\n");
+        
+//         }
+//     }
+// }
+
+//função para listagem de pessoas
+void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa){
+  printf("Entrando na função listarPessoa...\n\n");
+  int contador=0; //conta o número de registros que foram listados
+  printf("Lista de %s cadastrados:\n", (tipoPessoa ==1) ? "Alunos":"Professores");
+  for(int i = 0; i< Max_Pessoas; i ++){
+    if(pessoa[i].matricula[0] != '\0'){
+      printf("Nome: %s\n", pessoa[i].nome);
+      printf("Matrícula: %s\n", pessoa[i].matricula);
+      printf("CPF: %s\n", pessoa[i].cpf);
+      printf("Sexo: %c\n", pessoa[i].sexo);
+      printf("Data de nascimento: %02d/%02d/%04d \n", pessoa[i].aniversario.dia, pessoa[i].aniversario.mes, pessoa[i].aniversario.ano);
+      separadorTexto();
+      contador++;
+    }
+  }
+  if(contador == 0){
+    printf("Não foram encontrados registros);
+  }
+}
+
 //Função que atualiza os dados de pessoas
 void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
     printf("Entrou na função atualizarPessoa.\n")//debug
@@ -383,33 +436,4 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
 
 }
 
-void listarAluno(pessoas *alunos, int Max_Alunos){
-    printf("Entrando na função listarAluno...\n\n");
-    printf("Lista de alunos: \n");
-    for(int i =0; i<Max_Alunos; i++){
-        if(alunos[i].matricula[0] !='\0'){
-            printf("Nome: %s\n", alunos[i].nome);
-            printf("Matrícula: %s\n", alunos[i].matricula);
-            printf("CPF: %s\n", alunos[i].cpf);
-            printf("Sexo: %s\n", alunos[i].sexo);
-            printf("Data de nascimento: %02d/%02d/%04d \n", alunos[i].aniversario.dia, alunos[i].aniversario.mes, alunos[i].aniversario.ano);
-            printf("--------------------------------\n");
-        }
-    }
-}
 
-void listarProfessor(pessoas *professores, int Max_Professores){
-    printf("Entrando na função listarProfessor...\n\n");
-    printf("Lista de Professores:\n");
-    for(int i = 0; i< Max_Professores; i ++){
-        if(professores[i].matricula[0] != '\0'){
-            printf("Nome: %s\n", professores[i].nome);
-            printf("Matrícula: %s\n", professores[i].matricula);
-            printf("CPF: %s\n", professores[i].cpf);
-            printf("Sexo: %s\n", professores[i].sexo);
-            printf("Data de nascimento: %02d/%02d/%04d \n", professores[i].aniversario.dia, professores[i].aniversario.mes, professores[i].aniversario.ano);
-            printf("--------------------------------\n");
-        
-        }
-    }
-}
