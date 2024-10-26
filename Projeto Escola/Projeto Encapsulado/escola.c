@@ -63,13 +63,20 @@ int menu(char tipoMenu[20]) {
         printf("\n");
     } else if (strcmp(tipoMenu, "relatorio") == 0) { //Menu relatórios
         printf("0 - Voltar\n");
-        printf("1 - Listar alunos\t\t8 - Listar professores em ordem alfabética\n");
-        printf("2 - Listar alunos por sexo\t\t9 - Listar professores em ordem de nascimento\n");
-        printf("3 - Listar alunos em ordem alfabética\t\t10 - Listar disciplinas\n");
-        printf("4 - Listar alunos em ordem de nascimento\t\t11 - Listar dados de um disciplina\n");
-        printf("5 - Listar alunos matriculados em menos de 3 disciplinas\t\t12 - Listar disciplinas que ultrapassam 40 vagas e professores\n");
-        printf("6 - Listar professores\t\tListar aniversariantes do mês\n");
-        printf("7 - Listar professores por sexo\t\tListar todas as pessoas cadastradas\n");
+        printf("\nRelatórios de Alunos:\n\n");
+        printf("%-46s %-30s\n","1 - Sem ordenação","2 - Por sexo");
+        printf("%-45s %-30s\n","3 - Em ordem alfabética","4 - Em ordem de nascimento");
+        printf("%-45s\n","5 - Matriculados em menos de 3 disciplinas");
+        printf("\nRelatórios de Professores:\n\n");
+        printf("%-46s %-30s\n","6 - Sem ordenação","8 - Em ordem alfabética");
+        printf("%-44s %-30s\n","7 - Por sexo","9 - Em ordem de nascimento");
+        printf("\nRelatórios de Disciplinas:\n\n");
+        printf("%-44s %-30s\n","10 - Disciplinas cadastradas","12 - Dados de disciplina");
+        printf("%-43s\n","11 - Disciplinas com mais de 40 vagas");
+        printf("\nDemais Relatórios:\n\n");
+        printf("%-45s %-30s\n","13 - Aniversariantes do mês","14 - Todas as pessoas cadastradas");
+        // Adicione mais opções se necessário
+        printf("\n");
     }
     
     scanf("%d", &opcao);
