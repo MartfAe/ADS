@@ -28,6 +28,10 @@ void cabecalho(char nomeMenu[20]) {
         printf("\t\t\t\tAluno");
     } else if (strcmp(nomeMenu, "disciplina") == 0) {
         printf("\t\t\t\tDisciplina");
+    } else if (strcmp(nomeMenu, "ajuste") == 0) {
+        printf("\t\t\t\tAjuste de Matrículas");
+    } else if ((strcmp(nomeMenu, "relatorio") == 0) {
+        printf("\t\t\t\tRelatórios");
     }
     separadorTexto();
     printf("\n");
@@ -35,16 +39,37 @@ void cabecalho(char nomeMenu[20]) {
 
 // Implementação de menus
 int menu(char tipoMenu[20]) {
+    system ("clear"); // limpa a tela
     int opcao;
-    if (strcmp(tipoMenu, "principal") == 0) {
+    if (strcmp(tipoMenu, "principal") == 0) { //Menu principal
         printf("0 - Sair\n");
         printf("1 - Aluno\n");
         printf("2 - Professor\n");
         printf("3 - Disciplina\n");
         // Adicione mais opções se necessário
-    } else if (strcmp(tipoMenu, "cadastro") == 0) {
+        printf("\n");
+    } else if (strcmp(tipoMenu, "cadastro") == 0) { //Menu alunos, professor e disciplina
+        printf("0 - Voltar\n");
         printf("1 - Cadastrar\n");
+        printf("2 - Atualizar\n");
+        printf("3 - Excluir\n");
         // Adicione mais opções se necessário
+        printf("\n");
+    } else if (strcmp(tipoMenu, "ajuste") == 0) { //Menu ajuste de matrícula
+        printf("0 - Voltar\n");
+        printf("1 - Matricular aluno em uma disciplina\n");
+        printf("3 - Desmatricular aluno de uma disciplina\n");
+        // Adicione mais opções se necessário
+        printf("\n");
+    } else if (strcmp(tipoMenu, "relatorio") == 0) { //Menu relatórios
+        printf("0 - Voltar\n");
+        printf("1 - Listar alunos\t\t8 - Listar professores em ordem alfabética\n");
+        printf("2 - Listar alunos por sexo\t\t9 - Listar professores em ordem de nascimento\n");
+        printf("3 - Listar alunos em ordem alfabética\t\t10 - Listar disciplinas\n");
+        printf("4 - Listar alunos em ordem de nascimento\t\t11 - Listar dados de um disciplina\n");
+        printf("5 - Listar alunos matriculados em menos de 3 disciplinas\t\t12 - Listar disciplinas que ultrapassam 40 vagas e professores\n");
+        printf("6 - Listar professores\t\tListar aniversariantes do mês\n");
+        printf("7 - Listar professores por sexo\t\tListar todas as pessoas cadastradas\n");
     }
     
     scanf("%d", &opcao);
