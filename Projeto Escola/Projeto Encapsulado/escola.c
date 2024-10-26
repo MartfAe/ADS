@@ -234,8 +234,8 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
 
 //Função para adicionar aluno em uma disciplina
-void adicionarAlunoDisciplina(materias *disciplina, int matriculaAluno, pessoas *alunos, int Max_Alunos){
-    printf("Entrou na função adicionar alunoDisciplina.\n")//Debug
+void adicionarAlunoDisciplina(materias *disciplina, char matriculaAluno, pessoas *alunos, int Max_Alunos){
+    printf("Entrou na função adicionar alunoDisciplina.\n");//Debug
     if(disciplina ->numAlunos >= Max_Alunos_Disciplinas){
         printf("A disciplina já atingiu o numéro máximo de alunos.\n");
         
