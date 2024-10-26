@@ -168,7 +168,7 @@ int main(void) {
                             //inserir função para listagem de pessoas(alunos) por sexo informado
                             break;
                         }
-                        case 3: { // listagem de alunos por ordem alfabética
+                        case 3: { //listagem de alunos por ordem alfabética
                             //inserir função para listagem de pessoas(alunos) com ordenação do vetor em ordem alfabética
                             break;
                         }
@@ -180,7 +180,41 @@ int main(void) {
                             //inserir função para listagem de alunos matriculados em menos de 3 disciplinas
                             break;
                         }
-                        case 6: {
+                        case 6: { //listagem de professor sem ordenação do vetor
+                            //inserir função para listagem de pessoas(professor) sem ordenação do vetor
+                            break;
+                        }
+                        case 7: { //listagem de professor por sexo
+                            //inserir função para listagem de pessoas(professor) por sexo informado
+                            break;
+                        }
+                        case 8: { //listagem de professor por ordem alfabética
+                            //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem alfabética
+                            break;
+                        }
+                        case 9: { // listagem de professor por ordem de nascimento
+                            //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem de nascimento
+                            break;
+                        }
+                        case 10: { //listagem de disciplinas cadastradas
+                            //inserir função para listagem de todas as disciplinas cadastradas (nomes das disciplinas)
+                            break;
+                        }
+                        case 11: { //listagem de disciplinas com mais de 40 vagas
+                            //inserir função para listagem de disciplinas com mais de 40 vagas e pofessor correspondente (nome da disciplina e nome do professor)
+                            break;
+                        }
+                        case 12: { //listagem dos dados de uma disciplina
+                            //inserir função para listagem de todos os dados de uma disciplina selecionada pelo usuário
+                            break
+                        }
+                        case 13: { //listagem dos aniversariantes do mês
+                            //inserir função para listagem de todos as pessoas que fazem aniversário no mês corrente e suas respectivas datas de aniversário (dia/mês)
+                            break;
+                        }
+                        case 14: { //listagem de todas as pessoas cadastradas
+                            //inserir função para listagem de pessoas(todas)
+                            break;
                         }
                         // Outros casos se forem adicionados ao menu ajuste de relatórios...
                     }
