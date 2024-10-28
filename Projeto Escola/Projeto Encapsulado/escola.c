@@ -384,7 +384,7 @@ void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa){
     }
   }
   if(contador == 0){
-    printf("Não foram encontrados registros);
+    printf("Não foram encontrados registros");
   }
 }
 
@@ -436,4 +436,69 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
 
 }
 
+//Função atualizar Disciplina
+void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
+    char codigoDisciplina[9];
+    printf("Informe o código da disciplina que deseja atualizar:\n");
+    fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
+    codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0'; // Remove o '\n' ao final
 
+    // Busca a disciplina pelo código
+    int encontrou = 0;
+    for (int i = 0; i < max_Disciplinas; i++) {
+        if (strcmp(disciplinas[i].codigo, codigoDisciplina) == 0) {
+            encontrou = 1;
+            printf("Disciplina encontrada: %s\n", disciplinas[i].nome);
+
+            // Atualiza o nome da disciplina
+            printf("Informe o novo nome da disciplina (deixe em branco para não alterar):\n");
+            char novoNome[50];
+            fgets(novoNome, sizeof(novoNome), stdin);
+            novoNome[strcspn(novoNome, "\n")] = '\0'; // Remove o '\n'
+            if (strlen(novoNome) > 0) {
+                strcpy(disciplinas[i].nome, novoNome);
+            }
+
+            // Atualiza o semestre da disciplina
+            printf("Informe o novo semestre da disciplina (deixe em branco para não alterar):\n");
+            int novoSemestre;
+            if (scanf("%d", &novoSemestre) == 1) {
+                disciplinas[i].semestre = novoSemestre; // Atribui o novo semestre
+                getchar(); // Limpa o buffer do stdin
+            }
+
+            // Atualiza o professor
+            printf("Selecione o novo professor pelo número da matrícula (deixe em branco para não alterar):\n");
+            for (int j = 0; j < max_Professores; j++) {
+                printf("%s - %s\n", professores[j].matricula, professores[j].nome);
+            }
+
+            char matriculaProf[12];
+            fgets(matriculaProf, sizeof(matriculaProf), stdin);
+            matriculaProf[strcspn(matriculaProf, "\n")] = '\0'; // Remove o '\n'
+
+            if (strlen(matriculaProf) > 0) {
+                // Procura o professor pela matrícula e atrela à disciplina
+                int professorValido = 0;
+                for (int j = 0; j < max_Professores; j++) {
+                    if (strcmp(professores[j].matricula, matriculaProf) == 0) {
+                        strcpy(disciplinas[i].professor, professores[j].nome);
+                        professorValido = 1;
+                        break;
+                    }
+                }
+
+                if (!professorValido) {
+                    printf("Professor não encontrado.\n");
+                }
+            }
+
+            printf("Disciplina atualizada com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Disciplina não encontrada.\n");
+    }
+}
