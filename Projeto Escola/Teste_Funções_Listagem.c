@@ -52,6 +52,13 @@ void printCadastroPessoa(pessoas *pessoa,int index){
     separadorTexto();
     printf("\n");
 }
+void printCadastroDisciplina(materias *disciplina, int index){
+    printf("Nome: %s\n", disciplina[index].nome);
+    printf("Código: %s\n", disciplina[index].codigo);
+    printf("Semestre: %d\n", disciplina[index].semestre);
+    //Concluir função com número de vagas (se possível total e ocupadas), nome do professor responsável e nome dos alunos matriculados
+
+}
 
 void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenacao[20]){
     //relatórios de listagem de pessoas (alunos ou professores) - tipoPessoa: (1-aluno,2-professor);
@@ -220,8 +227,24 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
     }
 }
 
-void listarDisciplinas(materias *disciplinas, int Max_Disciplinas, char ordenacao[20]){
+void listarDisciplinas(materias *disciplina, int Max_Disciplinas, char ordenacao[20]){
     //relatórios de listagem de disciplinas (cadastradas,dados de uma e disciplinas com mais de 40 vagas)
+    int contador=0;
+    if(strcmp(ordenacao,"nenhuma")==0){ //se a ordenação não foi especificada, listar todos os registros
+       printf("Lista de disciplinas cadastradas:\n\n");
+       for(int i = 0; i< Max_Disciplinas; i++){
+           if(todos[i].codigo != "666"){
+               //se o código for diferente de 666, significa que a posição está ocupada
+               //(disciplina não foi excluída)
+               printCadastroDisciplina(disciplina, i);
+               contador++;
+           }
+       }
+    }
+    //adicionar demais ordenações
+    if(contador == 0){
+        printf("Não foram encontrados registros");
+    }
 }
  
 int main(void)
