@@ -33,7 +33,7 @@ typedef struct {
     int semestre;
     int vagasTot, vagasOcup; // - adicionado- vagasTod limita o que pode ser ocupado e vagasOcup são as vagas ocupadas por alunos (adicionar incremento sempre que um novo aluno for matriculado e decremento no caso contrário
     pessoas alunos[Max_Vagas_Disciplina], professor;
-    //int numAlunos; virou vagasOcup ou vagasTot?
+    //int numAlunos; virou vagasOcup
 } materias;
 
 
