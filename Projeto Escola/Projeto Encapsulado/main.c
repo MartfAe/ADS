@@ -13,7 +13,6 @@ int main(void) {
     pessoas aluno[Max_Alunos] = {0}; // Inicializa o array com zeros
     pessoas professor[Max_Professores] = {0}; // Inicializa o array com zeros
     materias disciplinas[Max_Disciplinas] = {0}; // Inicializa o array com zeros
-    
 
 
     bool encerrar = false;
