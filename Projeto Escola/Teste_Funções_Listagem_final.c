@@ -59,12 +59,14 @@ void printCadastroDisciplina(materias *disciplina, int index, bool comAluno){ //
     printf("Semestre: %d\n", disciplina[index].semestre);
     printf("Total de vagas: %d / %d\n", disciplina[index].vagasOcup,disciplina[index].vagasTot);
     printf("Professor responsável: %s\n",disciplina[index].professor.nome);
-    printf("Alunos matriculados: ");
     if(comAluno){
+    	    printf("Alunos matriculados: ");
             for(int i=0; i < disciplina->vagasOcup; i++){
             printf("%s|",disciplina[index].alunos[i].nome);
         }
     }
+    separadorTexto();
+    printf("\n");
 }
 
 void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenacao[20]){
@@ -235,7 +237,7 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
     if(strcmp(ordenacao,"nenhuma")==0){ //se a ordenação não foi especificada, listar todos os registros
        printf("Lista de disciplinas cadastradas:\n\n");
        for(int i = 0; i< Max_Disciplinas; i++){
-           if(strcmp(disciplina[i].codigo,"666")==0){
+           if(strcmp(disciplina[i].codigo,"666")!=0){
                //se o código for diferente de 666, significa que a posição está ocupada
                //(disciplina não foi excluída)
                printCadastroDisciplina(disciplina, i, false); // print sem alunos
@@ -339,25 +341,25 @@ int main(void)
 	
 	
 	strcpy(aluno[0].nome,"joaotestes");
-    aluno[0].aniversario = (data){.dia = 28, .mes = 3, .ano = 1998};
-    strcpy(aluno[1].nome,"ana");
-    aluno[1].sexo='F';
-    aluno[1].aniversario = (data){.dia = 3, .mes = 10, .ano = 1998};
-    strcpy(aluno[2].nome,"clara");
-    aluno[2].sexo='F';
-    aluno[2].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
-    strcpy(aluno[3].nome,"jorge");
-    aluno[3].aniversario = (data){.dia = 7, .mes = 9, .ano = 1945};
-    strcpy(aluno[4].nome,"clarice");
-    aluno[4].sexo='F';
-    aluno[4].aniversario = (data){.dia = 24, .mes = 10, .ano = 2024};
-    strcpy(aluno[5].nome,"tarcio");
-    aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
+	aluno[0].aniversario = (data){.dia = 28, .mes = 3, .ano = 1998};
+	strcpy(aluno[1].nome,"ana");
+	aluno[1].sexo='F';
+	aluno[1].aniversario = (data){.dia = 3, .mes = 10, .ano = 1998};
+	strcpy(aluno[2].nome,"clara");
+	aluno[2].sexo='F';
+	aluno[2].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
+	strcpy(aluno[3].nome,"jorge");
+	aluno[3].aniversario = (data){.dia = 7, .mes = 9, .ano = 1945};
+	strcpy(aluno[4].nome,"clarice");
+	aluno[4].sexo='F';
+	aluno[4].aniversario = (data){.dia = 24, .mes = 10, .ano = 2024};
+	strcpy(aluno[5].nome,"tarcio");
+	aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
 
 //	listarPessoa(aluno,Max_Alunos,1,"nenhuma");
-//  listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "nenhuma");
+// 	listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "nenhuma");
 	
-//	listarDisciplinas(disciplinas,Max_Disciplinas,"uma");
+	listarDisciplinas(disciplinas,Max_Disciplinas,"nenhuma");
    
     return 0;
 }
