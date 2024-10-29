@@ -1,4 +1,4 @@
-
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -259,6 +259,7 @@ void listarDisciplinas(materias *disciplina, int Max_Disciplinas, char ordenacao
     else if(strcmp(ordenacao,"uma")==0){ //se a ordenação foi especificada como dados de disciplinas
         char codigo;
         printf("Digite o código da disciplina escolhida: \n");
+        //Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
         fgets(codigo,8,stdin);
         for(int i = 0; i< Max_Disciplinas; i++){
            if(todos[i].codigo != "666" && disciplina[i].codigo==codigo){
