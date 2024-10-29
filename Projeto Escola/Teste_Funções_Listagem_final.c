@@ -75,7 +75,8 @@ void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenac
 printf("Entrando na função listarPessoa...\n\n"); // Debug
 int contador=0; //conta o número de registros que foram listados
     
-    if(strcmp(ordenacao,"nenhuma")==0){//se a ordenação não foi especificada, listar todos os registros
+    if(strcmp(ordenacao,"nenhuma")==0){
+		//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
             if(pessoa[i].matricula != 666){
@@ -87,13 +88,15 @@ int contador=0; //conta o número de registros que foram listados
         }
     }
         
-    else if (strcmp(ordenacao,"sexo")==0){//se a ordenação foi especificada como por sexo)
+    else if (strcmp(ordenacao,"sexo")==0){
+		//se a ordenação foi especificada como por sexo)
         char sexo;
         printf("Informe o sexo que deseja listar (M para masculino e F para feminino): ");
-        scanf("%c",&sexo);
+        scanf(" %c",&sexo);
         if(sexo!='m' && sexo!='M' && sexo!='f' && sexo!='F'){
             printf("opção inválida\n");
         }
+        //system("clear")
         else{
             printf("Lista de %s do sexo %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores", (sexo == 'M'||sexo == 'm') ? "masculino":"feminino");
             separadorTexto();
@@ -108,7 +111,8 @@ int contador=0; //conta o número de registros que foram listados
         }
     }
         
-    else if (strcmp(ordenacao,"alfabetica")==0){ // se a ordenação foi especificada como por ordem alfabética).
+    else if (strcmp(ordenacao,"alfabetica")==0){ 
+		// se a ordenação foi especificada como por ordem alfabética).
         //É necessário garantir que quando for feito o cadastro de um novo nome, todas as letras estejam maiúculas ou minúsculas
         pessoas alfabetica[Max_Pessoas];
         for(int i=0;i<Max_Pessoas;i++){
@@ -135,7 +139,8 @@ int contador=0; //conta o número de registros que foram listados
         }
     }
         
-    else if (strcmp(ordenacao,"nascimento")==0){// se a ordenação foi especificada como por data de nascimento
+    else if (strcmp(ordenacao,"nascimento")==0){
+		// se a ordenação foi especificada como por data de nascimento
         pessoas nascimento[Max_Pessoas];
         for(int i=0;i<Max_Pessoas;i++){// cópia da array para a array auxiliar de nascimento
                 nascimento[i]=pessoa[i];
@@ -165,7 +170,8 @@ int contador=0; //conta o número de registros que foram listados
             }
         }
     }
-    else if (strcmp(ordenacao,"matriculaMenos3")==0){// se a ordenação foi especificada para alunos matriculados em menos de 3 disciplinas
+    else if (strcmp(ordenacao,"matriculaMenos3")==0){
+		// se a ordenação foi especificada para alunos matriculados em menos de 3 disciplinas
         printf("Lista de %s matriculados em menos de três disciplinas:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
             if(pessoa[i].matricula != 666 && pessoa[i].disciplinas < 3){
@@ -184,6 +190,7 @@ int contador=0; //conta o número de registros que foram listados
 
 void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, int Max_Pessoas2 ,char ordenacao[20]){
     //relatórios de listagem de todas as pessoas (alunos e professores)
+    //ordenacao: ("nenhuma","aniversariantes","letras")
     
     int Max_Todas_Pessoas = Max_Pessoas1 + Max_Pessoas2;
     pessoas todos[Max_Todas_Pessoas];
@@ -200,7 +207,8 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 
     //Ordenações da array concatenada conforme especificado na chamada
 
-    if(strcmp(ordenacao,"nenhuma")==0){ //se a ordenação não foi especificada, listar todos os registros
+    if(strcmp(ordenacao,"nenhuma")==0){ 
+	//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de pessoas cadastradas:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
             if(todos[j].matricula != 666){
@@ -225,6 +233,30 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
             }
         }
     }
+    else if (strcmp(ordenacao,"letras")==0){
+        //se a ordenação foi especificada como letras, listar os pessoas que contem as letras
+        char letras[50];
+        printf("Digite o nome a ser pesquisado (mínimo de 3 letras): ");
+    	fgets(letras, sizeof(letras), stdin);
+        letras[strcspn(letras, "\n")] = 0;
+        //system("clear")
+        
+        if(strlen(letras)<3){
+        	printf("Entrada inválida. Devem ser inseridas ao menos 3 letras");
+		}
+		else{
+			printf("Lista de pessoas que contêm as letras '%s':\n\n", letras);
+		    for (int j = 0; j < Max_Todas_Pessoas; j++) {
+		        if (todos[j].matricula != 666) {
+		            if (strstr(todos[j].nome, letras) != NULL) {// Verifica se o nome contém a sequência de letras
+		                printCadastroPessoa(todos, j);
+		                contador++;
+		            }
+		        }
+			}
+    	}
+        
+	}
 	// adicionar a lista a partir das letras inseridas(ao menos 3)
     if(contador == 0){
         printf("Não foram encontrados registros");
@@ -233,8 +265,11 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 
 void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao[20]){ // TESTAR
     //relatórios de listagem de disciplinas (cadastradas,dados de uma e disciplinas com mais de 40 vagas)
+    //ordenacao: ("nenhuma","mais40","uma")
+
     int contador=0;
-    if(strcmp(ordenacao,"nenhuma")==0){ //se a ordenação não foi especificada, listar todos os registros
+    if(strcmp(ordenacao,"nenhuma")==0){ 
+		//se a ordenação não foi especificada, listar todos os registros
        printf("Lista de disciplinas cadastradas:\n\n");
        for(int i = 0; i< Max_Disciplinas; i++){
            if(strcmp(disciplina[i].codigo,"666")!=0){
@@ -245,7 +280,9 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
            }
        }
     }
-    else if(strcmp(ordenacao,"mais40")==0){ //se a ordenação foi especificada com mais de 40 vagas
+    else if(strcmp(ordenacao,"mais40")==0){ 
+		//se a ordenação foi especificada como disciplinas
+		//com mais de 40 vagas
         printf("Lista de disciplinas com mais de 40 vagas cadastradas:\n\n");
         for(int i = 0; i< Max_Disciplinas; i++){
            if(strcmp(disciplina[i].codigo,"666")!=0 && disciplina[i].vagasTot>40){
@@ -258,11 +295,16 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
            }
         }
     }
-    else if(strcmp(ordenacao,"uma")==0){ //se a ordenação foi especificada como dados de disciplinas
+    else if(strcmp(ordenacao,"uma")==0){ 
+		//se a ordenação foi especificada como dados de uma disciplina
+        //É necessário garantir que quando for feito o cadastro de um novo codigo,
+		//todas as letras estejam maiúculas ou minúsculas
+
         char codigo[8];
         printf("Digite o código da disciplina escolhida: \n");
         fgets(codigo,sizeof(codigo),stdin);
         codigo[strcspn(codigo, "\n")] = '\0';
+        //system("clear")
         for(int i = 0; i< Max_Disciplinas; i++){
            if(strcmp(disciplina[i].codigo,"666")!=0 && strcmp(disciplina[i].codigo,codigo)==0){
                //se o código for diferente de 666, significa que a posição está ocupada
@@ -341,25 +383,25 @@ int main(void)
 	
 	
 	strcpy(aluno[0].nome,"joaotestes");
-	aluno[0].aniversario = (data){.dia = 28, .mes = 3, .ano = 1998};
-	strcpy(aluno[1].nome,"ana");
-	aluno[1].sexo='F';
-	aluno[1].aniversario = (data){.dia = 3, .mes = 10, .ano = 1998};
-	strcpy(aluno[2].nome,"clara");
-	aluno[2].sexo='F';
-	aluno[2].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
-	strcpy(aluno[3].nome,"jorge");
-	aluno[3].aniversario = (data){.dia = 7, .mes = 9, .ano = 1945};
-	strcpy(aluno[4].nome,"clarice");
-	aluno[4].sexo='F';
-	aluno[4].aniversario = (data){.dia = 24, .mes = 10, .ano = 2024};
-	strcpy(aluno[5].nome,"tarcio");
-	aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
+    aluno[0].aniversario = (data){.dia = 28, .mes = 3, .ano = 1998};
+    strcpy(aluno[1].nome,"ana");
+    aluno[1].sexo='F';
+    aluno[1].aniversario = (data){.dia = 3, .mes = 10, .ano = 1998};
+    strcpy(aluno[2].nome,"clara");
+    aluno[2].sexo='F';
+    aluno[2].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
+    strcpy(aluno[3].nome,"jorge");
+    aluno[3].aniversario = (data){.dia = 7, .mes = 9, .ano = 1945};
+    strcpy(aluno[4].nome,"clarice");
+    aluno[4].sexo='F';
+    aluno[4].aniversario = (data){.dia = 24, .mes = 10, .ano = 2024};
+    strcpy(aluno[5].nome,"tarcio");
+    aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
 
 //	listarPessoa(aluno,Max_Alunos,1,"nenhuma");
-// 	listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "nenhuma");
+//	listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "letras");
 	
-	listarDisciplinas(disciplinas,Max_Disciplinas,"nenhuma");
+//	listarDisciplinas(disciplinas,Max_Disciplinas,"uma");
    
     return 0;
 }
