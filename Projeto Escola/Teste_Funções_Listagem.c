@@ -52,18 +52,24 @@ void printCadastroPessoa(pessoas *pessoa,int index){
     separadorTexto();
     printf("\n");
 }
-void printCadastroDisciplina(materias *disciplina, int index){
+void printCadastroDisciplina(materias *disciplina, int index, bool comAluno){ // TESTAR
     printf("Nome: %s\n", disciplina[index].nome);
     printf("Código: %s\n", disciplina[index].codigo);
     printf("Semestre: %d\n", disciplina[index].semestre);
-    //Concluir função com número de vagas (se possível total e ocupadas), nome do professor responsável e nome dos alunos matriculados
-
+    printf("Vagas ocupadas: %d / %d\n", disciplina[index].vagasTot, disciplinas[index].vagasOcup);
+    printf("Professor responsável: %s\n",disciplina[index].professor.nome);
+    printf("Alunos matriculados: ");
+    if(comAluno){
+            for(int i=0; i < vagasOcup; i++){
+            printf("%s|",disciplina[index].alunos[i].nome);
+        }
+    }
 }
 
 void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenacao[20]){
     //relatórios de listagem de pessoas (alunos ou professores) - tipoPessoa: (1-aluno,2-professor);
     //ordenacao: ("nenhuma","sexo","alfabetica","nascimento","matriculaMenos3")
-printf("Entrando na função listarPessoa...\n\n");
+printf("Entrando na função listarPessoa...\n\n"); // Debug
 int contador=0; //conta o número de registros que foram listados
     
     if(strcmp(ordenacao,"nenhuma")==0){//se a ordenação não foi especificada, listar todos os registros
@@ -91,7 +97,7 @@ int contador=0; //conta o número de registros que foram listados
             separadorTexto();
             printf("\n");
             for(int i=0;i<Max_Pessoas;i++){
-                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32)&&pessoa[i].matricula != 666){
+                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32) && pessoa[i].matricula != 666){
                     //verifica se a matrícula é diferente de 666 e se o sexo é igual ao informado
                     printCadastroPessoa(pessoa,i);
                     contador++;
@@ -160,14 +166,12 @@ int contador=0; //conta o número de registros que foram listados
     else if (strcmp(ordenacao,"matriculaMenos3")==0){// se a ordenação foi especificada para alunos matriculados em menos de 3 disciplinas
         printf("Lista de %s matriculados em menos de três disciplinas:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(pessoa[i].matricula != 666){
+            if(pessoa[i].matricula != 666 && pessoa[i].disciplinas < 3){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
-                if(pessoa[i].disciplinas < 3){
-                    //foi necessário adicionar uma variável para contar em quantas disciplinas o aluno está matriculado
-                    printCadastroPessoa(pessoa,i);
-                    contador++;
-                }
+                //foi necessário adicionar uma variável para contar em quantas disciplinas o aluno está matriculado
+                printCadastroPessoa(pessoa,i);
+                contador++;
             }
         }
     }
@@ -211,13 +215,11 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         int mes_atual = tm_info->tm_mon + 1;// informa o mês atual
         printf("Lista de aniversariantes do mês:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
-            if(todos[j].matricula != 666){
+            if(todos[j].matricula != 666 && todos[j].aniversario.mes == mes_atual){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada e a matrícula não foi excluída
-                if(todos[j].aniversario.mes == mes_atual){
-                    //verifica se o mês do aniversário é o mês atual
-                    printCadastroPessoa(todos,j);
-                    contador++;
-                }
+                //verifica se o mês do aniversário é o mês atual
+                printCadastroPessoa(todos,j);
+                contador++;
             }
         }
     }
@@ -227,7 +229,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
     }
 }
 
-void listarDisciplinas(materias *disciplina, int Max_Disciplinas, char ordenacao[20]){
+void listarDisciplinas(materias *disciplina, int Max_Disciplinas, char ordenacao[20]){ // TESTAR
     //relatórios de listagem de disciplinas (cadastradas,dados de uma e disciplinas com mais de 40 vagas)
     int contador=0;
     if(strcmp(ordenacao,"nenhuma")==0){ //se a ordenação não foi especificada, listar todos os registros
@@ -236,10 +238,37 @@ void listarDisciplinas(materias *disciplina, int Max_Disciplinas, char ordenacao
            if(todos[i].codigo != "666"){
                //se o código for diferente de 666, significa que a posição está ocupada
                //(disciplina não foi excluída)
-               printCadastroDisciplina(disciplina, i);
+               printCadastroDisciplina(disciplina, i, false); // print sem alunos
                contador++;
            }
        }
+    }
+    else if(strcmp(ordenacao,"mais40")==0){ //se a ordenação foi especificada com mais de 40 vagas
+        printf("Lista de disciplinas com mais de 40 vagas cadastradas:\n\n");
+        for(int i = 0; i< Max_Disciplinas; i++){
+           if(todos[i].codigo != "666" && disciplina[i].vagasTot>40){
+               //se o código for diferente de 666, significa que a posição está ocupada
+               //(disciplina não foi excluída)
+               //verifica se tem mais de 40 vagas
+               disciplina[i].nome;
+               disciplina[i].professor.nome;
+               contador++;
+           }
+        }
+    }
+    else if(strcmp(ordenacao,"uma")==0){ //se a ordenação foi especificada como dados de disciplinas
+        char codigo;
+        printf("Digite o código da disciplina escolhida: \n");
+        fgets(codigo,8,stdin);
+        for(int i = 0; i< Max_Disciplinas; i++){
+           if(todos[i].codigo != "666" && disciplina[i].codigo==codigo){
+               //se o código for diferente de 666, significa que a posição está ocupada
+               //(disciplina não foi excluída)
+               printCadastroDisciplina(disciplina, i, true); // print com alunos
+               contador++;
+           }
+        }
+        
     }
     //adicionar demais ordenações
     if(contador == 0){
