@@ -5,15 +5,15 @@
 #include <time.h>
 #include <locale.h>
 
-#define Max_Alunos 6
-#define Max_Professores 6
-#define Max_Disciplinas 6
+#define Max_Alunos 100
+#define Max_Professores 100
+#define Max_Disciplinas 100
 #define Max_Vagas_Disciplina 100 // - adicionado- limita o numero de vagas máximo de todas as disciplinas
 
 //adicionados os 4 dígitos dos suxixos aluno e professor
 
-#define prefixo_Aluno 20241060000
-#define prefixo_Professor 20241170000
+#define prefixo_Aluno "20241060000"
+#define prefixo_Professor "20241170000"
 
 // Definição das structs
 typedef struct {
@@ -21,7 +21,7 @@ typedef struct {
 } data;
 
 typedef struct {
-    long matricula; //transformado em inteiro (não array)
+    char matricula[12]; //transformado em inteiro (não array)
     char sexo, nome[50], cpf[15];
     data aniversario;
     int disciplinas; //adicionado para contar as disciplinas em que os alunos ou professores estão inseridos.
@@ -46,7 +46,7 @@ void separadorTexto(void) {
 
 void printCadastroPessoa(pessoas *pessoa,int index){
     printf("Nome: %s\n", pessoa[index].nome);
-    printf("Matrícula: %ld\n", pessoa[index].matricula);
+    printf("Matrícula: %s\n", pessoa[index].matricula);
     printf("CPF: %s\n", pessoa[index].cpf);
     printf("Sexo: %c\n", pessoa[index].sexo);
     printf("Data de nascimento: %02d/%02d/%04d \n", pessoa[index].aniversario.dia, pessoa[index].aniversario.mes, pessoa[index].aniversario.ano);
@@ -79,7 +79,7 @@ int contador=0; //conta o número de registros que foram listados
 		//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(pessoa[i].matricula != 666){
+            if(strcmp(pessoa[i].matricula, "666")!=0){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(pessoa,i);
@@ -96,13 +96,13 @@ int contador=0; //conta o número de registros que foram listados
         if(sexo!='m' && sexo!='M' && sexo!='f' && sexo!='F'){
             printf("opção inválida\n");
         }
-        system("clear")
+        // system("clear");
         else{
             printf("Lista de %s do sexo %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores", (sexo == 'M'||sexo == 'm') ? "masculino":"feminino");
             separadorTexto();
             printf("\n");
             for(int i=0;i<Max_Pessoas;i++){
-                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32) && pessoa[i].matricula != 666){
+                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32) && strcmp(pessoa[i].matricula, "666")!=0){
                     //verifica se a matrícula é diferente de 666 e se o sexo é igual ao informado
                     printCadastroPessoa(pessoa,i);
                     contador++;
@@ -130,7 +130,7 @@ int contador=0; //conta o número de registros que foram listados
             }
         printf("Lista de %s cadastrados em ordem alfabética:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(alfabetica[i].matricula != 666){
+            if(strcmp(alfabetica[i].matricula, "666")!=0){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(alfabetica,i);
@@ -162,7 +162,7 @@ int contador=0; //conta o número de registros que foram listados
         
         printf("Lista de %s cadastrados em ordem de nascimento:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(pessoa[i].matricula != 666){
+            if(strcmp(pessoa[i].matricula, "666")!=0){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(nascimento,i);
@@ -174,7 +174,7 @@ int contador=0; //conta o número de registros que foram listados
 		// se a ordenação foi especificada para alunos matriculados em menos de 3 disciplinas
         printf("Lista de %s matriculados em menos de três disciplinas:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(pessoa[i].matricula != 666 && pessoa[i].disciplinas < 3){
+            if(strcmp(pessoa[i].matricula, "666")!=0 && pessoa[i].disciplinas < 3){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 //foi necessário adicionar uma variável para contar em quantas disciplinas o aluno está matriculado
@@ -211,7 +211,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 	//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de pessoas cadastradas:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
-            if(todos[j].matricula != 666){
+            if(strcmp(todos[j].matricula, "666")!=0){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada e a matrícula não foi excluída
                 printCadastroPessoa(todos,j);
                 contador++;
@@ -225,7 +225,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         int mes_atual = tm_info->tm_mon + 1;// informa o mês atual
         printf("Lista de aniversariantes do mês:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
-            if(todos[j].matricula != 666 && todos[j].aniversario.mes == mes_atual){
+            if(strcmp(todos[j].matricula, "666")!=0 && todos[j].aniversario.mes == mes_atual){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada e a matrícula não foi excluída
                 //verifica se o mês do aniversário é o mês atual
                 printCadastroPessoa(todos,j);
@@ -241,7 +241,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
 
         letras[strcspn(letras, "\n")] = 0;
-        system("clear")
+        // system("clear");
 	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
 
         if(strlen(letras)<3){
@@ -250,7 +250,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 		else{
 			printf("Lista de pessoas que contêm as letras '%s':\n\n", letras);
 		    for (int j = 0; j < Max_Todas_Pessoas; j++) {
-		        if (todos[j].matricula != 666) {
+		        if (strcmp(todos[j].matricula, "666")!=0) {
 		            if (strstr(todos[j].nome, letras) != NULL) {// Verifica se o nome contém a sequência de letras
 		                printCadastroPessoa(todos, j);
 		                contador++;
@@ -308,7 +308,7 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
         fgets(codigo,sizeof(codigo),stdin);
 	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
         codigo[strcspn(codigo, "\n")] = '\0';
-        system("clear")
+        // system("clear");
         for(int i = 0; i< Max_Disciplinas; i++){
            if(strcmp(disciplina[i].codigo,"666")!=0 && strcmp(disciplina[i].codigo,codigo)==0){
                //se o código for diferente de 666, significa que a posição está ocupada
@@ -340,13 +340,14 @@ int main(void)
     pessoas aluno[Max_Alunos] = {0}; // Inicializa o array com zeros
     pessoas professor[Max_Professores] = {0}; // Inicializa o array com zeros
     materias disciplinas[Max_Disciplinas] = {0}; // Inicializa o array com zeros
-    long matricula_Aluno = prefixo_Aluno;//adicionados como variável para que seja possivel o autoincremento no teste
-    long matricula_Professor = prefixo_Professor;//adicionados como variável para que seja possivel o autoincremento no teste
+    char matricula_Aluno[12] = prefixo_Aluno;//adicionados como variável para que seja possivel o autoincremento no teste
+    char matricula_Professor[12] = prefixo_Professor;//adicionados como variável para que seja possivel o autoincremento no teste
     int mes_atual = tm_info->tm_mon + 1;// informa o mês atual
     
     for(int i =0;i<Max_Alunos;i++){
-        matricula_Aluno++;
-        aluno[i].matricula = matricula_Aluno;
+        
+        matricula_Aluno[10]++;
+        strcpy(aluno[i].matricula, matricula_Aluno);
         strcpy(aluno[i].cpf,"000.000.000-00");
         strcpy(aluno[i].nome,"joaoTestes");
         aluno[i].sexo='M';
@@ -355,9 +356,10 @@ int main(void)
     }
 
     for(int i =0;i<Max_Professores;i++){
-        matricula_Professor++;
+        
+        matricula_Professor[10]++;
+        strcpy(professor[i].matricula, matricula_Professor);
         strcpy(professor[i].nome,"Romiuçu");
-        professor[i].matricula = matricula_Professor;
         strcpy(professor[i].cpf,"000.000.000-00");
         professor[i].sexo='M';
         professor[i].aniversario = (data){.dia = tm_info->tm_mday - i,.mes = tm_info->tm_mon + 1 -i,.ano = tm_info->tm_year + 1900 - i};
@@ -403,9 +405,9 @@ int main(void)
     aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
 
 //	listarPessoa(aluno,Max_Alunos,1,"nenhuma");
-//	listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "letras");
+	listarTodasPessoas(aluno, Max_Alunos, professor, Max_Professores, "letras");
 	
-//	listarDisciplinas(disciplinas,Max_Disciplinas,"uma");
+// 	listarDisciplinas(disciplinas,Max_Disciplinas,"uma");
    
     return 0;
 }
