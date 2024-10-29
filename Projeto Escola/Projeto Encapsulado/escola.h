@@ -1,14 +1,14 @@
 #ifndef ESCOLA_H
 #define ESCOLA_H
 
-#define Max_Alunos 6
-#define Max_Professores 6
-#define Max_Disciplinas 6
-#define Max_Alunos_Disciplinas 3
-#define Max_Matricula 12
+#define Max_Alunos 6;
+#define Max_Professores 6 ;
+#define Max_Disciplinas 6 ;
+#define Max_Alunos_Disciplinas 3 ;
 
-#define prefixo_Aluno "2024106"
-#define prefixo_Professor "2024117"
+
+#define prefixo_Aluno 2024106
+#define prefixo_Professor 2024117
 
 // Definição das structs
 typedef struct {
@@ -16,7 +16,7 @@ typedef struct {
 } data;
 
 typedef struct {
-    char matricula [Max_Matricula];
+    int matricula;
     char sexo, nome[50], cpf[15];
     data aniversario;
 } pessoas;
@@ -39,14 +39,22 @@ void separadorTexto(void);
 void cabecalho(char nomeMenu[20]);
 int menu(char tipoMenu[20]);
 
+//Função de cadastro
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa);
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores);
-void gerarMatriculaAluno(char matricula[]);
-void gerarMatriculaProfessor(char matricula[]);
 
-void gerarMatriculaAluno(char matricula[]);
-void gerarMatriculaProfessor(char matricula[]);
+//Atualização e exclusão
+void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa);
+void excluirPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa);
+void adicionarAlunoDisciplina(materias *disciplina, pessoas *alunos, int max_Alunos);
+void desmatricularAlunoDisciplina(materias *disciplina);
 
+void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores);
+void excluirDisciplina(materias *disciplinas, int max_Disciplinas);
+
+//Geração de matrícula
+void gerarMatriculaAluno(int *matricula);
+void gerarMatriculaProfessor(int *matricula);
 
 
 // Declarações das funções de validação
@@ -57,6 +65,8 @@ int validarData(data aniversario);
 int validarMatricula(int matricula);
 int validarCodigoDisciplina(char codigo[]);
 int validarSemestre(int semestre);
+int verificarMatricula(int matricula, pessoas *cadastro, int Max_Pessoas);
+
 
 // Contadores para gerenciar matrículas
 extern int contadorAluno;

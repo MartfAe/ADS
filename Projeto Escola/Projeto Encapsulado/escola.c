@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include <string.h>
 
 int contadorAluno = 0; // Contador de alunos
 int contadorProfessor = 0; // Contador de professores
@@ -31,7 +32,7 @@ void cabecalho(char nomeMenu[20]) {
         printf("\t\t\t\tDisciplina");
     } else if (strcmp(nomeMenu, "ajuste") == 0) {
         printf("\t\t\t\tAjuste de Matrículas");
-    } else if ((strcmp(nomeMenu, "relatorio") == 0) {
+    } else if (strcmp(nomeMenu, "relatorio") == 0) {
         printf("\t\t\t\tRelatórios");
     }
     separadorTexto();
@@ -112,39 +113,47 @@ void setDisciplina(materias disciplinas[], int index, materias novaDisciplina) {
     }
 }
 
-//Função para gerar a matrícula para aluno
-void gerarMatriculaAluno(char matricula[]) {
-    sprintf(matricula, "%s%04d", prefixo_Aluno, contadorAluno + 1);
-    contadorAluno++; // Incrementa o contador
+//Gerar a matricula aluno
+void gerarMatriculaAluno(int *matricula) {
+    *matricula = (long long)prefixo_Aluno * 10000 + (contadorAluno + 1); // Combina o prefixo e o contador
 }
 
-//Função para gerar a matrícula para professor
-void gerarMatriculaProfessor(char matricula[]) {
-    printf("Entrando na função gerarMatriculaProfessor.\n")//Debug
-    sprintf(matricula, "%s%04d", prefixo_Professor, contadorProfessor + 1);
-    contadorProfessor++; // Incrementa o contador
+//Gera matricula do professor
+void gerarMatriculaProfessor(int *matricula) {
+    *matricula = (long long)prefixo_Professor * 10000 + (contadorProfessor + 1); // Combina o prefixo e o contador
+    contadorProfessor++;
+}
+
+//Verifica a matrícula
+int verificarMatricula(int matricula, pessoas *cadastro, int Max_Pessoas) {
+    if (matricula < 100000 || matricula > 999999) {
+        return 0; // Matrícula inválida
+    }
+
+    // Verifica se a matrícula começa com os prefixos válidos
+    if (matricula / 10000 != prefixo_Aluno && matricula / 10000 != prefixo_Professor) {
+        return 0; 
+    }
+
+    // Verifica se a matrícula está cadastrada
+    for (int i = 0; i < Max_Pessoas; i++) {
+        // Verifica se o campo da matrícula está preenchido
+        if (cadastro[i].matricula == matricula) {
+            return 1; 
+        }
+    }
+    return 0; // Matrícula não cadastrada
 }
 
 // Implementação da função de cadastro de pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
-    printf("Entrou na função cadastrarPessoa\n"); // Debug
-    int i;
-    for (i = 0; i < maxPessoas; i++) {
-        if (cadastro[i].matricula[0] == 0) {  // Verifica se o campo matrícula está vazio
-            if (tipoPessoa == 1) {
-                printf("Cadastro de Aluno:\n\n");
-
-                //Gera a matrícula do Aluno
-                gerarMatriculaAluno(cadastro[i].matricula);
-                printf("Matrícula gerada: %s\n", cadastro[i].matricula);
-            } else if (tipoPessoa == 2) {
-
-                printf("Cadastro de Professor:\n");
-                //Matricula professor 
-                gerarMatriculaProfessor(cadastro[i].matricula);
-                printf("Matricula gerada: %s\n", cadastro[i].matricula);
+    for (int i = 0; i < maxPessoas; i++) {
+        if (cadastro[i].matricula == 0) {  // Verifica se o campo matrícula está vazio
+            if (tipoPessoa == 'A') {
+                gerarMatriculaAluno(&cadastro[i].matricula);
+            } else if (tipoPessoa == 'P') {
+                gerarMatriculaProfessor(&cadastro[i].matricula);
             }
-
             // Loop para o nome
            do {
                 printf("Informe o nome:\n");
@@ -154,16 +163,16 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
 
             // Loop para o CPF
-            printf("Informe o CPF:\n");
-                fgets(cadastro[i].cpf, sizeof(cadastro[i].cpf), stdin);
-                cadastro[i].cpf[strcspn(cadastro[i].cpf, "\n")] = '\0';
-            } while (!validarCPF(cadastro[i].cpf)); // Continua pedindo até um CPF válido
+            do{
+                printf("Informe o CPF no formato xxx.xxx.xxx-xx :\n");
+                    fgets(cadastro[i].cpf, sizeof(cadastro[i].cpf), stdin);
+                    cadastro[i].cpf[strcspn(cadastro[i].cpf, "\n")] = '\0';
+                } while (!validarCPF(cadastro[i].cpf)); // Continua pedindo até um CPF válido
 
             // Loop para o sexo
             do {
                 printf("Informe o sexo (M/F):\n");
-                fgets(&cadastro[i].sexo, sizeof(cadastro[i].sexo) + 1, stdin);
-                cadastro[i].sexo = cadastro[i].sexo == '\n' ? '\0' : cadastro[i].sexo;
+                scanf(" %c", &cadastro[i].sexo); 
             } while (!validarSexo(cadastro[i].sexo));
 
             // Loop para a data de nascimento
@@ -187,27 +196,29 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
             printf("Não há espaço para cadastrar mais alunos.\n");
         } else if (tipoPessoa == 2) {
             printf("Não há espaço para cadastrar mais professores.\n");
+            }
         }
     }
 }
+
 // Implementação da função de cadastro de disciplina
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
-    printf("Entrou na função cadastro de disciplina.\n")//Debug
-    for(int i = 0; i < max_Disciplinas; i++){
-        if(disciplinas[i].codigo[0] == '\0'){ // Verifica se a disciplina foi cadastrada
-            printf ("Cadastro de Disciplina:\n");
-    
+printf("Entrou na função cadastro de disciplina.\n"); // Debug
+    for (int i = 0; i < max_Disciplinas; i++) {
+        if (disciplinas[i].codigo[0] == '\0') { // Verifica se a disciplina foi cadastrada
+            printf("Cadastro de Disciplina:\n");
+
             printf("Informe o nome da disciplina:\n");
             fgets(disciplinas[i].nome, sizeof(disciplinas[i].nome), stdin);
             disciplinas[i].nome[strcspn(disciplinas[i].nome, "\n")] = '\0';
 
             printf("Informe o código da disciplina (máx 8 caracteres):\n");
             fgets(disciplinas[i].codigo, sizeof(disciplinas[i].codigo), stdin);
-            disciplinas[i].codigo[strcspn(disciplinas[i].codigo, "\n")] = '\0'; 
+            disciplinas[i].codigo[strcspn(disciplinas[i].codigo, "\n")] = '\0';
 
             printf("Informe o semestre da disciplina:\n");
             scanf("%d", &disciplinas[i].semestre);
-            getchar();
+            getchar(); // Para limpar o buffer do stdin
 
             printf("Selecione o professor pelo número da matrícula:\n");
             for (int j = 0; j < max_Professores; j++) {
@@ -217,107 +228,113 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             fgets(matriculaProf, sizeof(matriculaProf), stdin);
             matriculaProf[strcspn(matriculaProf, "\n")] = '\0';
 
-      //Procura o professor pela matricula e atrela a disciplina
+            // Verifica a matrícula do professor
+            if (!verificarMatricula(matriculaProf, "2024117", professores, max_Professores)) {
+                printf("Matrícula do professor inválida ou não cadastrada.\n");
+                return -1; // Indica erro na matrícula
+            } else {
+                // Procura o professor pela matrícula e atrela a disciplina
+                int encontrou = 0;
+                for (int j = 0; j < max_Professores; j++) {
+                    if (strcmp(professores[j].matricula, matriculaProf) == 0) {
+                        strcpy(disciplinas[i].professor, professores[j].nome);
+                        encontrou = 1;
+                        break;
+                    }
+                }
 
-           int encontrou = 0;
-            for (int j = 0; j < max_Professores; j++) {
-                if (strcmp(professores[j].matricula, matriculaProf) == 0) {
-                    strcpy(disciplinas[i].professor, professores[j].nome);
-                    encontrou = 1;
-                    break;
+                if (!encontrou) {
+                    printf("Professor não encontrado.\n");
+                    return -2; // Indica erro, professor não encontrado
+                } else {
+                    disciplinas[i].numAlunos = 0;
+                    printf("Disciplina cadastrada com sucesso!\n");
+                    return 0; // Indica sucesso
                 }
             }
-
-            if(!encontrou){
-                printf("Professor não encontrado.\n");
-            }else{
-                disciplinas[i].numAlunos=0;
-                printf("Disciplina cadastrada com sucesso!\n");
-            }
-
         }
     }
-  }
-
-//Função para adicionar aluno em uma disciplina
-void adicionarAlunoDisciplina(materias *disciplina, char matriculaAluno, pessoas *alunos, int Max_Alunos){
-    printf("Entrou na função adicionar alunoDisciplina.\n");//Debug
-    if(disciplina ->numAlunos >= Max_Alunos_Disciplinas){
-        printf("A disciplina já atingiu o numéro máximo de alunos.\n");
-        
-        //Procura o aluno no cadastro geral pela matricula. 
-         char matriculaAluno[12];
-         printf("Informe a matrícula do aluno que deseja incluir na disciplina:\n");
-         fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
-         matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
-
-        //Verifica se já está matriculado na disciplina.
-         int encontrouAluno = 0;
-    
-        for (int i = 0; i < Max_Alunos; i++) {
-            int jaAdicionado = 0;
-            
-            for (int j = 0; j < disciplina->numAlunos; j++) {
-                if (strcmp(disciplina->alunos[j], matriculaAluno) == 0) {
-                    printf("Aluno já está matriculado nessa disciplina.\n");
-                    jaAdicionado = 1;
-                break;
-            }
-        }
-            if(!jaAdicionado){
-                strcpy(disciplina->alunos[disciplina->numAlunos], matriculaAluno);
-                disciplina->numAlunos++ ; 
-                printf("Aluno matriculado na disciplina com sucesso.");
-            }
-            encontrouAluno = ;
-            break;
-         }
-    }
-    if(!encontrouAluno){
-        printf("Aluno não encontrado.\n")
-    }  
+    printf("Erro: limite de disciplinas atingido.\n");
+    return -3; // Indica que o limite foi atingido
 }
 
-//Função para excluir aluno em uma disciplina. 
-void excluirAlunoDisciplina(materias *disciplina){
-    printf("Entrou na função excluirAlunoDisciplina.\n") //Debug
-    if(disciplina->numAlunos == 0){
-        printf("Nenhum aluno foi matriculado nessa disciplina.\n");
-        return;
+//Função para adicionar aluno em uma disciplina
+void adicionarAlunoDisciplina(materias *disciplina, pessoas *alunos, int max_Alunos) {
+    printf("Entrou na função adicionarAlunoDisciplina.\n"); // Debug
+
+    // Verifica se a disciplina ainda tem espaço para mais alunos
+    if (disciplina->numAlunos >= Max_Alunos_Disciplinas) {
+        printf("A disciplina já atingiu o número máximo de alunos.\n");
+        return; // Sai da função se não há espaço
     }
-    char matriculaAluno[11];
-    printf("Entrou na função excluirAlunoDisciplina.\n"); // Debug
-    
+
+    // Procura a matrícula do aluno no cadastro geral
+    int matriculaAluno;
+    printf("Informe a matrícula do aluno que deseja incluir na disciplina:\n");
+    scanf("%d", &matriculaAluno); // Lê a matrícula como um número inteiro
+
+    // Verifica se a matrícula é de um aluno
+    if (verificarMatricula(matriculaAluno, alunos, max_Alunos)) {
+        // Verifica se o aluno já está matriculado na disciplina
+        for (int j = 0; j < disciplina->numAlunos; j++) {
+            if (disciplina->numAlunos[j] == matriculaAluno) {
+                printf("Aluno já está matriculado nessa disciplina.\n");
+                return; // Sai da função se já foi encontrado
+            }
+        }
+
+        // Adiciona o aluno à disciplina
+        disciplina->alunos[disciplina->numAlunos] = matriculaAluno;
+        disciplina->numAlunos++;
+        printf("Aluno matriculado na disciplina com sucesso.\n");
+    } else {
+        // Mensagem caso o aluno não tenha sido encontrado
+        printf("Aluno não encontrado.\n");
+    }
+}
+
+//Função para excluir aluno em uma disciplina.
+void desmatricularAlunoDisciplina(materias *disciplina) {
+    printf("Entrou na função desmatricularAlunoDisciplina.\n"); // Debug
+
     if (disciplina->numAlunos == 0) {
         printf("Nenhum aluno foi matriculado nessa disciplina.\n");
         return;
     }
-    
-    char matriculaAluno[12];
+
+    int matriculaAluno;
     printf("Informe a matrícula do aluno que deseja remover:\n");
-    fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
-    matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
-            int encontrouAluno = 0;
+    scanf("%d", &matriculaAluno);
     
+    // Verifica se a matrícula do aluno é válida
+    if (!verificarMatricula(matriculaAluno, disciplina->alunos, disciplina->numAlunos)) {
+        printf("Matrícula do aluno inválida ou não cadastrada.\n");
+        return; // Sai da função se a matrícula for inválida
+    }
+
+    int encontrouAluno = 0; // Inicializa a variável para controlar se encontrou o aluno
+
     for (int i = 0; i < disciplina->numAlunos; i++) {
-        if (strcmp(disciplina->alunos[i], matriculaAluno) == 0) {
+        if (disciplina->numAlunos[i] == matriculaAluno) {
+            // Move todos os alunos subsequentes para a esquerda
             for (int j = i; j < disciplina->numAlunos - 1; j++) {
-                strcpy(disciplina->alunos[j], disciplina->alunos[j + 1]);
+                disciplina->numAlunos[j] = disciplina->numAlunos[j + 1];
             }
-            disciplina->numAlunos--;
+            disciplina->numAlunos--; // Diminui o contador de alunos
             printf("Aluno removido com sucesso da disciplina.\n");
-            encontrouAluno = 1;
-            break;
+            encontrouAluno = 1; // Marca que encontrou e removeu o aluno
+            break; // Sai do loop após encontrar e remover
         }
     }
 
-    if(!encontrouALuno){
+    // Mensagem caso o aluno não tenha sido encontrado
+    if (!encontrouAluno) {
         printf("Aluno não encontrado na disciplina.\n");
     }
 }
 //Função para validar nome
   int validarNome(char nome[]){
-    printf("Entrou na função validarNome.\n")//debug
+    printf("Entrou na função validarNome.\n");//debug
     if(strlen(nome)<3){
         printf("Erro: O nome deve ter pelo menos 3 caracteres.\n");
         return 0;
@@ -326,29 +343,30 @@ void excluirAlunoDisciplina(materias *disciplina){
   }
 
 //Função validar CPF
-  int validarCPF(char cpf[]){
-    printf("Entrou na função validarCPF.\n")//debug
-    if(strlen(cpf)!=14 ){
-        printf("Erro: O CPF deve ser informado com 11 dígitos.\n");
+  int validarCPF(char cpf[]) {
+    printf("Entrou na função validarCPF.\n");//debug
+    if (strlen(cpf) != 14) { // 14 para o formato xxx.xxx.xxx-xx
+        printf("Erro: O CPF deve ser informado no formato xxx.xxx.xxx-xx.\n");
         return 0;
     }
     return 1;
-  }
+}
 
 //Função Validar Sexo
-  int validarSexo(char sexo){
-    printf("Entrou na função validarSexo.\n")//debug
-    sexo = toupper(sexo); //Transforma a entrada em maiúsculo
-    if(sexo != 'M' && sexo != 'F'){
-        printf("Sexo inválido. use 'M' para sexo masculino ou 'F' para o sexo feminino.\n");
-        return 0;
+  int validarSexo(char sexo) {
+    printf("Entrou na função validarSexo.\n"); // Debug
+    sexo = toupper(sexo); // Transforma a entrada em maiúsculo
+
+    if (sexo != 'M' && sexo != 'F') {
+        printf("Sexo inválido. Use 'M' para sexo masculino ou 'F' para sexo feminino.\n");
+        return 0; // Indica que a validação falhou
     }
-    return 1;
-  }
-  
+    return 1; 
+}
+
 //Função validar data
   int validarData(data aniversario){
-    printf("Entrou na função validarData.\n")//debug
+    printf("Entrou na função validarData.\n");//debug
     if(aniversario.dia<1 || aniversario.dia>31 || aniversario.mes <1 || aniversario.mes >12 || aniversario.ano < 1900){
         printf("Data de nascimento inválida.\n");
         return 0;
@@ -356,44 +374,13 @@ void excluirAlunoDisciplina(materias *disciplina){
     return 1;
   }
 
-// void listarAluno(pessoas *alunos, int Max_Alunos){
-//     printf("Entrando na função listarAluno...\n\n");
-//     printf("Lista de alunos: \n");
-//     for(int i =0; i<Max_Alunos; i++){
-//         if(alunos[i].matricula[0] !='\0'){
-//             printf("Nome: %s\n", alunos[i].nome);
-//             printf("Matrícula: %s\n", alunos[i].matricula);
-//             printf("CPF: %s\n", alunos[i].cpf);
-//             printf("Sexo: %s\n", alunos[i].sexo);
-//             printf("Data de nascimento: %02d/%02d/%04d \n", alunos[i].aniversario.dia, alunos[i].aniversario.mes, alunos[i].aniversario.ano);
-//             printf("--------------------------------\n");
-//         }
-//     }
-// }
-
-// void listarProfessor(pessoas *professores, int Max_Professores){
-//     printf("Entrando na função listarProfessor...\n\n");
-//     printf("Lista de Professores:\n");
-//     for(int i = 0; i< Max_Professores; i ++){
-//         if(professores[i].matricula[0] != '\0'){
-//             printf("Nome: %s\n", professores[i].nome);
-//             printf("Matrícula: %s\n", professores[i].matricula);
-//             printf("CPF: %s\n", professores[i].cpf);
-//             printf("Sexo: %s\n", professores[i].sexo);
-//             printf("Data de nascimento: %02d/%02d/%04d \n", professores[i].aniversario.dia, professores[i].aniversario.mes, professores[i].aniversario.ano);
-//             printf("--------------------------------\n");
-        
-//         }
-//     }
-// }
-
 //função para listagem de pessoas
-void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa){
+void listarPessoa(pessoas *pessoa, int Max_Pessoas, char tipoPessoa){
   printf("Entrando na função listarPessoa...\n\n");
   int contador=0; //conta o número de registros que foram listados
   printf("Lista de %s cadastrados:\n", (tipoPessoa ==1) ? "Alunos":"Professores");
   for(int i = 0; i< Max_Pessoas; i ++){
-    if(pessoa[i].matricula[0] != '\0'){
+    if (pessoa[i].matricula != 0){
       printf("Nome: %s\n", pessoa[i].nome);
       printf("Matrícula: %s\n", pessoa[i].matricula);
       printf("CPF: %s\n", pessoa[i].cpf);
@@ -409,14 +396,15 @@ void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa){
 }
 
 //Função que atualiza os dados de pessoas
-void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
-    char matricula[12];
-    printf("Informe o número da matrícula do %s que deseja atualizar os dados.\n", (tipoPessoa ==1) ? "aluno" : "professor");
-    fgets(matricula, sizeof(matricula), stdin);
-    matricula[strcspn(matricula, "\n")] = 0; // Remove o '\n' do final da string
+void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
+    int matricula;
+    printf("Informe o número da matrícula do %s que deseja atualizar os dados:\n", (tipoPessoa == 1) ? "aluno" : "professor");
+    scanf("%d", &matricula); // Lê a matrícula como um inteiro
 
+    int encontrado = 0; // Para verificar se a matrícula foi encontrada
     for (int i = 0; i < maxPessoas; i++) {
-        if (strcmp(cadastro[i].matricula, matricula) == 0) { // Compara a matrícula e lista os dados previamente inseridos
+        if (cadastro[i].matricula == matricula) { // Compara a matrícula
+            encontrado = 1; // Matrícula encontrada
             printf("Cadastro encontrado:\n");
             printf("Nome: %s\n", cadastro[i].nome);
             printf("CPF: %s\n", cadastro[i].cpf);
@@ -425,6 +413,7 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
             // Atualiza o nome
             printf("Informe o novo nome (deixe em branco para não alterar):\n");
             char novoNome[50];
+            getchar(); // Para consumir o caractere de nova linha que ficou no buffer
             fgets(novoNome, sizeof(novoNome), stdin);
             novoNome[strcspn(novoNome, "\n")] = 0; // Remove o '\n' do final da string
             if (strlen(novoNome) > 0) {
@@ -448,16 +437,18 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa){
                 printf("Data de nascimento atualizada.\n");
             }
 
-            printf("%s atualizado com sucesso.\n", tipoPessoa == 1 ? "Aluno" : "Professor");
-            return;
+            printf("%s atualizado com sucesso!\n", tipoPessoa == 1 ? "Aluno" : "Professor");
+            return; // Sai da função após a atualização
         }
     }
 
-    printf("%s não encontrado.\n", tipoPessoa == 1 ? "Aluno" : "Professor");
+    if (!encontrado) {
+        printf("%s não encontrado.\n", tipoPessoa == 1 ? "Aluno" : "Professor");
+    }
 }
 
 //Função atualizar Disciplina
-void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
+void atualizarDisciplina(materias *disciplinas, Max_Disciplinas, pessoas *professores, int max_Professores) {
     char codigoDisciplina[9];
     printf("Informe o código da disciplina que deseja atualizar:\n");
     fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
@@ -498,18 +489,23 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             matriculaProf[strcspn(matriculaProf, "\n")] = '\0'; // Remove o '\n'
 
             if (strlen(matriculaProf) > 0) {
-                // Procura o professor pela matrícula e atrela à disciplina
-                int professorValido = 0;
-                for (int j = 0; j < max_Professores; j++) {
-                    if (strcmp(professores[j].matricula, matriculaProf) == 0) {
-                        strcpy(disciplinas[i].professor, professores[j].nome);
-                        professorValido = 1;
-                        break;
+                // Verifica se a matrícula do professor é válida
+                if (!verificarMatricula(matriculaProf, "2024117", professores, max_Professores)) {
+                    printf("Matrícula do professor inválida ou não cadastrada.\n");
+                } else {
+                    // Procura o professor pela matrícula e atrela à disciplina
+                    int professorValido = 0;
+                    for (int j = 0; j < max_Professores; j++) {
+                        if (strcmp(professores[j].matricula, matriculaProf) == 0) {
+                            strcpy(disciplinas[i].professor, professores[j].nome);
+                            professorValido = 1;
+                            break;
+                        }
                     }
-                }
 
-                if (!professorValido) {
-                    printf("Professor não encontrado.\n");
+                    if (!professorValido) {
+                        printf("Professor não encontrado.\n");
+                    }
                 }
             }
 
@@ -520,5 +516,71 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 
     if (!encontrou) {
         printf("Disciplina não encontrada.\n");
+    }
+}
+
+//Função exclui disciplina
+void excluirDisciplina(materias *disciplinas, int max_Disciplinas) {
+    char codigoDisciplina[9];
+    printf("Informe o código da disciplina que deseja excluir:\n");
+    fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
+    codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0'; // Remove o '\n' ao final
+
+    // Busca a disciplina pelo código
+    int encontrou = 0;
+    for (int i = 0; i < max_Disciplinas; i++) {
+        if (strcmp(disciplinas[i].codigo, codigoDisciplina) == 0) {
+            encontrou = 1;
+            printf("Disciplina encontrada: %s\n", disciplinas[i].nome);
+
+            // Limpa os dados da disciplina excluída
+            disciplinas[i].codigo[0] = '\0'; // Marca como não cadastrada
+            disciplinas[i].nome[0] = '\0';   // Limpa o nome
+            disciplinas[i].semestre = 0;      // Limpa o semestre
+            disciplinas[i].professor[0] = '\0'; // Limpa o professor
+            disciplinas[i].numAlunos = 0;    // Reseta o número de alunos
+
+            printf("Disciplina excluída com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Disciplina não encontrada.\n");
+    }
+}
+
+//Excluir pessoa
+void excluirPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
+    int matricula; // Variável para armazenar a matrícula como int
+    printf("Informe a matrícula a ser excluída:\n");
+    scanf("%d", &matricula); // Lê a matrícula como um inteiro
+
+    int encontrado = 0; // Para verificar se a matrícula foi encontrada
+    for (int i = 0; i < maxPessoas; i++) {
+        if (cadastro[i].matricula == matricula) { // Verifica se a matrícula corresponde
+            encontrado = 1; // Matrícula encontrada
+            
+            if (tipoPessoa == 1) { // Aluno
+                printf("Aluno %s excluído com sucesso!\n", cadastro[i].nome);
+            } else if (tipoPessoa == 2) { // Professor
+                printf("Professor %s excluído com sucesso!\n", cadastro[i].nome);
+            }
+            
+            // Limpa os dados do registro excluído
+            cadastro[i].matricula = 0; // Marca a matrícula como "vazia"
+            cadastro[i].nome[0] = '\0'; // Limpa o nome
+            cadastro[i].cpf[0] = '\0'; // Limpa o CPF
+            cadastro[i].sexo = '\0'; // Limpa o sexo
+            cadastro[i].aniversario.dia = 0; // Limpa o dia
+            cadastro[i].aniversario.mes = 0; // Limpa o mês
+            cadastro[i].aniversario.ano = 0; // Limpa o ano
+
+            break; // Sai do loop após a exclusão
+        }
+    }
+
+    if (!encontrado) {
+        printf("Matrícula não encontrada.\n");
     }
 }

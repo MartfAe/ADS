@@ -1,9 +1,12 @@
-﻿#include <stdio.h>
-#include <locale.h>
-#include "escola.h"
+﻿#include "escola.h"
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
+#include <string.h>
+#include <locale.h>
+#include <stdbool.h>
 
 int main(void) {
     setlocale(LC_ALL, "Portuguese");
@@ -43,14 +46,17 @@ int main(void) {
                         case 1: { //Cadastro de novo aluno
                             printf("Chamando cadastrarPessoa...\n"); // Debug
                             cadastrarPessoa(aluno, Max_Alunos, 1);
+                            contadorAluno++;
                             break;
                         }
                         case 2: { //Atualizar dados de aluno
-                            //inserir função de atualizar pessoa (aluno)
+                            printf("Chamando atualizarPessoa...\n"); // Debug
+                            atualizarPessoa(aluno, Max_Alunos, 1);
                             break;
                         }
                         case 3: { //Excluir aluno
-                            //inserir função de excluir pessoa (aluno)
+                            printf("Chamando excluirPessoa...\n"); // Debug
+                            excluirPessoa(aluno, Max_Alunos, 1);
                             break;
                         }
                         // Outros casos se forem adicionados ao sistema...
@@ -74,14 +80,17 @@ int main(void) {
                         case 1: { //Cadastro de novo professor
                             printf("Chamando cadastrarPessoa...\n"); // Debug
                             cadastrarPessoa(professor, Max_Professores, 2);
+                            contadorProfessor++;
                             break;
                         }
                         case 2: { //Atualizar dados de professor
-                            //inserir função de atualizar pessoa (professor)
+                            printf("Chamando atualizarPessoa...\n\n");
+                            atualizarPessoa(professor, Max_Professores, 2);
                             break;
                         }
                         case 3: { //Excluir professor
-                            //inserir função de excluir pessoa (professor)
+                            printf("Chamando excluirPessoa...\n\n");
+                             excluirPessoa(professor, Max_Professores, 2);
                             break;
                         }
                         // Outros casos se forem adicionados ao menu professor...
@@ -108,11 +117,13 @@ int main(void) {
                             break;
                         }
                         case 2: { //Atualizar dados de disciplina
-                            //inserir função de atualizar disciplina
+                            printf("CHamando atualizarDisciplina...\n\n");
+                            atualizarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
                             break;
                         }
                         case 3: { //Excluir disciplina
-                            //inserir função de excluir disciplina
+                            printf("Chamando excluirDisciplina...\n\n");
+                            excluirDisciplina(disciplinas, Max_Disciplinas);
                             break;
                         }
                         // Outros casos se forem adicionados ao menu disciplina...
@@ -134,11 +145,11 @@ int main(void) {
                             break;
                         }
                         case 1: { //Matricular aluno em uma disciplina
-                            //inserir função de matricular aluno em disciplina
+                            adicionarAlunoDisciplina(disciplinas, aluno, Max_Alunos);
                             break;
                         }
                         case 2: { //Desmatricular aluno de uma disciplina
-                            //inserir função de desmatricular aluno disciplina
+                            desmatricularAlunoDisciplina(disciplinas);
                             break;
                         }
                         // Outros casos se forem adicionados ao menu ajuste de disciplina...
@@ -205,7 +216,7 @@ int main(void) {
                         }
                         case 12: { //listagem dos dados de uma disciplina
                             //inserir função para listagem de todos os dados de uma disciplina selecionada pelo usuário
-                            break
+                            break;
                         }
                         case 13: { //listagem dos aniversariantes do mês
                             //inserir função para listagem de todos as pessoas que fazem aniversário no mês corrente e suas respectivas datas de aniversário (dia/mês)
