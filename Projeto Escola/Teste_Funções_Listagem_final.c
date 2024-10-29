@@ -1,4 +1,4 @@
-
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -96,7 +96,7 @@ int contador=0; //conta o número de registros que foram listados
         if(sexo!='m' && sexo!='M' && sexo!='f' && sexo!='F'){
             printf("opção inválida\n");
         }
-        //system("clear")
+        system("clear")
         else{
             printf("Lista de %s do sexo %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores", (sexo == 'M'||sexo == 'm') ? "masculino":"feminino");
             separadorTexto();
@@ -238,9 +238,12 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         char letras[50];
         printf("Digite o nome a ser pesquisado (mínimo de 3 letras): ");
     	fgets(letras, sizeof(letras), stdin);
+	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
+
         letras[strcspn(letras, "\n")] = 0;
-        //system("clear")
-        
+        system("clear")
+	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
+
         if(strlen(letras)<3){
         	printf("Entrada inválida. Devem ser inseridas ao menos 3 letras");
 		}
@@ -303,8 +306,9 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
         char codigo[8];
         printf("Digite o código da disciplina escolhida: \n");
         fgets(codigo,sizeof(codigo),stdin);
+	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
         codigo[strcspn(codigo, "\n")] = '\0';
-        //system("clear")
+        system("clear")
         for(int i = 0; i< Max_Disciplinas; i++){
            if(strcmp(disciplina[i].codigo,"666")!=0 && strcmp(disciplina[i].codigo,codigo)==0){
                //se o código for diferente de 666, significa que a posição está ocupada
