@@ -1,10 +1,10 @@
 #ifndef ESCOLA_H
 #define ESCOLA_H
 
-#define Max_Alunos 6;
-#define Max_Professores 6 ;
-#define Max_Disciplinas 6 ;
-#define Max_Alunos_Disciplinas 3 ;
+#define Max_Alunos 6
+#define Max_Professores 6
+#define Max_Disciplinas 6
+#define Max_Alunos_Disciplinas 3
 
 
 #define prefixo_Aluno 2024106
@@ -62,10 +62,8 @@ int validarNome(char nome[]);
 int validarCPF(char cpf[]);
 int validarSexo(char sexo);
 int validarData(data aniversario);
-int validarMatricula(int matricula);
-int validarCodigoDisciplina(char codigo[]);
-int validarSemestre(int semestre);
 int verificarMatricula(int matricula, pessoas *cadastro, int Max_Pessoas);
+
 
 
 // Contadores para gerenciar matrículas
