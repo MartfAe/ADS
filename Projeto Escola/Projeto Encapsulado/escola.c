@@ -149,9 +149,9 @@ int verificarMatricula(int matricula, pessoas *cadastro, int Max_Pessoas) {
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
     for (int i = 0; i < maxPessoas; i++) {
         if (cadastro[i].matricula == 0) {  // Verifica se o campo matrícula está vazio
-            if (tipoPessoa == 'A') {
+            if (tipoPessoa == '1') {
                 gerarMatriculaAluno(&cadastro[i].matricula);
-            } else if (tipoPessoa == 'P') {
+            } else if (tipoPessoa == '2') {
                 gerarMatriculaProfessor(&cadastro[i].matricula);
             }
             // Loop para o nome
