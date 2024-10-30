@@ -910,7 +910,7 @@ int contador=0; //conta o número de registros que foram listados
 		//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(strcmp(pessoa[i].matricula, "666")!=0){
+            if(strcmp(pessoa[i].matricula, "")!=0){
                 //se a matrícula for diferente de 666, significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(pessoa,i);
@@ -1327,71 +1327,86 @@ int main(void) {
                         case 1: { //listagem de alunos sem ordenação do vetor
                             //inserir função para listagem de pessoas(alunos) sem ordenação do vetor
                             listarPessoa(aluno,strlen(aluno),1,"nenhuma");
+                            printf("Pressione qualquer tecla e enter para continuar:");
+                            getchar();
                             break;
                         }
                         case 2: { //listagem de alunos por sexo
                             //inserir função para listagem de pessoas(alunos) por sexo informado
                             listarPessoa(aluno,strlen(aluno),1,"sexo");
+                            getchar();
                             break;
                         }
                         case 3: { //listagem de alunos por ordem alfabética
                             //inserir função para listagem de pessoas(alunos) com ordenação do vetor em ordem alfabética
                             listarPessoa(aluno,strlen(aluno),1,"alfabetica");
+                            getchar();
                             break;
                         }
                         case 4: { // listagem de alunos por ordem de nascimento
                             //inserir função para listagem de pessoas(alunos) com ordenação do vetor em ordem de nascimento
                             listarPessoa(aluno,strlen(aluno),1,"nascimento");
+                            getchar();
                             break;
                         }
                         case 5: { // listagem de alunos matriculados em menos de 3 disciplinas
                             //inserir função para listagem de alunos matriculados em menos de 3 disciplinas
                             listarPessoa(aluno,strlen(aluno),1,"matriculaMenos3");
+                            getchar();
                             break;
                         }
                         case 6: { //listagem de professor sem ordenação do vetor
                             //inserir função para listagem de pessoas(professor) sem ordenação do vetor
                             listarPessoa(professor,strlen(professor),2,"nenhuma");
+                            getchar();
                             break;
                         }
                         case 7: { //listagem de professor por sexo
                             //inserir função para listagem de pessoas(professor) por sexo informado
                             listarPessoa(professor,strlen(professor),2,"sexo");
+                            getchar();
                             break;
                         }
                         case 8: { //listagem de professor por ordem alfabética
                             //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem alfabética
                             listarPessoa(professor,strlen(professor),2,"alfabetica");
+                            getchar();
                             break;
                         }
                         case 9: { // listagem de professor por ordem de nascimento
                             //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem de nascimento
                             listarPessoa(professor,strlen(professor),2,"nascimento");
+                            getchar();
                             break;
                         }
                         case 10: { //listagem de disciplinas cadastradas
                             //inserir função para listagem de todas as disciplinas cadastradas (nomes das disciplinas)
                             listarDisciplinas(disciplinas,strlen(disciplinas),"nenhuma");
+                            getchar();
                             break;
                         }
                         case 11: { //listagem de disciplinas com mais de 40 vagas
                             //inserir função para listagem de disciplinas com mais de 40 vagas e pofessor correspondente (nome da disciplina e nome do professor)
                             listarDisciplinas(disciplinas,strlen(disciplinas),"mais40");
+                            getchar();
                             break;
                         }
                         case 12: { //listagem dos dados de uma disciplina
                             //inserir função para listagem de todos os dados de uma disciplina selecionada pelo usuário
                             listarDisciplinas(disciplinas,strlen(disciplinas),"uma");
+                            getchar();
                             break;
                         }
                         case 13: { //listagem dos aniversariantes do mês
                             //inserir função para listagem de todos as pessoas que fazem aniversário no mês corrente e suas respectivas datas de aniversário (dia/mês)
                             listarTodasPessoas(aluno,strlen(aluno),professor,strlen(professor),"aniversariantes");
+                            getchar();
                             break;
                         }
                         case 14: { //listagem de todas as pessoas cadastradas
                             //inserir função para listagem de pessoas(todas) com base nas letras informadas
                             listarTodasPessoas(aluno,strlen(aluno),professor,strlen(professor),"letras");
+                            getchar();
                             break;
                         }
                         // Outros casos se forem adicionados ao menu ajuste de relatórios...
