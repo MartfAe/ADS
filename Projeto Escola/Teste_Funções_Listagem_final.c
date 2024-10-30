@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
+#include <wchar.h>
 
 #define Max_Alunos 100
 #define Max_Professores 100
@@ -67,6 +68,23 @@ void printCadastroDisciplina(materias *disciplina, int index, bool comAluno){ //
     }
     separadorTexto();
     printf("\n");
+}
+
+void converterParaMaiusculas(char *codigo) {
+    // Configura a localidade para suportar caracteres multibyte
+    setlocale(LC_ALL, "");
+
+    // Converte para wide characters
+    wchar_t wide_codigo[100];
+    mbstowcs(wide_codigo, codigo, strlen(codigo) + 1); // +1 para incluir o terminador nulo
+
+    // Converte cada caractere para maiúscula
+    for (int i = 0; wide_codigo[i] != L'\0'; i++) {
+        wide_codigo[i] = towupper(wide_codigo[i]);
+    }
+
+    // Converte de volta para char
+    wcstombs(codigo, wide_codigo, sizeof(wide_codigo));
 }
 
 void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenacao[20]){
@@ -238,11 +256,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         char letras[50];
         printf("Digite o nome a ser pesquisado (mínimo de 3 letras): ");
     	fgets(letras, sizeof(letras), stdin);
-    	for(int i=0; i<strlen(letras); i++){ //Garante que todas as letras armazenadas sejam maíusculas
-            if(letras[i]>= 97 && letras[i]<=122){
-                letras[i]= letras[i]-32;
-            }
-        }
+        converterParaMaiusculas(letras);
 
         letras[strcspn(letras, "\n")] = 0;
         // system("clear");
@@ -306,6 +320,7 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
         char codigo[8];
         printf("Digite o código da disciplina escolhida: \n");
         fgets(codigo,sizeof(codigo),stdin);
+        converterParaMaiusculas(codigo);
         for(int i=0; i<strlen(codigo); i++){ //Garante que todas as letras armazenadas sejam maíusculas
             if(codigo[i]>= 97 && codigo[i]<=122){
                 codigo[i]= codigo[i]-32;
@@ -330,7 +345,7 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
  
 int main(void)
 {
-    setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "");
     srand(time(NULL));
     
     // Obtém o tempo atual
