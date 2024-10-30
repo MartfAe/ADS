@@ -372,7 +372,6 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                 }
             } while (strlen(novaDisciplina.codigo) > 8 || strlen(novaDisciplina.codigo) == 0);
             
-            while (getchar() != '\n');
 
             novaDisciplina.semestre = 0 ;
 
@@ -382,7 +381,6 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                 
                 printf("Informe o semestre da disciplina (ex xxxx.y):\n");
                 char input[20]; 
-                getchar;
                 fgets(input, sizeof(input), stdin);
                 // Tenta ler o semestre
                 if (sscanf(input, "%f", &novaDisciplina.semestre) != 1 || novaDisciplina.semestre <= 0) {
@@ -397,7 +395,6 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                 printf("Informe o número de vagas da disciplina:\n");
                 if (scanf("%d", &novaDisciplina.numVagas) != 1 || novaDisciplina.numVagas <= 0) {
                     printf("Número de vagas inválido. Informe um número positivo.\n");
-                    while (getchar() != '\n'); // Limpa o buffer
                 } else {
                     while (getchar() != '\n'); 
                     break; 
