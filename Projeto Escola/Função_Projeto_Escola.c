@@ -360,6 +360,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             // Validação do código da disciplina
             do {
                 printf("Informe o código da disciplina (máx 8 caracteres):\n");
+                getchar();
                 fgets(novaDisciplina.codigo, sizeof(novaDisciplina.codigo), stdin);
                 novaDisciplina.codigo[strcspn(novaDisciplina.codigo, "\n")] = '\0';
 
@@ -373,7 +374,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             // Validação do semestre
            int validInput = 0; 
             do {
-                printf("Informe o semestre da disciplina (ex: 2024.1):\n");
+                printf("Informe o semestre da disciplina (ex xxxx.y):\n");
                 char input[20]; // Buffer para a entrada do usuário
                 fgets(input, sizeof(input), stdin);
                 
@@ -440,7 +441,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             printf("\nConfirme os dados da disciplina:\n");
             printf("Nome: %s\n", novaDisciplina.nome);
             printf("Código: %s\n", novaDisciplina.codigo);
-            printf("Semestre: %.1f\n", novaDisciplina.semestre);
+            printf("Semestre: %f\n", novaDisciplina.semestre);
             printf("Número de Vagas: %d\n", novaDisciplina.numVagas);
             printf("Professor: %s\n", novaDisciplina.professor);
             
@@ -659,7 +660,7 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
         disciplinas[encontrou].semestre = novoSemestre;
         printf("Semestre atualizado.\n");
     } else {
-        printf("Semestre mantido como: %.1f\n", disciplinas[encontrou].semestre);
+        printf("Semestre mantido como: %f\n", disciplinas[encontrou].semestre);
     }
     while (getchar() != '\n'); 
 
@@ -728,6 +729,14 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, int tipoPessoa) {
                         setProfessor(cadastro, i, professorAtual);
                     }
                 }
+
+                // Atualiza a data de nascimento
+            printf("Informe a nova data de nascimento separada por espaço: dd mm aaaa (ou pressione enter para manter):\n");
+            char dataNascimento[20];
+            fgets(dataNascimento, sizeof(dataNascimento), stdin);
+            if (sscanf(dataNascimento, "%d %d %d", &cadastro[i].aniversario.dia, &cadastro[i].aniversario.mes, &cadastro[i].aniversario.ano) == 3) {
+                printf("Data de nascimento atualizada.\n");
+            }
 
                 printf("Dados atualizados com sucesso!\n");
                 return;
