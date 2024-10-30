@@ -497,6 +497,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
     // Seleção da disciplina pelo código
     char codigoDisciplina[9];
     printf("Informe o código da disciplina para adicionar o aluno:\n");
+    getchar();
     fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
     codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';  // Remover newline
 
@@ -518,12 +519,21 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
         return;
     }
 
-    // Adicionar aluno na disciplina
-    setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
-    disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
-    printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
-}
+    // Confirmação antes de adicionar o aluno
+    char confirmacao;
+    printf("Você está prestes a adicionar o aluno %s à disciplina %s. Deseja continuar? (s/n): ", 
+            getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
+    scanf(" %c", &confirmacao); // Espaço antes de %c para consumir qualquer newline remanescente
 
+    if (confirmacao == 's' || confirmacao == 'S') {
+        // Adicionar aluno na disciplina
+        setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
+        disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
+        printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
+    } else {
+        printf("Operação cancelada. O aluno não foi adicionado à disciplina.\n");
+    }
+}
 
 // Função para desmatricular um aluno de uma disciplina
 void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
