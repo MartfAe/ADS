@@ -23,7 +23,7 @@ typedef struct {
 
 typedef struct {
     char matricula[Max_Matricula];
-    char sexo, nome[50], cpf[15];
+    char sexo, nome[50], cpf[14];
     data aniversario;
 } pessoas;
 
@@ -221,13 +221,20 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
                 toUpperString(novoCadastro.nome); 
             } while (!validarNome(novoCadastro.nome));
 
-            // Loop para o CPF
-            do {
-                printf("Informe o CPF no seguinte formato xxx.xxx.xxx-xx:\n");
-                fgets(novoCadastro.cpf, sizeof(novoCadastro.cpf), stdin);
-                novoCadastro.cpf[strcspn(novoCadastro.cpf, "\n")] = '\0'; 
-            } while (!validarCPF(novoCadastro.cpf));
+           //Loop para o cpf
+           do {
+                char cpf[15];  // Buffer para ler o CPF
+                printf("Informe o CPF no seguinte formato XXX.XXX.XXX-XX:\n");
+                fgets(cpf, sizeof(cpf), stdin); // Lê o CPF para o buffer
+                cpf[strcspn(cpf, "\n")] = '\0';  // Remove a nova linha
 
+                if (validarCPF(cpf)) { // Valida o CPF
+                    strcpy(novoCadastro.cpf, cpf); // Copia para a estrutura
+                } else {
+                    printf("CPF inválido. Tente novamente.\n");
+                }
+            } while (strlen(novoCadastro.cpf) == 0); 
+            
             // Loop para o sexo
             do {
                 printf("Informe o sexo (M/F):\n");
@@ -240,7 +247,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
                 printf("Informe a data de nascimento separada por um espaço (dd mm aaaa):\n");
                 if (scanf("%d %d %d", &novoCadastro.aniversario.dia, &novoCadastro.aniversario.mes, &novoCadastro.aniversario.ano) != 3) {
                     printf("Formato inválido. Tente novamente.\n");
-                    while (getchar() != '\n');  // Limpa o buffer
+                    while (getchar() != '\n');  
                 }
             } while (!validarData(novoCadastro.aniversario));
 
@@ -293,16 +300,17 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
     return 1; // Nome é válido
 }
 
-// Função validar CPF
-int validarCPF(char cpf[]) {
+//Função validar CPF
+int validarCPF(char cpf[]){
     printf("Entrou na função validarCPF.\n"); // debug
+    
+    // Verificar se o CPF tem exatamente 14 caracteres
     if (strlen(cpf) != 14) {
-        printf("Erro: O CPF deve ser informado com 14 dígitos.\n");
+        printf("Erro: O CPF deve ser informado com 14 dígitos no formato XXX.XXX.XXX-XX.\n");
         return 0;
     }
-    return 1;
+    return 1; 
 }
-
 // Função Validar Sexo
 int validarSexo(char sexo) {
     // Converte o caractere para maiúsculo
@@ -319,7 +327,7 @@ int validarSexo(char sexo) {
 // Função validar data
 int validarData(data aniversario) {
     printf("Entrou na função validarData.\n"); // debug
-    if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900) {
+    if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900 || aniversario.ano >2024) {
         printf("Formato de data inválido. Tente novamente.\n");
         return 0;
     }
@@ -420,6 +428,12 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 void adicionarAlunoDisciplina(materias *disciplina, int maxDisciplinas, pessoas *alunos, int maxAlunos, char matriculaAluno[]) {
     int alunoEncontrado = -1;
 
+    // Verificar se há alunos cadastrados
+    if (maxAlunos <= 0) {
+        printf("Erro: Não há alunos cadastrados.\n");
+        return;
+    }
+
     // Buscar o aluno pela matrícula
     for (int i = 0; i < maxAlunos; i++) {
         if (strcmp(getAluno(alunos, i).matricula, matriculaAluno) == 0) {
@@ -444,6 +458,7 @@ void adicionarAlunoDisciplina(materias *disciplina, int maxDisciplinas, pessoas 
     disciplina->numAlunos++; // Atualiza o número de alunos
     printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplina->nome);
 }
+
 
 // Função para desmatricular um aluno de uma disciplina
 void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
@@ -872,18 +887,23 @@ int main(void) {
                             break;
                         }
                         case 1: { //Matricular aluno em uma disciplina
-                            char matriculaAluno[15]; 
+                            char matriculaAluno[15];
+    
                             printf("Informe a matrícula do aluno que deseja matricular:\n");
+                            getchar(); // Consome o newline deixado por scanf
                             fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
-                            matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
-                            if (disciplinas[0].numAlunos < Max_Alunos_Disciplinas) { // Verifica se existe espaço na disciplina
+                            matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0'; // Remove o newline
+
+                            // Verifica se existe espaço na disciplina
+                            if (disciplinas[0].numAlunos < Max_Alunos_Disciplinas) {
                                 adicionarAlunoDisciplina(&disciplinas[0], Max_Disciplinas, aluno, Max_Alunos, matriculaAluno);
                             } else {
                                 printf("Não há espaço na disciplina para adicionar mais alunos.\n");
                             }
                             break;
-                            
                         }
+                            
+                        
                         case 2: { //Desmatricular aluno de uma disciplina
                             desmatricularAlunoDisciplina(disciplinas, Max_Disciplinas);
                             break;
