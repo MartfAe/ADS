@@ -652,17 +652,29 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
         printf("Professor mantido como: %s\n", disciplinas[encontrou].professor);
     }
 
+    // Atualização do semestre
     float novoSemestre;
-        printf("Informe o novo semestre (ou pressione ENTER para manter o semestre atual: %.1f):\n", disciplinas[encontrou].semestre);
-        if (scanf("%f", &novoSemestre) == 1 && novoSemestre > 0) {
-            disciplinas[encontrou].semestre = novoSemestre;
-            printf("Semestre atualizado.\n");
-        } else {
-            printf("Semestre mantido como: %.1f\n", disciplinas[encontrou].semestre);
-        }
-        while (getchar() != '\n'); 
+    printf("Informe o novo semestre (ou pressione ENTER para manter o semestre atual: %.1f):\n", disciplinas[encontrou].semestre);
+    if (scanf("%f", &novoSemestre) == 1 && novoSemestre > 0) {
+        disciplinas[encontrou].semestre = novoSemestre;
+        printf("Semestre atualizado.\n");
+    } else {
+        printf("Semestre mantido como: %.1f\n", disciplinas[encontrou].semestre);
+    }
+    while (getchar() != '\n'); 
 
-        printf("Atualização concluída.\n");
+    // Atualização do número de vagas
+    int novasVagas;
+    printf("Informe o novo número de vagas (ou pressione ENTER para manter o número atual: %d):\n", disciplinas[encontrou].numVagas);
+    if (scanf("%d", &novasVagas) == 1 && novasVagas > 0) {
+        disciplinas[encontrou].numVagas = novasVagas;
+        printf("Número de vagas atualizado para: %d\n", novasVagas);
+    } else {
+        printf("Número de vagas mantido como: %d\n", disciplinas[encontrou].numVagas);
+    }
+    while (getchar() != '\n'); 
+
+    printf("Atualização concluída.\n");
 }
 
 //Atualização de pessoa
