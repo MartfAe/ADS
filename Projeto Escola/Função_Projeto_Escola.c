@@ -272,6 +272,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
     }
 }
 }
+
 //Função para validar nome
   int validarNome(char nome[]) {
     printf("Entrou na função validarNome.\n"); // Debug
@@ -360,7 +361,6 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             // Validação do código da disciplina
             do {
                 printf("Informe o código da disciplina (máx 8 caracteres):\n");
-                getchar();
                 fgets(novaDisciplina.codigo, sizeof(novaDisciplina.codigo), stdin);
                 novaDisciplina.codigo[strcspn(novaDisciplina.codigo, "\n")] = '\0';
 
@@ -372,8 +372,9 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             } while (strlen(novaDisciplina.codigo) > 8 || strlen(novaDisciplina.codigo) == 0);
 
             // Validação do semestre
-           int validInput = 0; 
+            int validInput = 0; 
             do {
+                getchar();
                 printf("Informe o semestre da disciplina (ex xxxx.y):\n");
                 char input[20]; // Buffer para a entrada do usuário
                 fgets(input, sizeof(input), stdin);
@@ -392,9 +393,8 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                     validInput = 1; // Semestre válido
                 }
             } while (!validInput);
-           
-            while (getchar() != '\n'); 
-            //SOlicita o número de vagas da disciplina
+
+            // Solicita o número de vagas da disciplina
             do {
                 printf("Informe o número de vagas da disciplina:\n");
                 if (scanf("%d", &novaDisciplina.numVagas) != 1 || novaDisciplina.numVagas <= 0) {
@@ -405,9 +405,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                     while (getchar() != '\n'); // Limpa o buffer após a leitura de um inteiro
                     break; // Sai do loop se o número de vagas for válido
                 }
-            } while (1);
-
-            while (getchar() != '\n'); 
+            } while (1); 
 
             // Seleção do professor
             int encontrou = 0; 
@@ -437,11 +435,11 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
                 }
             } while (!encontrou);
         
-        // Exibe os dados cadastrados para confirmação
+            // Exibe os dados cadastrados para confirmação
             printf("\nConfirme os dados da disciplina:\n");
             printf("Nome: %s\n", novaDisciplina.nome);
             printf("Código: %s\n", novaDisciplina.codigo);
-            printf("Semestre: %f\n", novaDisciplina.semestre);
+            printf("Semestre: %.1f\n", novaDisciplina.semestre); // Formatação adequada para impressão
             printf("Número de Vagas: %d\n", novaDisciplina.numVagas);
             printf("Professor: %s\n", novaDisciplina.professor);
             
@@ -733,6 +731,7 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, int tipoPessoa) {
                 // Atualiza a data de nascimento
             printf("Informe a nova data de nascimento separada por espaço: dd mm aaaa (ou pressione enter para manter):\n");
             char dataNascimento[20];
+            getchar();
             fgets(dataNascimento, sizeof(dataNascimento), stdin);
             if (sscanf(dataNascimento, "%d %d %d", &cadastro[i].aniversario.dia, &cadastro[i].aniversario.mes, &cadastro[i].aniversario.ano) == 3) {
                 printf("Data de nascimento atualizada.\n");
