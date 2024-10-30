@@ -15,7 +15,7 @@ void printCadastroDisciplina(materias *disciplina, int index, bool comAluno){ //
     printf("Professor responsável: %s\n",disciplina[index].professor.nome);
     if(comAluno){
     	    printf("Alunos matriculados: ");
-            for(int i=0; i < disciplina->vagasOcup; i++){
+            for(int i=0; i < disciplina[index].vagasOcup; i++){
             printf("%s|",disciplina[index].alunos[i].nome);
         }
     }
