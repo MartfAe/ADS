@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include <locale.h>
+#include <ctype.h>
 
 #define Max_Alunos 3
 #define Max_Professores 3
@@ -245,44 +246,58 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 }
 
 //Função para validar nome
-  int validarNome(char nome[]){
-    printf("Entrou na função validarNome.\n");//debug
-    if(strlen(nome)<3){
+  int validarNome(char nome[]) {
+    printf("Entrou na função validarNome.\n"); // Debug
+
+    // Verifica se o nome tem pelo menos 3 caracteres
+    if (strlen(nome) < 3) {
         printf("Erro: O nome deve ter pelo menos 3 caracteres.\n");
         return 0;
     }
-    return 1;
-  }
 
-//Função validar CPF
-  int validarCPF(char cpf[]){
-    printf("Entrou na função validarCPF.\n");//debug
-    if(strlen(cpf)!=14 ){
+    // Verifica se o nome contém apenas letras e espaços
+    for (int i = 0; nome[i] != '\0'; i++) {
+        if (!isalpha(nome[i]) && nome[i] != ' ') { // Verifica se não é letra ou espaço
+            printf("Erro: O nome não deve conter números ou caracteres especiais.\n");
+            return 0;
+        }
+    }
+
+    return 1; // Nome válido
+}
+
+// Função validar CPF
+int validarCPF(char cpf[]) {
+    printf("Entrou na função validarCPF.\n"); // debug
+    if (strlen(cpf) != 14) {
         printf("Erro: O CPF deve ser informado com 14 dígitos.\n");
         return 0;
     }
     return 1;
-  }
+}
 
-//Função Validar Sexo
-  int validarSexo(char sexo){
-    printf("Entrou na função validarSexo.\n");//debug
-    if(sexo != 'M' && sexo != 'F'){
-        printf("Sexo inválido. use 'M' para sexo masculino ou 'F' para o sexo feminino.\n");
+// Função Validar Sexo
+int validarSexo(char sexo) {
+    // Converte o caractere para maiúsculo
+    sexo = toupper(sexo);
+
+    // Verifica se o sexo é 'M' ou 'F'
+    if (sexo != 'M' && sexo != 'F') {
+        printf("Sexo inválido. Use 'M' para sexo masculino ou 'F' para o sexo feminino.\n");
         return 0;
     }
     return 1;
-  }
-  
-//Função validar data
-  int validarData(data aniversario){
-    printf("Entrou na função validarData.\n");//debug
-    if(aniversario.dia<1 || aniversario.dia>31 || aniversario.mes <1 || aniversario.mes >12 || aniversario.ano < 1900){
+}
+
+// Função validar data
+int validarData(data aniversario) {
+    printf("Entrou na função validarData.\n"); // debug
+    if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900) {
         printf("Data de nascimento inválida.\n");
         return 0;
     }
     return 1;
-  }
+}
 
 // Implementação da função de cadastro de disciplina
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
@@ -420,6 +435,140 @@ void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
         printf("Desmatriculação cancelada.\n");
     }
 }
+
+void atualizarDisciplina(materias *cadastro, int maxDisciplinas) {
+    char codigo[8];
+    printf("Informe o código da disciplina a ser atualizada:\n");
+    scanf("%s", codigo);
+
+    for (int i = 0; i < maxDisciplinas; i++) {
+        // Verifica se o código corresponde à disciplina cadastrada
+        if (strcmp(cadastro[i].codigo, codigo) == 0) {
+            char novoNome[50];
+            char novoProfessor[50];
+            int novoSemestre;
+
+            // Atualiza o nome da disciplina
+            printf("Digite um novo nome para a disciplina (ou pressione Enter para manter):\n");
+            getchar(); // Limpa o buffer do teclado
+            fgets(novoNome, sizeof(novoNome), stdin);
+            novoNome[strcspn(novoNome, "\n")] = '\0'; // Remove a nova linha
+
+            // Se o usuário não digitou nada, mantém o nome atual
+            if (strlen(novoNome) > 0) {
+                strcpy(cadastro[i].nome, novoNome);
+            }
+
+            // Atualiza o professor
+            printf("Digite um novo nome de professor (ou pressione Enter para manter):\n");
+            fgets(novoProfessor, sizeof(novoProfessor), stdin);
+            novoProfessor[strcspn(novoProfessor, "\n")] = '\0'; // Remove a nova linha
+
+            // Se o usuário não digitou nada, mantém o professor atual
+            if (strlen(novoProfessor) > 0) {
+                strcpy(cadastro[i].professor, novoProfessor);
+            }
+
+            // Atualiza o semestre
+            printf("Digite um novo semestre (ou pressione Enter para manter):\n");
+            if (scanf("%d", &novoSemestre) == 1) {
+                cadastro[i].semestre = novoSemestre; // Atualiza o semestre
+            }
+
+            printf("Disciplina atualizada com sucesso!\n");
+            return;
+        }
+    }
+    printf("Código da disciplina não encontrado.\n");
+}
+
+
+// Função para atualizar dados de uma pessoa
+void atualizarPessoa(pessoas *cadastro, int maxPessoas, int tipoPessoa) {
+    char matricula[Max_Matricula];
+    printf("Informe a matrícula da pessoa a ser atualizada:\n");
+    scanf("%s", matricula);
+
+    for (int i = 0; i < maxPessoas; i++) {
+        // Verifica se a matrícula corresponde à que está cadastrada
+        if ((tipoPessoa == 1 && strncmp(cadastro[i].matricula, prefixo_Aluno, strlen(prefixo_Aluno)) == 0) ||
+            (tipoPessoa == 2 && strncmp(cadastro[i].matricula, prefixo_Professor, strlen(prefixo_Professor)) == 0)) {
+            if (strcmp(cadastro[i].matricula, matricula) == 0) {
+                char novoNome[50];  // Tamanho do nome conforme definido na struct
+                char novoCPF[15];   // Tamanho do CPF conforme definido na struct
+                char novoSexo;
+
+                // Atualiza o nome
+                printf("Digite um novo nome (ou pressione Enter para manter):\n");
+                getchar(); // Limpa o buffer do teclado
+                fgets(novoNome, sizeof(novoNome), stdin);
+                novoNome[strcspn(novoNome, "\n")] = '\0'; // Remove a nova linha
+
+                // Se o usuário não digitou nada, mantém o nome atual
+                if (strlen(novoNome) > 0 && validarNome(novoNome)) {
+                    strcpy(cadastro[i].nome, novoNome);
+                }
+
+                // Atualiza o CPF
+                printf("Digite um novo CPF (ou pressione Enter para manter):\n");
+                fgets(novoCPF, sizeof(novoCPF), stdin);
+                novoCPF[strcspn(novoCPF, "\n")] = '\0'; // Remove a nova linha
+
+                // Se o usuário não digitou nada, mantém o CPF atual
+                if (strlen(novoCPF) > 0 && validarCPF(novoCPF)) {
+                    strcpy(cadastro[i].cpf, novoCPF);
+                }
+
+                // Atualiza o sexo
+                printf("Digite um novo sexo (M/F ou pressione Enter para manter):\n");
+                scanf(" %c", &novoSexo); // Lê um único caractere
+
+                // Verifica se o usuário digitou 'M' ou 'F'
+                if (novoSexo == 'M' || novoSexo == 'F') {
+                    cadastro[i].sexo = novoSexo;
+                }
+
+                printf("Dados atualizados com sucesso!\n");
+                return;
+            }
+        }
+    }
+    printf("Matrícula não encontrada.\n");
+}
+
+//Função para excluir pessoa
+void excluirPessoa(pessoas *cadastro, int *maxPessoas, int tipoPessoa) {
+    char matricula[Max_Matricula];
+    printf("Informe a matrícula da pessoa a ser excluída:\n");
+    scanf("%s", matricula);
+
+    for (int i = 0; i < *maxPessoas; i++) {
+        // Verifica se a matrícula corresponde à que está cadastrada
+        if ((tipoPessoa == 1 && strncmp(cadastro[i].matricula, prefixo_Aluno, strlen(prefixo_Aluno)) == 0) ||
+            (tipoPessoa == 2 && strncmp(cadastro[i].matricula, prefixo_Professor, strlen(prefixo_Professor)) == 0)) {
+            if (strcmp(cadastro[i].matricula, matricula) == 0) {
+                // Encontrou a matrícula, solicita confirmação
+                char confirmacao;
+                printf("Você tem certeza que deseja excluir a pessoa %s? (s/n): ", cadastro[i].nome);
+                scanf(" %c", &confirmacao); // Lê a confirmação
+
+                if (confirmacao == 's' || confirmacao == 'S') {
+                    // Excluindo a pessoa
+                    for (int j = i; j < *maxPessoas - 1; j++) {
+                        cadastro[j] = cadastro[j + 1]; // Move os registros para preencher a lacuna
+                    }
+                    (*maxPessoas)--; // Diminui o contador de pessoas
+                    printf("Pessoa excluída com sucesso!\n");
+                } else {
+                    printf("Exclusão cancelada.\n");
+                }
+                return;
+            }
+        }
+    }
+    printf("Matrícula não encontrada.\n");
+}
+
 
 int main(void) {
     setlocale(LC_ALL, "Portuguese");
