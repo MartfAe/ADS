@@ -238,11 +238,14 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         char letras[50];
         printf("Digite o nome a ser pesquisado (mínimo de 3 letras): ");
     	fgets(letras, sizeof(letras), stdin);
-	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
+    	for(int i=0; i<strlen(letras); i++){ //Garante que todas as letras armazenadas sejam maíusculas
+            if(letras[i]>= 97 && letras[i]<=122){
+                letras[i]= letras[i]-32;
+            }
+        }
 
         letras[strcspn(letras, "\n")] = 0;
         // system("clear");
-	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
 
         if(strlen(letras)<3){
         	printf("Entrada inválida. Devem ser inseridas ao menos 3 letras");
@@ -260,7 +263,6 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
     	}
         
 	}
-	// adicionar a lista a partir das letras inseridas(ao menos 3)
     if(contador == 0){
         printf("Não foram encontrados registros");
     }
@@ -300,13 +302,15 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
     }
     else if(strcmp(ordenacao,"uma")==0){ 
 		//se a ordenação foi especificada como dados de uma disciplina
-        //É necessário garantir que quando for feito o cadastro de um novo codigo,
-		//todas as letras estejam maiúculas ou minúsculas
 
         char codigo[8];
         printf("Digite o código da disciplina escolhida: \n");
         fgets(codigo,sizeof(codigo),stdin);
-	//Necessário garantir que as letras sejam todas minúsculas ou maiúsculas
+        for(int i=0; i<strlen(codigo); i++){ //Garante que todas as letras armazenadas sejam maíusculas
+            if(codigo[i]>= 97 && codigo[i]<=122){
+                codigo[i]= codigo[i]-32;
+            }
+        }
         codigo[strcspn(codigo, "\n")] = '\0';
         // system("clear");
         for(int i = 0; i< Max_Disciplinas; i++){
@@ -359,19 +363,19 @@ int main(void)
         
         matricula_Professor[10]++;
         strcpy(professor[i].matricula, matricula_Professor);
-        strcpy(professor[i].nome,"Romiuçu");
+        strcpy(professor[i].nome,"ROMIULÇU");
         strcpy(professor[i].cpf,"000.000.000-00");
         professor[i].sexo='M';
         professor[i].aniversario = (data){.dia = tm_info->tm_mday - i,.mes = tm_info->tm_mon + 1 -i,.ano = tm_info->tm_year + 1900 - i};
         professor[i].disciplinas = i;
     }
   
-    strcpy(professor[5].nome,"Fredi");
-    strcpy(professor[4].nome,"Arcundicionadu");
+    strcpy(professor[5].nome,"FREDI");
+    strcpy(professor[4].nome,"ARCUNDICIONADU");
     
     for(int i=0;i<Max_Disciplinas;i++){
-    	strcpy(disciplinas[i].nome,"Teste");
-		strcpy(disciplinas[i].codigo,"inf0");
+    	strcpy(disciplinas[i].nome,"TESTE");
+		strcpy(disciplinas[i].codigo,"INF01");
 		disciplinas[i].semestre = 2;
 		disciplinas[i].vagasTot = 38+i;
 		disciplinas[i].vagasOcup = i;
@@ -380,28 +384,28 @@ int main(void)
 	}
 	
 
-	strcpy(disciplinas[0].nome,"Com putacao");
-	strcpy(disciplinas[0].codigo,"inf001");
-	strcpy(disciplinas[5].nome,"logica");
-	strcpy(disciplinas[5].codigo,"inf002");
-	strcpy(disciplinas[3].nome,"estruturas");
-	strcpy(disciplinas[3].codigo,"inf003");
+	strcpy(disciplinas[0].nome,"COM PUTAÇÃO");
+	strcpy(disciplinas[0].codigo,"INF009");
+	strcpy(disciplinas[5].nome,"LOGICA");
+	strcpy(disciplinas[5].codigo,"INF002");
+	strcpy(disciplinas[3].nome,"ESTRUTURAS");
+	strcpy(disciplinas[3].codigo,"INF003");
 	
 	
-	strcpy(aluno[0].nome,"joaotestes");
+	strcpy(aluno[0].nome,"JOAOTESTES");
     aluno[0].aniversario = (data){.dia = 28, .mes = 3, .ano = 1998};
-    strcpy(aluno[1].nome,"ana");
+    strcpy(aluno[1].nome,"ANA");
     aluno[1].sexo='F';
     aluno[1].aniversario = (data){.dia = 3, .mes = 10, .ano = 1998};
-    strcpy(aluno[2].nome,"clara");
+    strcpy(aluno[2].nome,"CLARA");
     aluno[2].sexo='F';
     aluno[2].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
-    strcpy(aluno[3].nome,"jorge");
+    strcpy(aluno[3].nome,"JORGE");
     aluno[3].aniversario = (data){.dia = 7, .mes = 9, .ano = 1945};
-    strcpy(aluno[4].nome,"clarice");
+    strcpy(aluno[4].nome,"CLARICE");
     aluno[4].sexo='F';
     aluno[4].aniversario = (data){.dia = 24, .mes = 10, .ano = 2024};
-    strcpy(aluno[5].nome,"tarcio");
+    strcpy(aluno[5].nome,"TARCIO");
     aluno[5].aniversario = (data){.dia = 3, .mes = 3, .ano = 1998};
 
 //	listarPessoa(aluno,Max_Alunos,1,"nenhuma");
