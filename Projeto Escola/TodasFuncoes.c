@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -6,6 +5,7 @@
 #include <stdbool.h>
 #include <locale.h>
 #include <ctype.h>
+#include <conio.h>
 
 #define Max_Alunos 3
 #define Max_Professores 3
@@ -561,6 +561,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
         setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
         disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
         printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
+        pessoas *alunos++;
     } else {
         printf("Operação cancelada. O aluno não foi adicionado à disciplina.\n");
     }
@@ -911,7 +912,7 @@ int contador=0; //conta o número de registros que foram listados
         printf("Lista de %s cadastrados:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
             if(strcmp(pessoa[i].matricula, "")!=0){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada
+                //se a matrícula for diferente de "", significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(pessoa,i);
                 contador++;
@@ -932,8 +933,8 @@ int contador=0; //conta o número de registros que foram listados
             separadorTexto();
             printf("\n");
             for(int i=0;i<Max_Pessoas;i++){
-                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32) && strcmp(pessoa[i].matricula, "666")!=0){
-                    //verifica se a matrícula é diferente de 666 e se o sexo é igual ao informado
+                if((pessoa[i].sexo == sexo||pessoa[i].sexo == sexo-32) && strcmp(pessoa[i].matricula, "")!=0){
+                    //verifica se a matrícula é diferente de "" e se o sexo é igual ao informado
                     printCadastroPessoa(pessoa,i);
                     contador++;
                 }
@@ -959,8 +960,8 @@ int contador=0; //conta o número de registros que foram listados
             }
         printf("Lista de %s cadastrados em ordem alfabética:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(strcmp(alfabetica[i].matricula, "666")!=0){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada
+            if(strcmp(alfabetica[i].matricula, "")!=0){
+                //se a matrícula for diferente de "", significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(alfabetica,i);
                 contador++;
@@ -988,8 +989,8 @@ int contador=0; //conta o número de registros que foram listados
         }
         printf("Lista de %s cadastrados em ordem de nascimento:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(strcmp(pessoa[i].matricula, "666")!=0){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada
+            if(strcmp(pessoa[i].matricula, "")!=0){
+                //se a matrícula for diferente de "", significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 printCadastroPessoa(nascimento,i);
                 contador++;
@@ -1000,8 +1001,8 @@ int contador=0; //conta o número de registros que foram listados
 		// se a ordenação foi especificada para alunos matriculados em menos de 3 disciplinas
         printf("Lista de %s matriculados em menos de três disciplinas:\n\n", (tipoPessoa ==1) ? "Alunos":"Professores");
         for(int i = 0; i< Max_Pessoas; i ++){
-            if(strcmp(pessoa[i].matricula, "666")!=0 && pessoa[i].disciplinas < 3){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada
+            if(strcmp(pessoa[i].matricula, "")!=0 && pessoa[i].disciplinas < 3){
+                //se a matrícula for diferente de "", significa que a posição está ocupada
                 //(matrícula não foi excluída)
                 //foi necessário adicionar uma variável para contar em quantas disciplinas o aluno está matriculado
                 printCadastroPessoa(pessoa,i);
@@ -1036,8 +1037,8 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 	//se a ordenação não foi especificada, listar todos os registros
         printf("Lista de pessoas cadastradas:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
-            if(strcmp(todos[j].matricula, "666")!=0){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada e a matrícula não foi excluída
+            if(strcmp(todos[j].matricula, "")!=0){
+                //se a matrícula for diferente de "", significa que a posição está ocupada e a matrícula não foi excluída
                 printCadastroPessoa(todos,j);
                 contador++;
             }
@@ -1050,8 +1051,8 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         int mes_atual = tm_info->tm_mon + 1;// informa o mês atual
         printf("Lista de aniversariantes do mês:\n\n");
         for(int j = 0; j< Max_Todas_Pessoas; j++){
-            if(strcmp(todos[j].matricula, "666")!=0 && todos[j].aniversario.mes == mes_atual){
-                //se a matrícula for diferente de 666, significa que a posição está ocupada e a matrícula não foi excluída
+            if(strcmp(todos[j].matricula, "")!=0 && todos[j].aniversario.mes == mes_atual){
+                //se a matrícula for diferente de "", significa que a posição está ocupada e a matrícula não foi excluída
                 //verifica se o mês do aniversário é o mês atual
                 printCadastroPessoa(todos,j);
                 contador++;
@@ -1072,7 +1073,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
 		else{
 			printf("Lista de pessoas que contêm as letras '%s':\n\n", letras);
 		    for (int j = 0; j < Max_Todas_Pessoas; j++) {
-		        if (strcmp(todos[j].matricula, "666")!=0) {
+		        if (strcmp(todos[j].matricula, "")!=0) {
 		            if (strstr(todos[j].nome, letras) != NULL) {// Verifica se o nome contém a sequência de letras
 		                printCadastroPessoa(todos, j);
 		                contador++;
@@ -1097,8 +1098,8 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
 		//se a ordenação não foi especificada, listar todos os registros
        printf("Lista de disciplinas cadastradas:\n\n");
        for(int i = 0; i< Max_Disciplinas; i++){
-           if(strcmp(disciplina[i].codigo,"666")!=0){
-               //se o código for diferente de 666, significa que a posição está ocupada
+           if(strcmp(disciplina[i].codigo,"")!=0){
+               //se o código for diferente de "", significa que a posição está ocupada
                //(disciplina não foi excluída)
                printCadastroDisciplina(disciplina, i, false); // print sem alunos
                contador++;
@@ -1110,8 +1111,8 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
 		//com mais de 40 vagas
         printf("Lista de disciplinas com mais de 40 vagas cadastradas:\n\n");
         for(int i = 0; i< Max_Disciplinas; i++){
-           if(strcmp(disciplina[i].codigo,"666")!=0 && disciplina[i].numVagas>40){
-               //se o código for diferente de 666, significa que a posição está ocupada
+           if(strcmp(disciplina[i].codigo,"")!=0 && disciplina[i].numVagas>40){
+               //se o código for diferente de "", significa que a posição está ocupada
                //(disciplina não foi excluída)
                //verifica se tem mais de 40 vagas
                printf("Disciplina: %s\t",disciplina[i].nome);
@@ -1134,8 +1135,8 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
         codigo[strcspn(codigo, "\n")] = '\0';
         // system("clear");
         for(int i = 0; i< Max_Disciplinas; i++){
-           if(strcmp(disciplina[i].codigo,"666")!=0 && strcmp(disciplina[i].codigo,codigo)==0){
-               //se o código for diferente de 666, significa que a posição está ocupada
+           if(strcmp(disciplina[i].codigo,"")!=0 && strcmp(disciplina[i].codigo,codigo)==0){
+               //se o código for diferente de "", significa que a posição está ocupada
                //(disciplina não foi excluída)
                printCadastroDisciplina(disciplina, i, true); // print com alunos
                contador++;
@@ -1147,6 +1148,16 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
     }
 }
 
+
+// função de espera
+void espera(){
+    char tecla='.';
+    printf("\ninsira '0' para voltar ao menu\n");
+    while(tecla!='0'){
+        scanf("%c",&tecla);
+    }
+    
+}
 
 //----------------------------------------------------------------------------
 //main
@@ -1327,86 +1338,85 @@ int main(void) {
                         case 1: { //listagem de alunos sem ordenação do vetor
                             //inserir função para listagem de pessoas(alunos) sem ordenação do vetor
                             listarPessoa(aluno,strlen(aluno),1,"nenhuma");
-                            printf("Pressione qualquer tecla e enter para continuar:");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 2: { //listagem de alunos por sexo
                             //inserir função para listagem de pessoas(alunos) por sexo informado
                             listarPessoa(aluno,strlen(aluno),1,"sexo");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 3: { //listagem de alunos por ordem alfabética
                             //inserir função para listagem de pessoas(alunos) com ordenação do vetor em ordem alfabética
                             listarPessoa(aluno,strlen(aluno),1,"alfabetica");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 4: { // listagem de alunos por ordem de nascimento
                             //inserir função para listagem de pessoas(alunos) com ordenação do vetor em ordem de nascimento
                             listarPessoa(aluno,strlen(aluno),1,"nascimento");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 5: { // listagem de alunos matriculados em menos de 3 disciplinas
                             //inserir função para listagem de alunos matriculados em menos de 3 disciplinas
                             listarPessoa(aluno,strlen(aluno),1,"matriculaMenos3");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 6: { //listagem de professor sem ordenação do vetor
                             //inserir função para listagem de pessoas(professor) sem ordenação do vetor
                             listarPessoa(professor,strlen(professor),2,"nenhuma");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 7: { //listagem de professor por sexo
                             //inserir função para listagem de pessoas(professor) por sexo informado
                             listarPessoa(professor,strlen(professor),2,"sexo");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 8: { //listagem de professor por ordem alfabética
                             //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem alfabética
                             listarPessoa(professor,strlen(professor),2,"alfabetica");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 9: { // listagem de professor por ordem de nascimento
                             //inserir função para listagem de pessoas(professor) com ordenação do vetor em ordem de nascimento
                             listarPessoa(professor,strlen(professor),2,"nascimento");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 10: { //listagem de disciplinas cadastradas
                             //inserir função para listagem de todas as disciplinas cadastradas (nomes das disciplinas)
                             listarDisciplinas(disciplinas,strlen(disciplinas),"nenhuma");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 11: { //listagem de disciplinas com mais de 40 vagas
                             //inserir função para listagem de disciplinas com mais de 40 vagas e pofessor correspondente (nome da disciplina e nome do professor)
                             listarDisciplinas(disciplinas,strlen(disciplinas),"mais40");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 12: { //listagem dos dados de uma disciplina
                             //inserir função para listagem de todos os dados de uma disciplina selecionada pelo usuário
                             listarDisciplinas(disciplinas,strlen(disciplinas),"uma");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 13: { //listagem dos aniversariantes do mês
                             //inserir função para listagem de todos as pessoas que fazem aniversário no mês corrente e suas respectivas datas de aniversário (dia/mês)
                             listarTodasPessoas(aluno,strlen(aluno),professor,strlen(professor),"aniversariantes");
-                            getchar();
+                            espera();
                             break;
                         }
                         case 14: { //listagem de todas as pessoas cadastradas
                             //inserir função para listagem de pessoas(todas) com base nas letras informadas
                             listarTodasPessoas(aluno,strlen(aluno),professor,strlen(professor),"letras");
-                            getchar();
+                            espera();
                             break;
                         }
                         // Outros casos se forem adicionados ao menu ajuste de relatórios...
