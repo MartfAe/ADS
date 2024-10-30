@@ -188,17 +188,16 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
             if (tipoPessoa == 1) {
                 printf("Cadastro de Aluno:\n\n");
 
-                //Gera a matrícula do Aluno
+                // Gera a matrícula do Aluno
                 gerarMatriculaAluno(cadastro[i].matricula);
                 printf("Matrícula gerada: %s\n", cadastro[i].matricula);
             } else if (tipoPessoa == 2) {
-
                 printf("Cadastro de Professor:\n");
-                //Matricula professor 
+                // Matrícula professor 
                 gerarMatriculaProfessor(cadastro[i].matricula);
-                printf("Matricula gerada: %s\n", cadastro[i].matricula);
+                printf("Matrícula gerada: %s\n", cadastro[i].matricula);
             }
-                //Apresentando erro, a validação de nome está sendo feita antes, assim como a de sexo.
+
             // Loop para o nome
             do {
                 printf("Informe o nome:\n");
@@ -207,17 +206,16 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
             } while (!validarNome(cadastro[i].nome)); 
 
             // Loop para o CPF
-           do{
-           printf("Informe o CPF:\n");
+            do {
+                printf("Informe o CPF:\n");
                 fgets(cadastro[i].cpf, sizeof(cadastro[i].cpf), stdin);
                 cadastro[i].cpf[strcspn(cadastro[i].cpf, "\n")] = '\0';
             } while (!validarCPF(cadastro[i].cpf));
             
             // Loop para o sexo
-           do {
+            do {
                 printf("Informe o sexo (M/F):\n");
-                fgets(&cadastro[i].sexo, sizeof(cadastro[i].sexo) + 1, stdin);
-                cadastro[i].sexo = cadastro[i].sexo == '\n' ? '\0' : cadastro[i].sexo;
+                scanf(" %c", &cadastro[i].sexo); // Adicionando espaço para evitar problemas com '\n' no buffer
             } while (!validarSexo(cadastro[i].sexo));
 
             // Loop para a data de nascimento
@@ -235,6 +233,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
             break;  // Sai do loop após o cadastro
         }
     }
+
     // Se o loop terminar sem encontrar uma posição vazia, exibe mensagem
     if (i == maxPessoas) {
         if (tipoPessoa == 1) {
@@ -334,79 +333,142 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
     }
   }
 
-//Função para adicionar aluno na disciplina
-void adicionarAlunoDisciplina(materias *disciplina, char matriculaAluno[], pessoas *alunos, int max_Alunos) {
-    printf("Entrou na função adicionarAlunoDisciplina.\n");
-
-    if (disciplina->numAlunos >= Max_Alunos_Disciplinas) {
-        printf("A disciplina já atingiu o número máximo de alunos.\n");
-        return;
-    }
-
-    // Verificação de duplicidade da matrícula na disciplina
-    for (int i = 0; i < disciplina->numAlunos; i++) {
-        if (strcmp(disciplina->aluno[i], matriculaAluno) == 0) {
-            printf("Aluno já está matriculado nessa disciplina.\n");
-            return;
-        }
-    }
-
-    // Busca pelo aluno no cadastro
-    int encontrouAluno = 0;
-    for (int i = 0; i < max_Alunos; i++) {
+//Função para adicionar aluno em uma disciplina
+void adicionarAlunoDisciplina(materias *disciplina, int maxDisciplinas, pessoas *alunos, int maxAlunos, char matriculaAluno[]) {
+    int alunoEncontrado = -1;
+    
+    // Buscar o aluno pela matrícula
+    for (int i = 0; i < maxAlunos; i++) {
         if (strcmp(alunos[i].matricula, matriculaAluno) == 0) {
-            strcpy(disciplina->aluno[disciplina->numAlunos], matriculaAluno);
-            disciplina->numAlunos++;
-            printf("Aluno matriculado na disciplina com sucesso.\n");
-            encontrouAluno = 1;
+            alunoEncontrado = i;
             break;
         }
     }
 
-    if (!encontrouAluno) {
-        printf("Aluno não encontrado.\n");
+    if (alunoEncontrado == -1) {
+        printf("Erro: Aluno com matrícula %s não encontrado.\n", matriculaAluno);
+        return;
+    }
+
+    // Verificar limite de alunos na disciplina
+    if (disciplina->numAlunos >= Max_Alunos_Disciplinas) {
+        printf("Erro: A disciplina já atingiu o limite de alunos.\n");
+        return;
+    }
+
+    // Adicionar aluno na disciplina
+    disciplina->aluno[disciplina->numAlunos] = alunos[alunoEncontrado];
+    disciplina->numAlunos++;
+    printf("Aluno %s adicionado com sucesso à disciplina %s.\n", alunos[alunoEncontrado].nome, disciplina->nome);
+}
+
+// Função para desmatricular um aluno de uma disciplina
+void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
+    char matriculaAluno[Max_Matricula];
+    char codigoDisciplina[8];
+
+    printf("Informe o código da disciplina:\n");
+    fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
+    codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';
+
+    // Busca a disciplina pelo código
+    int disciplinaEncontrada = -1;
+    for (int i = 0; i < numDisciplinas; i++) {
+        if (strcmp(disciplinas[i].codigo, codigoDisciplina) == 0) {
+            disciplinaEncontrada = i;
+            break;
+        }
+    }
+
+    if (disciplinaEncontrada == -1) {
+        printf("Erro: Disciplina com código %s não encontrada.\n", codigoDisciplina);
+        return;
+    }
+
+    printf("Informe a matrícula do aluno a ser desmatriculado:\n");
+    fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
+    matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
+
+    int alunoEncontrado = -1;
+
+    // Buscar o aluno pela matrícula
+    for (int i = 0; i < disciplinas[disciplinaEncontrada].numAlunos; i++) {
+        if (strcmp(disciplinas[disciplinaEncontrada].aluno[i].matricula, matriculaAluno) == 0) {
+            alunoEncontrado = i;
+            break;
+        }
+    }
+
+    if (alunoEncontrado == -1) {
+        printf("Erro: Aluno com matrícula %s não encontrado na disciplina %s.\n", matriculaAluno, disciplinas[disciplinaEncontrada].nome);
+        return;
+    }
+
+    // Solicitar confirmação
+    char confirmacao;
+    printf("Você tem certeza que deseja desmatricular o aluno %s? (S/N): ", disciplinas[disciplinaEncontrada].aluno[alunoEncontrado].nome);
+    scanf(" %c", &confirmacao); // Espaço antes de %c para consumir o caractere de nova linha anterior
+
+    if (confirmacao == 'S' || confirmacao == 's') {
+        // Remover aluno da disciplina
+        for (int i = alunoEncontrado; i < disciplinas[disciplinaEncontrada].numAlunos - 1; i++) {
+            disciplinas[disciplinaEncontrada].aluno[i] = disciplinas[disciplinaEncontrada].aluno[i + 1];
+        }
+        disciplinas[disciplinaEncontrada].numAlunos--;
+        printf("Aluno desmatriculado com sucesso!\n");
+    } else {
+        printf("Desmatriculação cancelada.\n");
     }
 }
 
-  int main(void) {
-    setlocale(LC_ALL,"portuguese");
+int main(void) {
+    setlocale(LC_ALL, "Portuguese");
+    srand(time(NULL));
 
     // Inicialização de listas
-    pessoas aluno[Max_Alunos] = {2};
-    pessoas professor[Max_Professores] = {2};
-    materias disciplinas[Max_Disciplinas] = {2};
+    pessoas aluno[Max_Alunos] = {0}; // Inicializa o array com zeros
+    pessoas professor[Max_Professores] = {0}; // Inicializa o array com zeros
+    materias disciplinas[Max_Disciplinas] = {0}; // Inicializa o array com zeros
+    
+
 
     bool encerrar = false;
-    while (!encerrar) {
-        cabecalho("principal");
-        int opcao = menu("principal");
-        switch (opcao) {
-            case 0:
-                encerrar = true;
-                break;
-            case 1:
-                cabecalho("aluno");
-                opcao = menu("cadastro");
-                if(opcao ==1){
-                    cadastrarPessoa(aluno, Max_Alunos, 1);
-                }
-                break;
-            case 2:
-                cabecalho("professor");
-                opcao = menu("cadastro");
-                if(opcao == 2){
-                    cadastrarPessoa(professor, Max_Professores, 2);
-                }
-                break;
-            case 3:
-                /*cabecalho("disciplina");
-                opcao = menu("cadastro");
-                if(opcao == 3){
-                    cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
-                }*/
-                break;
-            // Outros cases...
-        }
+   while (!encerrar) {
+    cabecalho("principal");
+    int opcao = menu("principal");
+    printf("Você escolheu a opção: %d\n", opcao); // Debug
+    switch (opcao) {
+        case 0:
+            encerrar = true;
+            break;
+        case 1:
+            cabecalho("aluno");
+            opcao = menu("cadastro");
+            printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+            if (opcao == 1) {
+                printf("Chamando cadastrarPessoa...\n"); // Debug
+                cadastrarPessoa(aluno, Max_Alunos, 1);
+            }
+            break;
+        case 2:
+            cabecalho("professor");
+            opcao = menu("cadastro");
+            printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+            if (opcao == 1) {
+                printf("Chamando cadastrarPessoa...\n"); // Debug
+                cadastrarPessoa(professor, Max_Professores, 2);
+            }
+            break;
+        case 3:
+            cabecalho("disciplina");
+            opcao = menu("cadastro");
+            printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+            if (opcao == 1) {
+                printf("Chamando cadastrarDisciplina...\n"); // Debug
+                cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
+            }
+            break;
+        // Outros casos...
     }
-    return 0;
+}
 }
