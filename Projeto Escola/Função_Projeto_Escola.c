@@ -194,7 +194,8 @@ void gerarMatriculaProfessor(char matricula[]) {
     contadorProfessor++;
 }
 
-// Implementação da função de cadastro de pessoa
+
+//FUnção cadastrar pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
     printf("Entrou na função cadastrarPessoa\n"); // Debug
     int i;
@@ -204,12 +205,10 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
             if (tipoPessoa == 1) {
                 printf("Cadastro de Aluno:\n\n");
-                // Gera a matrícula do Aluno
                 gerarMatriculaAluno(novoCadastro.matricula);
                 printf("Matrícula gerada: %s\n", novoCadastro.matricula);
             } else if (tipoPessoa == 2) {
                 printf("Cadastro de Professor:\n");
-                // Matrícula professor 
                 gerarMatriculaProfessor(novoCadastro.matricula);
                 printf("Matrícula gerada: %s\n", novoCadastro.matricula);
             }
@@ -218,26 +217,47 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
             do {
                 printf("Informe o nome:\n");
                 fgets(novoCadastro.nome, sizeof(novoCadastro.nome), stdin);
-                novoCadastro.nome[strcspn(novoCadastro.nome, "\n")] = '\0';
-            } while (!validarNome(novoCadastro.nome)); 
+                novoCadastro.nome[strcspn(novoCadastro.nome, "\n")] = '\0'; // Remove a nova linha
+
+                // Verifica se o nome foi inserido
+                if (strlen(novoCadastro.nome) == 0) {
+                    printf("O nome não pode ser vazio. Tente novamente.\n");
+                } else if (!validarNome(novoCadastro.nome)) {
+                    printf("Nome inválido. O nome deve ter no mínimo 3 caracteres.\n");
+                }
+            } while (strlen(novoCadastro.nome) == 0 || !validarNome(novoCadastro.nome)); 
 
             // Loop para o CPF
             do {
-                printf("Informe o CPF:\n");
+                printf("Informe o CPF no seguinte formato xxx.xxx.xxx-xx:\n");
                 fgets(novoCadastro.cpf, sizeof(novoCadastro.cpf), stdin);
-                novoCadastro.cpf[strcspn(novoCadastro.cpf, "\n")] = '\0';
+                novoCadastro.cpf[strcspn(novoCadastro.cpf, "\n")] = '\0'; // Remove a nova linha
+
+                if (!validarCPF(novoCadastro.cpf)) {
+                    printf("CPF inválido. Tente novamente.\n");
+                }
             } while (!validarCPF(novoCadastro.cpf));
-            
+
             // Loop para o sexo
             do {
                 printf("Informe o sexo (M/F):\n");
-                scanf(" %c", &novoCadastro.sexo); 
+                scanf(" %c", &novoCadastro.sexo);
+                getchar(); // Limpa o buffer após ler o caractere
+
+                if (!validarSexo(novoCadastro.sexo)) {
+                    printf("Sexo inválido. Informe 'M' ou 'F'.\n");
+                }
             } while (!validarSexo(novoCadastro.sexo));
 
             // Loop para a data de nascimento
             do {
                 printf("Informe a data de nascimento separada por um espaço (dd mm aaaa):\n");
                 scanf("%d %d %d", &novoCadastro.aniversario.dia, &novoCadastro.aniversario.mes, &novoCadastro.aniversario.ano);
+                getchar(); // Limpa o buffer após ler a data
+
+                if (!validarData(novoCadastro.aniversario)) {
+                    printf("Data inválida. Tente novamente.\n");
+                }
             } while (!validarData(novoCadastro.aniversario)); // Continua pedindo até uma data válida
 
             // Usa o setter apropriado para atualizar o cadastro
@@ -262,6 +282,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
         }
     }
 }
+
 //Função para validar nome
   int validarNome(char nome[]) {
     printf("Entrou na função validarNome.\n"); // Debug
