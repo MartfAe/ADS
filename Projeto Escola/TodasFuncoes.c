@@ -561,14 +561,14 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
         setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
         disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
         printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
-        pessoas *alunos++;
+        alunos->disciplinas++;
     } else {
         printf("Operação cancelada. O aluno não foi adicionado à disciplina.\n");
     }
 }
 
 // Função para desmatricular um aluno de uma disciplina
-void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
+void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int numDisciplinas) {
     char matriculaAluno[Max_Matricula];
     char codigoDisciplina[8];
 
@@ -622,6 +622,7 @@ void desmatricularAlunoDisciplina(materias disciplinas[], int numDisciplinas) {
         }
         disciplinas[disciplinaEncontrada].numAlunos--;
         printf("Aluno desmatriculado com sucesso!\n");
+        alunos->disciplinas--;
     } else {
         printf("Desmatriculação cancelada.\n");
     }
@@ -1314,7 +1315,7 @@ int main(void) {
                             
                         
                         case 2: { //Desmatricular aluno de uma disciplina
-                            desmatricularAlunoDisciplina(disciplinas, Max_Disciplinas);
+                            desmatricularAlunoDisciplina(disciplinas, aluno, Max_Disciplinas);
                             break;
                         }
                         // Outros casos se forem adicionados ao menu ajuste de disciplina...
