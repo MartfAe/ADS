@@ -306,7 +306,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
 //Função para validar nome
   int validarNome(char nome[]) {
-    printf("Entrou na função validarNome.\n"); // Debug
+    //printf("Entrou na função validarNome.\n"); // Debug
 
     // Verifica se o nome foi inserido
     if (strlen(nome) == 0) {
@@ -334,7 +334,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
 //Função validar CPF
 int validarCPF(char cpf[]){
-    printf("Entrou na função validarCPF.\n"); // debug
+    //printf("Entrou na função validarCPF.\n"); // debug
 
     // Verificar se o CPF tem exatamente 14 caracteres
     if (strlen(cpf) != 14) {
@@ -358,7 +358,7 @@ int validarSexo(char sexo) {
 
 // Função validar data
 int validarData(data aniversario) {
-    printf("Entrou na função validarData.\n"); // debug
+    //printf("Entrou na função validarData.\n"); // debug
     if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900 || aniversario.ano >2024) {
         printf("Formato de data inválido. Tente novamente.\n");
         return 0;
@@ -633,7 +633,7 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
     printf("Informe o código da disciplina que deseja atualizar:\n");
     getchar();
     fgets(codigoBusca, sizeof(codigoBusca), stdin);
-    codigoBusca[strcspn(codigoBusca, "\n")] = '\0'; // Remove o newline
+    codigoBusca[strcspn(codigoBusca, "\n")] = '\0'; 
     toUpperString(codigoBusca); // Aceitar código tanto em maiúsculas quanto minúsculas
 
     // Procurar a disciplina pelo código
@@ -817,7 +817,7 @@ void excluirPessoa(pessoas *cadastro, int *maxPessoas, int tipoPessoa) {
                 // Encontrou a matrícula, solicita confirmação
                 char confirmacao;
                 printf("Você tem certeza que deseja excluir a pessoa %s? (s/n): ", cadastro[i].nome);
-                scanf(" %c", &confirmacao); // Lê a confirmação
+                scanf(" %c", &confirmacao); 
 
                 if (confirmacao == 's' || confirmacao == 'S') {
                     // Excluindo a pessoa
@@ -838,7 +838,7 @@ void excluirPessoa(pessoas *cadastro, int *maxPessoas, int tipoPessoa) {
 
 //Exclusão de discplina
 void excluirDisciplina(materias *disciplinas, int max_Disciplinas) {
-    printf("Entrou na função excluir disciplina.\n"); // Debug
+   // printf("Entrou na função excluir disciplina.\n"); // Debug
     char codigo[9]; 
     int encontrada = 0;
 
