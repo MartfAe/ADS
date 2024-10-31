@@ -1064,6 +1064,7 @@ void listarTodasPessoas(pessoas *pessoas1,int Max_Pessoas1, pessoas *pessoas2, i
         //se a ordenação foi especificada como letras, listar os pessoas que contem as letras
         char letras[50];
         printf("Digite o nome a ser pesquisado (mínimo de 3 letras): ");
+        getchar();
     	fgets(letras, sizeof(letras), stdin);
         toUpperString(letras);
         letras[strcspn(letras, "\n")] = 0;
@@ -1126,6 +1127,7 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas, char ordenacao
 		//se a ordenação foi especificada como dados de uma disciplina
         char codigo[8];
         printf("Digite o código da disciplina escolhida: \n");
+        getchar();
         fgets(codigo,sizeof(codigo),stdin);
         toUpperString(codigo);
         for(int i=0; i<strlen(codigo); i++){ //Garante que todas as letras armazenadas sejam maíusculas

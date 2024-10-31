@@ -7,9 +7,9 @@
 #include <locale.h>
 #include <ctype.h>
 
-#define Max_Alunos 3
-#define Max_Professores 3
-#define Max_Disciplinas 3
+#define Max_Alunos 300
+#define Max_Professores 300
+#define Max_Disciplinas 300
 #define Max_Alunos_Disciplinas 100
 #define Max_Matricula 12
 
@@ -47,9 +47,6 @@ int validarNome(char nome[]);
 int validarCPF(char cpf[]);
 int validarSexo(char sexo);
 int validarData(data aniversario);
-int validarMatricula(int matricula);
-int validarCodigoDisciplina(char codigo[]);
-int validarSemestre(float semestre);
 void toUpperString(char *str);
 
 
@@ -139,7 +136,6 @@ pessoas getProfessor(pessoas professores[], int index) {
     return professores[index];
 }
 
-
 void setProfessor(pessoas professores[], int index, pessoas novoProfessor) {
     if (strlen(novoProfessor.nome) > 0 && strlen(novoProfessor.cpf) == 14) {
         professores[index] = novoProfessor;
@@ -195,7 +191,7 @@ void gerarMatriculaProfessor(char matricula[]) {
 
 //FUnção cadastrar pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
-    printf("Entrou na função cadastrarPessoa\n"); // Debug
+    //printf("Entrou na função cadastrarPessoa\n"); // Debug
     int i;
 
     for (i = 0; i < maxPessoas; i++) {
@@ -223,13 +219,13 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
            //Loop para o cpf
            do {
-                char cpf[15];  // Buffer para ler o CPF
+                char cpf[15];  
                 printf("Informe o CPF no seguinte formato XXX.XXX.XXX-XX:\n");
-                fgets(cpf, sizeof(cpf), stdin); // Lê o CPF para o buffer
-                cpf[strcspn(cpf, "\n")] = '\0';  // Remove a nova linha
+                fgets(cpf, sizeof(cpf), stdin); 
+                cpf[strcspn(cpf, "\n")] = '\0'; 
 
                 if (validarCPF(cpf)) { // Valida o CPF
-                    strcpy(novoCadastro.cpf, cpf); // Copia para a estrutura
+                    strcpy(novoCadastro.cpf, cpf); 
                 } else {
                     printf("CPF inválido. Tente novamente.\n");
                 }
@@ -275,7 +271,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
 //Função para validar nome
   int validarNome(char nome[]) {
-    printf("Entrou na função validarNome.\n"); // Debug
+   // printf("Entrou na função validarNome.\n"); // Debug
 
     // Verifica se o nome foi inserido
     if (strlen(nome) == 0) {
@@ -312,6 +308,7 @@ int validarCPF(char cpf[]){
     }
     return 1; 
 }
+
 // Função Validar Sexo
 int validarSexo(char sexo) {
     // Converte o caractere para maiúsculo
@@ -327,7 +324,7 @@ int validarSexo(char sexo) {
 
 // Função validar data
 int validarData(data aniversario) {
-    printf("Entrou na função validarData.\n"); // debug
+    //printf("Entrou na função validarData.\n"); // debug
     if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900 || aniversario.ano >2024) {
         printf("Formato de data inválido. Tente novamente.\n");
         return 0;
@@ -337,7 +334,7 @@ int validarData(data aniversario) {
 
 // Implementação da função de cadastrar disciplina
 void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
-    printf("Entrou na função cadastro de disciplina.\n"); // Debug
+    //printf("Entrou na função cadastro de disciplina.\n"); // Debug
     int i;
 
     for (i = 0; i < max_Disciplinas; i++) {
@@ -361,7 +358,7 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
             // Validação do código da disciplina
             do {
                 printf("Informe o código da disciplina (máx 8 caracteres):\n");
-                getchar();
+                
                 fgets(novaDisciplina.codigo, sizeof(novaDisciplina.codigo), stdin);
                 novaDisciplina.codigo[strcspn(novaDisciplina.codigo, "\n")] = '\0';
 
