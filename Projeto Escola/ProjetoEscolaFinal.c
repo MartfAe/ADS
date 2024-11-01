@@ -37,6 +37,7 @@ typedef struct {
     pessoas aluno[Max_Alunos_Disciplinas];
     int numAlunos;
     int numVagas;
+    int temProfessor;
 } materias;
 
 
@@ -296,10 +297,12 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
           if (tipoPessoa == 1) {
               setAluno(cadastro, i, novoCadastro); 
               printf("Aluno cadastrado com sucesso!\n");
+              getchar();
           } else if (tipoPessoa == 2) {
               setProfessor(cadastro, i, novoCadastro); 
               printf("Professor cadastrado com sucesso!\n");
           }
+          espera();
           break;
       }
 
@@ -444,61 +447,81 @@ void cadastrarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
           } while (1); 
 
           // Seleção do professor
-          int encontrou = 0;
+          char opcao;
+            printf("Deseja vincular um professor a esta disciplina? (s/n): ");
+            scanf(" %c", &opcao);
+            while (getchar() != '\n'); // Limpa o buffer
 
-          if (max_Professores <= 0) {
-              printf("Não há professores cadastrados.\n");
-              return;
-          }
-          char matriculaProf[15]; 
-          do {
-              printf("Informe a matrícula do professor:\n");
-              fgets(matriculaProf, sizeof(matriculaProf), stdin);
-              matriculaProf[strcspn(matriculaProf, "\n")] = '\0'; 
+            if (opcao == 's' || opcao == 'S') {
+                int encontrou = 0;
 
-              for (int j = 0; j < max_Professores; j++) {
-                  if (strncmp(professores[j].matricula, prefixo_Professor, strlen(prefixo_Professor)) == 0) { 
-                      if (strcmp(professores[j].matricula, matriculaProf) == 0) {
-                          strcpy(novaDisciplina.professor, professores[j].nome);
-                          encontrou = 1; // Professor encontrado
-                          printf("Professor encontrado: %s - %s\n", professores[j].matricula, professores[j].nome);
-                          break; // Sai do loop se o professor foi encontrado
-                      }
-                  }
-              }
+                if (max_Professores <= 0) {
+                    printf("Não há professores cadastrados.\n");
+                    strcpy(novaDisciplina.professor, ""); // Não vincula professor
+                    return;
+                }
+                char matriculaProf[15]; 
+                do {
+                    printf("Informe a matrícula do professor:\n");
+                    fgets(matriculaProf, sizeof(matriculaProf), stdin);
+                    matriculaProf[strcspn(matriculaProf, "\n")] = '\0'; 
 
-              if (!encontrou) {
-                  printf("Professor não encontrado. Tente novamente.\n");
-              }
-          } while (!encontrou);
-          // Exibe os dados cadastrados para confirmação
-          printf("\nConfirme os dados da disciplina:\n");
-          printf("Nome: %s\n", novaDisciplina.nome);
-          printf("Código: %s\n", novaDisciplina.codigo);
-          printf("Semestre: %.1f\n", novaDisciplina.semestre); // Formatação adequada para impressão
-          printf("Número de Vagas: %d\n", novaDisciplina.numVagas);
-          printf("Professor: %s\n", novaDisciplina.professor);
+                    for (int j = 0; j < max_Professores; j++) {
+                        if (strncmp(professores[j].matricula, prefixo_Professor, strlen(prefixo_Professor)) == 0) { 
+                            if (strcmp(professores[j].matricula, matriculaProf) == 0) {
+                                strcpy(novaDisciplina.professor, professores[j].nome);
+                                encontrou = 1; // Professor encontrado
+                                printf("Professor encontrado: %s - %s\n", professores[j].matricula, professores[j].nome);
+                                break; // Sai do loop se o professor foi encontrado
+                            }
+                        }
+                    }
 
-          char confirmacao;
-          printf("Deseja realmente salvar esta disciplina? (s/n): ");
-          scanf(" %c", &confirmacao);
+                    if (!encontrou) {
+                        printf("Professor não encontrado. Tente novamente.\n");
+                    }
+                } while (!encontrou);
+                novaDisciplina.temProfessor = 1; // Vincula professor
+            } else {
+                strcpy(novaDisciplina.professor, ""); // Sem professor vinculado
+                novaDisciplina.temProfessor = 0; // Não tem professor vinculado
+            }
 
-          // Verifica a confirmação do usuário
-          if (confirmacao == 's' || confirmacao == 'S') {
-              novaDisciplina.numAlunos = 0;
-              setDisciplina(disciplinas, i, novaDisciplina); 
-              printf("Disciplina cadastrada com sucesso!\n");
-          } else {
-              printf("Cadastro da disciplina cancelado.\n");
-          }
-          return;  // Sai da função após o cadastro
-      }
-  }
 
-  // Mensagem caso não haja espaço
-  if (i == max_Disciplinas) {
-      printf("Não há espaço para cadastrar mais disciplinas.\n");
-  }
+            // Exibe os dados cadastrados para confirmação
+            printf("\nConfirme os dados da disciplina:\n");
+            printf("Nome: %s\n", novaDisciplina.nome);
+            printf("Código: %s\n", novaDisciplina.codigo);
+            printf("Semestre: %.1f\n", novaDisciplina.semestre); // Formatação adequada para impressão
+            printf("Número de Vagas: %d\n", novaDisciplina.numVagas);
+            if (strlen(novaDisciplina.professor) > 0) {
+                printf("Professor: %s\n", novaDisciplina.professor);
+            } else {
+                printf("Professor: Não vinculado\n");
+            }
+
+            char confirmacao;
+            printf("Deseja realmente salvar esta disciplina? (s/n): ");
+            scanf(" %c", &confirmacao);
+
+            // Verifica a confirmação do usuário
+            if (confirmacao == 's' || confirmacao == 'S') {
+                novaDisciplina.numAlunos = 0;
+                setDisciplina(disciplinas, i, novaDisciplina); 
+                printf("Disciplina cadastrada com sucesso!\n");
+            } else {
+                printf("Cadastro da disciplina cancelado.\n");
+            }
+
+            espera();
+            return;  // Sai da função após o cadastro
+        }
+    }
+
+    // Mensagem caso não haja espaço
+    if (i == max_Disciplinas) {
+        printf("Não há espaço para cadastrar mais disciplinas.\n");
+    }
 }
 
 //Função para adicionar aluno em uma disciplina
@@ -515,7 +538,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
   for (int i = 0; i < maxAlunos; i++) {
       if (strcmp(getAluno(alunos, i).matricula, matriculaAluno) == 0) {
           alunoEncontrado = i;
-          printf("\nAluno encontrado\n");//DEBUG
+          //printf("\nAluno encontrado\n");//DEBUG
           break;
       }
   }
@@ -543,7 +566,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
   for (int i = 0; i < maxDisciplinas; i++) {
       if (strcmp(disciplinas[i].codigo, codigoDisciplina) == 0) {
           disciplinaEncontrada = i;
-          printf("\nDisciplina encontrado\n");//DEBUG
+          //printf("\nDisciplina encontrado\n");//DEBUG
           break;
       }
   }
@@ -552,6 +575,12 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
       printf("Erro: Disciplina com código %s não encontrada.\n", codigoDisciplina);
       return;
   }
+
+    // Verificar se a disciplina tem professor vinculado
+    if (disciplinas[disciplinaEncontrada].temProfessor == 0) {
+        printf("Disciplina sem professor vinculado. Para realizar matrícula nessa disciplina será necessário atualizar a disciplina e vincular um professor.\n");
+        return;
+    }
 
   // Verificar limite de alunos na disciplina em relação ao número de vagas
   if (disciplinas[disciplinaEncontrada].numAlunos >= disciplinas[disciplinaEncontrada].numVagas) {
@@ -574,6 +603,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
   } else {
       printf("Operação cancelada. O aluno não foi adicionado à disciplina.\n");
   }
+  espera();
 }
 
 // Função para desmatricular um aluno de uma disciplina
@@ -647,12 +677,21 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
   } else {
       printf("Desmatriculação cancelada.\n");
   }
+  espera();
 }
 
 //Função para atualizar disciplina.
 void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *professores, int max_Professores) {
   char codigoBusca[9];
   int encontrou = -1;
+
+  // Exibir disciplinas cadastradas
+  printf("Disciplinas cadastradas:\n");
+  for (int i = 0; i < max_Disciplinas; i++) {
+     if (disciplinas[i].codigo[0] != '\0') {  // Exibir apenas disciplinas cadastradas
+            printf("Código: %s - Nome: %s\n", disciplinas[i].codigo, disciplinas[i].nome);
+        }
+    }
 
   // Solicitar o código da disciplina a ser atualizado
   printf("Informe o código da disciplina que deseja atualizar:\n");
@@ -672,6 +711,8 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   // Verificar se a disciplina foi encontrada
   if (encontrou == -1) {
       printf("Erro: Disciplina com código %s não encontrada.\n", codigoBusca);
+      printf("Aperte enter para voltar ao menu.");
+      getchar();
       return;
   }
 
@@ -738,6 +779,8 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
 
 
   printf("Atualização concluída.\n");
+
+  espera();
 }
 
 //Atualização de pessoa
@@ -822,6 +865,7 @@ void atualizarPessoa(pessoas *cadastro, int maxPessoas, int tipoPessoa) {
               }
 
               printf("Dados atualizados com sucesso!\n");
+              getchar();
               return;
           }
       }
@@ -856,11 +900,13 @@ void excluirPessoa(pessoas *cadastro, int *maxPessoas, int tipoPessoa) {
               } else {
                   printf("Exclusão cancelada.\n");
               }
+              espera();
               return;
           }
       }
   }
   printf("Matrícula não encontrada.\n");
+  espera();
 }
 
 //Exclusão de discplina
@@ -869,8 +915,16 @@ void excluirDisciplina(materias *disciplinas, int max_Disciplinas) {
   char codigo[9]; 
   int encontrada = 0;
 
+// Exibir disciplinas cadastradas
+  printf("Disciplinas cadastradas:\n");
+  for (int i = 0; i < max_Disciplinas; i++) {
+    if (disciplinas[i].codigo[0] != '\0') {  // Exibir apenas disciplinas cadastradas
+        printf("Código: %s - Nome: %s\n", disciplinas[i].codigo, disciplinas[i].nome);
+        }
+    }
   // Solicita o código da disciplina a ser excluída
   printf("Informe o código da disciplina que deseja excluir:\n");
+  getchar();
   fgets(codigo, sizeof(codigo), stdin);
   codigo[strcspn(codigo, "\n")] = '\0'; 
 
@@ -903,6 +957,7 @@ void excluirDisciplina(materias *disciplinas, int max_Disciplinas) {
                   printf("Exclusão da disciplina cancelada.\n");
               }
           }
+          espera();
           break; 
       }
   }
