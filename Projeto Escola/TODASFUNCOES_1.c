@@ -534,9 +534,9 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
   // Seleção da disciplina pelo código
   char codigoDisciplina[9];
   printf("Informe o código da disciplina para adicionar o aluno:\n");
-  getchar();
   fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
-  codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';  // Remover newline
+  codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';  
+  toUpperString(codigoDisciplina);
 
   for (int i = 0; i < maxDisciplinas; i++) {
       if (strcmp(disciplinas[i].codigo, codigoDisciplina) == 0) {
@@ -565,8 +565,8 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
 
   if (confirmacao == 's' || confirmacao == 'S') {
       // Adicionar aluno na disciplina
-      setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
-      disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
+       setAluno(disciplinas[disciplinaEncontrada].aluno, disciplinas[disciplinaEncontrada].numAlunos, getAluno(alunos, alunoEncontrado)); // Usando o setter para adicionar o aluno
+    disciplinas[disciplinaEncontrada].numAlunos++; // Atualiza o número de alunos
       printf("Aluno %s adicionado com sucesso à disciplina %s.\n", getAluno(alunos, alunoEncontrado).nome, disciplinas[disciplinaEncontrada].nome);
       alunos->disciplinas++;
   } else {
@@ -582,6 +582,7 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
   printf("Informe o código da disciplina:\n");
   fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
   codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';
+  toUpperString(codigoDisciplina);
 
   // Busca a disciplina pelo código
   int disciplinaEncontrada = -1;
