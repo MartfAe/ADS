@@ -50,7 +50,7 @@ void gerarMatriculaProfessor(char matricula[]);
 void gerarMatriculaAluno(char matricula[]);
 void gerarMatriculaProfessor(char matricula[]);
 int validarNome(char nome[]);
-int validarCPF(char cpf[]);
+bool validarCPF(char cpf[]);
 int validarSexo(char sexo);
 int validarData(data aniversario);
 int validarMatricula(int matricula);
@@ -274,7 +274,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
       // Loop para o cpf
       do {
-        char cpf[15]; // Buffer para ler o CPF
+        char cpf[16]; // Buffer para ler o CPF
         printf("Informe o CPF no seguinte formato XXX.XXX.XXX-XX:\n");
         fgets(cpf, sizeof(cpf), stdin); // Lê o CPF para o buffer
         cpf[strcspn(cpf, "\n")] = '\0'; // Remove a nova linha
@@ -361,16 +361,33 @@ int validarNome(char nome[]) {
 }
 
 // Função validar CPF
-int validarCPF(char cpf[]) {
-  // printf("Entrou na função validarCPF.\n"); // debug
-
+bool validarCPF(char cpf[]) {
   // Verificar se o CPF tem exatamente 14 caracteres
   if (strlen(cpf) != 14) {
     printf("Erro: O CPF deve ser informado com 14 dígitos no formato "
            "XXX.XXX.XXX-XX.\n");
-    return 0;
+    return false;
   }
-  return 1;
+
+  // Verificar os pontos e o hífen
+  else if (cpf[3] != '.' || cpf[7] != '.' || cpf[11] != '-') {
+    printf("Erro: O CPF deve ser informado no formato XXX.XXX.XXX-XX.\n");
+    return false;
+  }
+
+  // Verificar se todos os caracteres numéricos estão corretos
+  else {
+    for (int i = 0; i < 14; i++) {
+      if (i == 3 || i == 7 || i == 11) {
+        continue; // Ignorar os caracteres '.' e '-'
+      }
+      if (!isdigit(cpf[i])) {
+        printf("Erro: O CPF deve ser informado no formato XXX.XXX.XXX-XX.\n");
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 // Função Validar Sexo
@@ -1255,7 +1272,6 @@ void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa,
       if (strcmp(pessoa[i].matricula, "") != 0 && pessoa[i].disciplinas < 3) {
         // se a matrícula for diferente de "", significa que a posição está
         // ocupada (matrícula não foi excluída) foi necessário adicionar uma
-        // variável para contar em quantas disciplinas o aluno está matriculado
         printCadastroPessoa(pessoa, i);
         contador++;
       }
@@ -1406,7 +1422,6 @@ void listarDisciplinas(materias *disciplina, int Max_disciplinas,
     printf("\nNão foram encontrados registros");
   }
 }
-
 
 // // Inicialização para evitar lixo na memória (disciplina)
 
