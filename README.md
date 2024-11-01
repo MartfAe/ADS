@@ -1,5 +1,3 @@
-Resolução das atividades propostas pela disciplina INF029 do curso de Análise e Desenvolvimento de Sistemas do IFBA campus SSA. 
+Projeto Escola desenvolvido para a disciplina Lab De Programação - INF029, do curso Análise e Desenvolvimento de Sistemas. 
 
-Atividades organizadas por pastas e subpastas.
-
-Projeto Escola também encontra-se localizado em uma subpasta
+Código desenvolvido por Ana Emília Lobo, Marcus Vinicius da Fonseca e Roberto Barreto. 
