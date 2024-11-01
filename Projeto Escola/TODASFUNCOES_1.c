@@ -72,7 +72,7 @@ void separadorTexto(void) {
 
 // Implementação de cabeçalho
 void cabecalho(char nomeMenu[12]) {
-  printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
+  //printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
   separadorTexto();
   printf("\n");
   if (strcmp(nomeMenu, "principal") == 0) {
@@ -234,7 +234,7 @@ void gerarMatriculaProfessor(char matricula[]) {
 
 //Função cadastrar pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
-  printf("Entrou na função cadastrarPessoa\n"); // Debug
+  //printf("Entrou na função cadastrarPessoa\n"); // Debug
   int i;
 
   for (i = 0; i < maxPessoas; i++) {
@@ -316,7 +316,7 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
 
 //Função para validar nome
 int validarNome(char nome[]) {
-  printf("Entrou na função validarNome.\n"); // Debug
+  //printf("Entrou na função validarNome.\n"); // Debug
 
   // Verifica se o nome foi inserido
   if (strlen(nome) == 0) {
@@ -344,7 +344,7 @@ int validarNome(char nome[]) {
 
 //Função validar CPF
 int validarCPF(char cpf[]){
-  printf("Entrou na função validarCPF.\n"); // debug
+  //printf("Entrou na função validarCPF.\n"); // debug
 
   // Verificar se o CPF tem exatamente 14 caracteres
   if (strlen(cpf) != 14) {
@@ -353,6 +353,7 @@ int validarCPF(char cpf[]){
   }
   return 1; 
 }
+
 // Função Validar Sexo
 int validarSexo(char sexo) {
   // Converte o caractere para maiúsculo
@@ -368,7 +369,7 @@ int validarSexo(char sexo) {
 
 // Função validar data
 int validarData(data aniversario) {
-  printf("Entrou na função validarData.\n"); // debug
+  //printf("Entrou na função validarData.\n"); // debug
   if (aniversario.dia < 1 || aniversario.dia > 31 || aniversario.mes < 1 || aniversario.mes > 12 || aniversario.ano < 1900 || aniversario.ano >2024) {
       printf("Formato de data inválido. Tente novamente.\n");
       return 0;
@@ -864,7 +865,7 @@ void excluirPessoa(pessoas *cadastro, int *maxPessoas, int tipoPessoa) {
 
 //Exclusão de discplina
 void excluirDisciplina(materias *disciplinas, int max_Disciplinas) {
-  printf("Entrou na função excluir disciplina.\n"); // Debug
+  //printf("Entrou na função excluir disciplina.\n"); // Debug
   char codigo[9]; 
   int encontrada = 0;
 
@@ -927,7 +928,8 @@ void toUpperString(char *str) {
 void listarPessoa(pessoas *pessoa, int Max_Pessoas, int tipoPessoa, char ordenacao[20]){
   //relatórios de listagem de pessoas (alunos ou professores) - tipoPessoa: (1-aluno,2-professor);
   //ordenacao: ("nenhuma","sexo","alfabetica","nascimento","matriculaMenos3")
-printf("Entrando na função listarPessoa...\n\n"); // Debug
+//printf("Entrando na função listarPessoa...\n\n"); // Debug
+
 int contador=0; //conta o número de registros que foram listados
 
   if(strcmp(ordenacao,"nenhuma")==0){
@@ -1242,7 +1244,7 @@ int main(void) {
     while (!encerrar) {
       cabecalho("principal");
       int opcao = menu("principal");
-      printf("Você escolheu a opção: %d\n", opcao); // Debug
+      //printf("Você escolheu a opção: %d\n", opcao); // Debug
       switch (opcao) {
         case 0: { //Encerramento do programa
             encerrar = true;
@@ -1255,14 +1257,14 @@ int main(void) {
                 cabecalho("aluno");
                 opcao = menu("cadastro");
                 system("clear");
-                printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+                //printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
                 switch (opcao) {
                     case 0: { //Volta para o menu principal
                         voltar = true;
                         break;
                     }
                     case 1: { //Cadastro de novo aluno
-                        printf("Chamando cadastrarPessoa...\n"); // Debug
+                        //printf("Chamando cadastrarPessoa...\n"); // Debug
                         cadastrarPessoa(aluno, Max_Alunos, 1);
                         break;
                     }
@@ -1290,14 +1292,14 @@ int main(void) {
                 cabecalho("professor");
                 opcao = menu("cadastro");
                 system("clear");
-                printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+                //printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
                 switch (opcao) {
                     case 0: { //Volta para o menu principal
                         voltar = true;
                         break;
                     }
                     case 1: { //Cadastro de novo professor
-                        printf("Chamando cadastrarPessoa...\n"); // Debug
+                        //printf("Chamando cadastrarPessoa...\n"); // Debug
                         cadastrarPessoa(professor, Max_Professores, 2);
                         break;
                     }
@@ -1325,14 +1327,14 @@ int main(void) {
                 cabecalho("disciplina");
                 opcao = menu("cadastro");
                 system("clear");
-                printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
+                //printf("Você escolheu a opção de cadastro: %d\n", opcao); // Debug
                 switch (opcao) {
                     case 0: { //Volta para o menu principal
                         voltar = true;
                         break;
                     }
                     case 1: { //Cadastro de nova disciplina
-                        printf("Chamando cadastrarDisciplina...\n"); // Debug
+                        //printf("Chamando cadastrarDisciplina...\n"); // Debug
                         cadastrarDisciplina(disciplinas, Max_Disciplinas, professor, Max_Professores);
                         break;
                     }
@@ -1360,7 +1362,7 @@ int main(void) {
                 cabecalho("ajuste");
                 opcao = menu("ajuste");
                 system("clear");
-                printf("Você escolheu a opção de ajuste: %d\n", opcao); // Debug
+                //printf("Você escolheu a opção de ajuste: %d\n", opcao); // Debug
                 switch (opcao) {
                     case 0: { //Volta para o menu principal
                         voltar = true;
@@ -1402,7 +1404,7 @@ int main(void) {
                 cabecalho("relatorio");
                 opcao = menu("relatorio");
                 system("clear");
-                printf("Você escolheu a opção de relatório: %d\n", opcao); // Debug
+                //printf("Você escolheu a opção de relatório: %d\n", opcao); // Debug
                 switch (opcao) {
                     case 0: { //Volta para o menu principal
                         voltar = true;
