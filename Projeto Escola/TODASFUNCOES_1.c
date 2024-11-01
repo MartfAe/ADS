@@ -72,7 +72,7 @@ void separadorTexto(void) {
 
 // Implementação de cabeçalho
 void cabecalho(char nomeMenu[12]) {
-  printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
+  //printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
   separadorTexto();
   printf("\n");
   if (strcmp(nomeMenu, "principal") == 0) {
@@ -232,7 +232,7 @@ void gerarMatriculaProfessor(char matricula[]) {
 
 //Função cadastrar pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
-  printf("Entrou na função cadastrarPessoa\n"); // Debug
+  //printf("Entrou na função cadastrarPessoa\n"); // Debug
   int i;
 
   for (i = 0; i < maxPessoas; i++) {
