@@ -582,6 +582,14 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
         return;
     }
 
+    // Verificação de duplicidade
+  for (int i = 0; i < disciplinas[disciplinaEncontrada].numAlunos; i++) {
+      if (strcmp(getAluno(disciplinas[disciplinaEncontrada].aluno, i).matricula, matriculaAluno) == 0) {
+          printf("Erro: O aluno já está matriculado nesta disciplina.\n");
+          return;
+      }
+  }
+
   // Verificar limite de alunos na disciplina em relação ao número de vagas
   if (disciplinas[disciplinaEncontrada].numAlunos >= disciplinas[disciplinaEncontrada].numVagas) {
       printf("Erro: A disciplina já atingiu o limite de alunos (vagas: %d).\n", disciplinas[disciplinaEncontrada].numVagas);
