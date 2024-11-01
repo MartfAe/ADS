@@ -72,7 +72,7 @@ void separadorTexto(void) {
 
 // Implementação de cabeçalho
 void cabecalho(char nomeMenu[12]) {
-  //printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
+  printf("Cabecalho chamado para: %s\n", nomeMenu); // Debug
   separadorTexto();
   printf("\n");
   if (strcmp(nomeMenu, "principal") == 0) {
@@ -134,6 +134,7 @@ int menu(char tipoMenu[20]) {
       // Adicione mais opções se necessário
       printf("\n");
   }
+  printf("Digite a opção desejada: ");
 
   scanf("%d", &opcao);
   return opcao;
@@ -232,7 +233,7 @@ void gerarMatriculaProfessor(char matricula[]) {
 
 //Função cadastrar pessoa
 void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
-  //printf("Entrou na função cadastrarPessoa\n"); // Debug
+  printf("Entrou na função cadastrarPessoa\n"); // Debug
   int i;
 
   for (i = 0; i < maxPessoas; i++) {
@@ -1359,6 +1360,7 @@ int main(void) {
                         // Verifica se existe espaço na disciplina
                         if (disciplinas[0].numAlunos < Max_Alunos_Disciplinas) {
                             adicionarAlunoDisciplina(&disciplinas[0], Max_Disciplinas, aluno, Max_Alunos, matriculaAluno);
+                            espera();
                         } else {
                             printf("Não há espaço na disciplina para adicionar mais alunos.\n");
                         }
@@ -1366,6 +1368,7 @@ int main(void) {
                     }
                     case 2: { //Desmatricular aluno de uma disciplina
                         desmatricularAlunoDisciplina(disciplinas, aluno, Max_Disciplinas);
+                        espera();
                         break;
                     }
                     default: {
