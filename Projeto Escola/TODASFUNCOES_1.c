@@ -288,6 +288,8 @@ void cadastrarPessoa(pessoas *cadastro, int maxPessoas, char tipoPessoa) {
               }
           } while (!validarData(novoCadastro.aniversario));
 
+          novoCadastro.disciplinas = 0;
+
           // Usa o setter apropriado para atualizar o cadastro
           if (tipoPessoa == 1) {
               setAluno(cadastro, i, novoCadastro); 
