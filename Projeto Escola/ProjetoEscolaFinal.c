@@ -603,7 +603,7 @@ void adicionarAlunoDisciplina(materias *disciplinas, int maxDisciplinas, pessoas
   } else {
       printf("Operação cancelada. O aluno não foi adicionado à disciplina.\n");
   }
-  espera();
+  //espera();
 }
 
 // Função para desmatricular um aluno de uma disciplina
@@ -640,6 +640,7 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
   }
 
     printf("Informe a matrícula do aluno a ser desmatriculado da disciplina %s:\n", getDisciplina(disciplinas, disciplinaEncontrada).nome);
+    getchar();
     fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
     matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
 
@@ -677,7 +678,7 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
   } else {
       printf("Desmatriculação cancelada.\n");
   }
-  espera();
+  //espera();
 }
 
 //Função para atualizar disciplina.
@@ -742,41 +743,70 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
   }
 
   // Atualização do professor
-  char novaMatriculaProf[15];
-  printf("Informe a matrícula do novo professor (ou pressione ENTER para manter o professor atual: %s):\n", disciplinas[encontrou].professor);
-  fgets(novaMatriculaProf, sizeof(novaMatriculaProf), stdin);
-  novaMatriculaProf[strcspn(novaMatriculaProf, "\n")] = '\0';
+char novaMatriculaProf[15];
+printf("Informe a matrícula do novo professor (ou pressione ENTER para manter o professor atual: %s):\n", disciplinas[encontrou].professor);
+fgets(novaMatriculaProf, sizeof(novaMatriculaProf), stdin);
+novaMatriculaProf[strcspn(novaMatriculaProf, "\n")] = '\0';
 
-  if (strlen(novaMatriculaProf) > 0) {
-      strcpy(disciplinas[encontrou].professor, novaMatriculaProf);
-      printf("Professor atualizado.\n");
-  } else {
-      printf("Professor mantido como: %s\n", disciplinas[encontrou].professor);
-  }
+// Verifica se o usuário forneceu uma nova matrícula
+if (strlen(novaMatriculaProf) > 0) {
+    int professorEncontrado = 0; // Variável para verificar se o professor foi encontrado
 
-  // Atualização do semestre
-  float novoSemestre;
-  printf("Informe o novo semestre (ou pressione ENTER para manter o semestre atual: %.1f):\n", disciplinas[encontrou].semestre);
-  if (scanf("%f", &novoSemestre) == 1 && novoSemestre > 0) {
-      disciplinas[encontrou].semestre = novoSemestre;
-      printf("Semestre atualizado.\n");
-  } else {
-      printf("Semestre mantido como: %f\n", disciplinas[encontrou].semestre);
-  } while (getchar() != '\n'); 
+    // Busca o professor pela matrícula fornecida
+    for (int j = 0; j < max_Professores; j++) {
+        if (strcmp(professores[j].matricula, novaMatriculaProf) == 0) {
+            strcpy(disciplinas[encontrou].professor, professores[j].nome); // Vincula o nome do professor à disciplina
+            disciplinas[encontrou].temProfessor = 1; // Atualiza para indicar que a disciplina agora tem um professor vinculado
+            professorEncontrado = 1; // Marca que o professor foi encontrado
+            printf("Professor %s vinculado à disciplina.\n", professores[j].nome);
+            break;
+        }
+    }
 
+    // Se não encontrou o professor, informa o usuário
+    if (!professorEncontrado) {
+        printf("Professor com matrícula %s não encontrado. O professor não foi vinculado.\n", novaMatriculaProf);
+        // Mantém o professor atual caso não tenha encontrado
+    } 
+} else {
+    printf("Professor mantido como: %s\n", disciplinas[encontrou].professor);
+}
+float novoSemestre;
+    printf("Informe o novo semestre (ou pressione ENTER para manter o semestre atual: %.1f):\n", disciplinas[encontrou].semestre);
+    fgets(codigoBusca, sizeof(codigoBusca), stdin); // Usar o mesmo buffer para leitura
+    codigoBusca[strcspn(codigoBusca, "\n")] = '\0'; // Remove o newline
 
-  // Atualização do número de vagas
-  int novasVagas;
-  printf("Informe o novo número de vagas (ou pressione ENTER para manter o número atual: %d):\n", disciplinas[encontrou].numVagas);
-  if (scanf("%d", &novasVagas) == 1 && novasVagas > 0) {
-      disciplinas[encontrou].numVagas = novasVagas;
-      printf("Número de vagas atualizado para: %d\n", novasVagas);
-  } else {
-      printf("Número de vagas mantido como: %d\n", disciplinas[encontrou].numVagas);
-  } 
-  while (getchar() != '\n'); 
+    // Verifica se algo foi digitado
+    if (strlen(codigoBusca) > 0) {
+        novoSemestre = atof(codigoBusca); // Converte a string para float
+        if (novoSemestre > 0) {
+            disciplinas[encontrou].semestre = novoSemestre;
+            printf("Semestre atualizado para: %.1f\n", disciplinas[encontrou].semestre);
+        } else {
+            printf("Valor inválido. O semestre não foi atualizado.\n");
+        }
+    } else {
+        printf("Semestre mantido como: %.1f\n", disciplinas[encontrou].semestre);
+    }
 
+    // Atualização do número de vagas
+    int novasVagas;
+    printf("Informe o novo número de vagas (ou pressione ENTER para manter o número atual: %d):\n", disciplinas[encontrou].numVagas);
+    fgets(codigoBusca, sizeof(codigoBusca), stdin); // Usar o mesmo buffer para leitura
+    codigoBusca[strcspn(codigoBusca, "\n")] = '\0'; // Remove o newline
 
+    // Verifica se algo foi digitado
+    if (strlen(codigoBusca) > 0) {
+        novasVagas = atoi(codigoBusca); // Converte a string para int
+        if (novasVagas > 0) {
+            disciplinas[encontrou].numVagas = novasVagas;
+            printf("Número de vagas atualizado para: %d\n", disciplinas[encontrou].numVagas);
+        } else {
+            printf("Valor inválido. O número de vagas não foi atualizado.\n");
+        }
+    } else {
+        printf("Número de vagas mantido como: %d\n", disciplinas[encontrou].numVagas);
+    } 
 
   printf("Atualização concluída.\n");
 
