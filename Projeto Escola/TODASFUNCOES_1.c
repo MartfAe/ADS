@@ -171,6 +171,7 @@ void printCadastroDisciplina(materias *disciplina, int index, bool comAluno){
   printf("\n");
 }
 
+
 // Implementação dos Getters e Setters
 
 pessoas getProfessor(pessoas professores[], int index) {
@@ -579,7 +580,16 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
   char matriculaAluno[Max_Matricula];
   char codigoDisciplina[8];
 
+  // Exibir disciplinas cadastradas
+    printf("Disciplinas cadastradas:\n");
+    for (int i = 0; i < numDisciplinas; i++) {
+        if (disciplinas[i].codigo[0] != '\0') { 
+            printf("Código: %s - Nome: %s\n", disciplinas[i].codigo, disciplinas[i].nome);
+        }
+    }
+
   printf("Informe o código da disciplina:\n");
+  getchar();
   fgets(codigoDisciplina, sizeof(codigoDisciplina), stdin);
   codigoDisciplina[strcspn(codigoDisciplina, "\n")] = '\0';
   toUpperString(codigoDisciplina);
@@ -598,9 +608,9 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
       return;
   }
 
-  printf("Informe a matrícula do aluno a ser desmatriculado:\n");
-  fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
-  matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
+    printf("Informe a matrícula do aluno a ser desmatriculado da disciplina %s:\n", getDisciplina(disciplinas, disciplinaEncontrada).nome);
+    fgets(matriculaAluno, sizeof(matriculaAluno), stdin);
+    matriculaAluno[strcspn(matriculaAluno, "\n")] = '\0';
 
   int alunoEncontrado = -1;
 
@@ -619,8 +629,10 @@ void desmatricularAlunoDisciplina(materias disciplinas[], pessoas *alunos, int n
 
   // Solicitar confirmação
   char confirmacao;
-  printf("Você tem certeza que deseja desmatricular o aluno %s? (S/N): ", getAluno(disciplinas[disciplinaEncontrada].aluno, alunoEncontrado).nome);
-  scanf(" %c", &confirmacao); // Espaço antes de %c para consumir o caractere de nova linha anterior
+  printf("Você tem certeza que deseja desmatricular o aluno %s da disciplina %s? (S/N): ", 
+           getAluno(disciplinas[disciplinaEncontrada].aluno, alunoEncontrado).nome, 
+           getDisciplina(disciplinas, disciplinaEncontrada).nome);
+    scanf(" %c", &confirmacao); 
 
   // Permitir que S e N sejam lidos tanto em maiúsculo quanto em minúsculo
   if (confirmacao == 'S' || confirmacao == 's') {
@@ -708,8 +720,8 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
       printf("Semestre atualizado.\n");
   } else {
       printf("Semestre mantido como: %f\n", disciplinas[encontrou].semestre);
-  }
-  while (getchar() != '\n'); 
+  } while (getchar() != '\n'); 
+
 
   // Atualização do número de vagas
   int novasVagas;
@@ -719,8 +731,10 @@ void atualizarDisciplina(materias *disciplinas, int max_Disciplinas, pessoas *pr
       printf("Número de vagas atualizado para: %d\n", novasVagas);
   } else {
       printf("Número de vagas mantido como: %d\n", disciplinas[encontrou].numVagas);
-  }
+  } 
   while (getchar() != '\n'); 
+
+
 
   printf("Atualização concluída.\n");
 }
